@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<recipes 
+    xmlns:bind="http://www.managedobjects.com/bind" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:data="http://www.managedobjects.com/data"
+    >
+
+    <templates>
+		<recipe id="addAGauge">
+			<recipeparam name="bindgraphicparam" ><bindgraphicparam>bindgraphicparam</bindgraphicparam></recipeparam>
+			<recipeparam name="gaugesparclinewidthparam" ><gaugesparclinewidthparam>gaugesparclinewidthparam</gaugesparclinewidthparam></recipeparam>
+			<recipeparam name="gaugesparclineheightparam" ><gaugesparclineheightparam>gaugesparclineheightparam</gaugesparclineheightparam></recipeparam>
+			<recipeparam name="gaugetypeparam" ><gaugetypeparam>gaugetypeparam</gaugetypeparam></recipeparam>
+			<recipeparam name="gaugecontextgraphicparam" ><gaugecontextgraphicparam>gaugecontextgraphicparam</gaugecontextgraphicparam></recipeparam>
+			<name><namesubst>namesubst</namesubst></name>
+			<category>Gauges</category>
+			<match>self::svg:g[not(@type='gaugeouterwrappergroup') and not(@type='chartouterwrappergroup')]|self::svg:svg</match>
+			<descriptionsubst>descriptionsubst</descriptionsubst>
+			<do>
+				<insert where="append">
+					<svg:g type="gaugeouterwrappergroup" transform="translate({MouseClickX},{MouseClickY})" 
+							gaugetype="{gaugetypeparam}" lockedgroup="true">
+						<bind:layout gap="0" columns="1" name="grid" wrap="true"
+							xmlns:bind="http://www.managedobjects.com/bind" pad="-2" />
+						<svg:rect opacity="0" x="10" y="0" display="inline" fill="lightgray"
+							width="1" xmlns:bind="http://www.managedobjects.com/bind" rx="4"
+							bind:container="true" height="1" ry="4" stroke="none"
+							stroke-width="1" />						
+						<svg:g group_type="gaugeconfig" gaugecontextgraphic="{gaugecontextgraphicparam}">
+							<bind:generatedata 
+								gaugeokthreshold="15" 
+								gaugeshowaveragevalue="true"
+								gaugesparclinewidth="{gaugesparclinewidthparam}" 
+								gaugeshowactualvalue="true"
+								gaugesparclineheight="{gaugesparclineheightparam}" 
+								gaugelastupdateformat="'Last updated: ' EEEE MM/dd/yy hh:mm:ss a"
+								gaugeminorthreshold="40" 
+								gaugeshowsparcline="true" 
+								frequency="15"
+								gaugerangemin="0" 
+								gaugeunknownthreshold="0" 
+								gaugemajorthreshold="60"
+								chart-lasttimewindowtype="Minutes" 
+								chart-metric-label=""
+								gaugecriticalthreshold="80" 
+								gaugerangemax="1000000000"
+								gaugeshowrangeextents="true" 
+								chart-targetdatasource="Self"
+								chart-lasttimewindowunits="10"
+								chart-showelementname="true"
+								gaugeshowmetriclabel="true"
+								gaugeshowlastupdate="true"
+								>
+								<bind:chartscriptexpression enabled="false" exclude-script="true">
+	                                    <![CDATA[
+//Sample Script to select expressions - this script matches expressions beginning with the name Heap.
+//The expressions object is an arraylist containing expressions which support the following methods :
+// setEnabled(boolean) - Enable the expression to be charted
+// setLabel(String)    - Set a new label for this expression.
+// getDataType         - returns the data type for the series - long/double/ElementCondition/ConditionCount 
+var indx=0;
+
+for ( var i=0; i < expressions.size() ; i++ )
+    {
+      if ( indx >=1 ) // Gauge only 1 valid expressions
+           break;
+      var expression = this.expressions.get(i);
+      if ( ( expression.getName().startsWith("Heap")  )  ) 
+      {
+           expression.setEnabled(true);
+           expression.setLabel("Heap Label");
+           indx++;
+     }
+    }
+]]>                             
+	                                </bind:chartscriptexpression>
+	                               	<bind:chartcustomdname exclude-script="true" enabled="false"><![CDATA[
+// The last line of the script must be an expression that evaluates to a valid element dname.
+// Do not use the return statement.
+
+// 'layoutElement' is a variable that refers to the element that owns the current layout. It is of type ElementCommon. 
+// The following is an example showing how the element can be queried. Here we iterate over all NAM children of an element,
+// and pick the first OK child element that has 'org' as its class and use it as the source element for the gauge. If none are found
+// we use the element that owns this layout as the source.
+
+var sourceElementDname = layoutElement.getDName();
+var children = layoutElement.enumerateChildren(formula.relations.NAM);
+while (children.hasMoreElements()) {
+   var child = children.nextElement();
+   if(child.getElementClassName().equals("org")) {
+      var condition = child.getAttr("Condition");
+      if(condition.val.cond_val() == formula.conditions.OK) {
+         sourceElementDname = child.getDName();
+         break;
+      } else {
+      	formula.log.info('Skipping element since its condition is not critical: '+child.getDName());
+      }      
+   }
+}
+
+formula.log.info("Using the following element dname as the source element: " + sourceElementDname+"\n");
+//last line of the script must be an expression that evaluates to a valid element dname
+sourceElementDname
+]]>
+								</bind:chartcustomdname>
+							</bind:generatedata>
+							<svg:g type="bindgraphicgroup" bind:graphic="{bindgraphicparam}"/>							
+						</svg:g>					
+					</svg:g>					
+				</insert>
+			</do>
+		</recipe>
+		
+	    <recipe id="GaugeProperties" name="GaugeProperties">    
+	        <name><namesubst>namesubst</namesubst></name>
+	        <disabled>false</disabled>
+			<category>Gauges</category>
+	        <matchnodeset><matchsubst>matchSubst</matchsubst></matchnodeset>
+			<recipeparam name="deletewhere" ><deletewhere>deletewhere</deletewhere></recipeparam>	
+	        
+			<extract>
+				<string name='currentGaugeLabel'>@gaugemetricoverridelabel</string>
+				<string name='currentGaugeMin'>@gaugerangemin</string>
+				<string name='currentGaugeMax'>@gaugerangemax</string>
+				<string name='currentGaugeThresholdCritical'>@gaugecriticalthreshold</string>
+				<string name='currentGaugeThresholdMajor'>@gaugemajorthreshold</string>
+				<string name='currentGaugeThresholdMinor'>@gaugeminorthreshold</string>
+				<string name='currentGaugeThresholdOk'>@gaugeokthreshold</string>
+				<string name='currentGaugeThresholdUnknown'>@gaugeunknownthreshold</string>
+				<string name='currentGaugeFrequency'>@frequency</string>
+				<string name='currentLastUpdateFormat'>@gaugelastupdateformat</string>
+				<string name='currentPerfDataSource'>@gaugeperfdatasource</string>
+			</extract>
+		
+			<html>		       
+				<lookup name='label' target="//input[@name='labeltext']" attr="value" value="{currentGaugeLabel}"/>
+				<lookup name='min' target="//input[@name='mintext']" attr="value" value="{currentGaugeMin}"/>
+				<lookup name='max' target="//input[@name='maxtext']" attr="value" value="{currentGaugeMax}"/>
+				<lookup name='critical' target="//input[@name='thresholdCriticalText']" attr="value" value="{currentGaugeThresholdCritical}"/>
+				<lookup name='major' target="//input[@name='thresholdMajorText']" attr="value" value="{currentGaugeThresholdMajor}"/>
+				<lookup name='minor' target="//input[@name='thresholdMinorText']" attr="value" value="{currentGaugeThresholdMinor}"/>
+				<lookup name='ok' target="//input[@name='thresholdOkText']" attr="value" value="{currentGaugeThresholdOk}"/>
+				<lookup name='unknown' target="//input[@name='thresholdUnknownText']" attr="value" value="{currentGaugeThresholdUnknown}"/>
+				<lookup name='frequency' target="//input[@name='updateFrequency']" attr="value" value="{currentGaugeFrequency}"/>
+				<lookup name='lastupdateformat' target="//input[@name='lastupdateformattext']" attr="value" value="{currentLastUpdateFormat}"/>
+		
+				<do>
+				 	<!-- BEGIN non-templatized to handle special case UI hiding  -->				 					 
+				 	<!-- Remove all gauges properties for sparkline that do not apply -->
+               <case>
+                  <when where="parent::node()/parent::node()[@gaugetype='sparkline']">
+                     <delete where="//tr[@id='thresholdsui'] | //tr[@id='thresholdsradios'] | //tr[@id='thresholdsfooterlabel'] | //tr[@id='trendlineui']"/>
+                  </when>
+               </case>
+
+               <!-- Remove all gauges properties for percentbar that do not apply -->
+               <case>
+                  <when where="parent::node()/parent::node()[@gaugetype='percentbar']">
+                     <delete where="//tr[@id='trendlineui']"/>
+                  </when>
+               </case>
+
+               <!-- Remove all gauges properties for basicdisplay that do not apply -->
+               <case>
+                  <when where="parent::node()/parent::node()[@gaugetype='basicdisplay']">
+                     <delete where="//tr[@id='thresholdsui'] | //tr[@id='thresholdsradios'] | //tr[@id='thresholdsfooterlabel']"/>
+                  </when>
+               </case>
+					
+					<!--  END of non-templatized logic -->
+					
+					<!-- process average checkbox. On by default. -->
+					<delete where="//input[@name='showAverage']" attr="unchecked"/>   
+					<set where="//input[@name='showAverage']" attr='checked' value='true' />
+					<case>
+						<when where="self::node()[@gaugeshowaveragevalue='false']">
+							<set where="//input[@name='showAverage']" attr='unchecked' value='true' />
+							<delete where="//input[@name='showAverage']" attr='checked'/>
+						</when>
+					</case>
+		
+					<!-- process show trendline checkbox. On by default. -->
+					<delete where="//input[@name='showTrendline']" attr="unchecked"/>   
+					<set where="//input[@name='showTrendline']" attr='checked' value='true' />
+					<case>
+						<when where="self::node()[@gaugeshowsparcline='false']">
+							<set where="//input[@name='showTrendline']" attr='unchecked' value='true' />
+							<delete where="//input[@name='showTrendline']" attr='checked'/>
+						</when>
+					</case>
+		
+					<!-- process min/max checkbox. On by default. -->
+					<delete where="//input[@name='showMinMax']" attr="unchecked"/>   
+					<set where="//input[@name='showMinMax']" attr='checked' value='true' />
+					<case>
+						<when where="self::node()[@gaugeshowrangeextents='false']">
+							<set where="//input[@name='showMinMax']" attr='unchecked' value='true' />
+							<delete where="//input[@name='showMinMax']" attr='checked'/>
+						</when>
+					</case>
+		
+					<!-- process show actual values. On by default. -->
+					<delete where="//input[@name='showActual']" attr="unchecked"/>   
+					<set where="//input[@name='showActual']" attr='checked' value='true' />
+					<case>
+						<when where="self::node()[@gaugeshowactualvalue='false']">
+							<set where="//input[@name='showActual']" attr='unchecked' value='true' />
+							<delete where="//input[@name='showActual']" attr='checked'/>
+						</when>
+					</case>
+					
+					<!-- process show element nave. On by default. -->
+					<delete where="//input[@name='showElementName']" attr="unchecked"/>   
+					<set where="//input[@name='showElementName']" attr='checked' value='true' />
+					<case>
+						<when where="self::node()[@chart-showelementname='false']">
+							<set where="//input[@name='showElementName']" attr='unchecked' value='true' />
+							<delete where="//input[@name='showElementName']" attr='checked'/>
+						</when>
+					</case>
+		
+					<set where="//input[@id='thresholdBehaviorUp']" attr='checked' value='true' />				
+					<case>
+						<when where="self::node()[@gaugethresholdbehavior='down']">
+							<set where="//input[@id='thresholdBehaviorDown']" attr='checked' value='true' />
+						</when>
+					</case>
+					
+					<!-- process show metric label. On by default. -->
+					<delete where="//input[@name='showMetricLabel']" attr="unchecked"/>   
+					<set where="//input[@name='showMetricLabel']" attr='checked' value='true' />
+					<case>
+						<when where="self::node()[@gaugeshowmetriclabel='false']">
+							<set where="//input[@name='showMetricLabel']" attr='unchecked' value='true' />
+							<delete where="//input[@name='showMetricLabel']" attr='checked'/>
+						</when>
+					</case>
+
+					<!-- process show last update. On by default. -->
+					<delete where="//input[@name='showLastUpdate']" attr="unchecked"/>   
+					<set where="//input[@name='showLastUpdate']" attr='checked' value='true' />
+					<case>
+						<when where="self::node()[@gaugeshowlastupdate='false']">
+							<set where="//input[@name='showLastUpdate']" attr='unchecked' value='true' />
+							<delete where="//input[@name='showLastUpdate']" attr='checked'/>
+						</when>
+					</case>
+					
+		       </do>
+		            	
+				<table border="0" width="100%">
+					<tr>
+			               		<td align="right">Gauge Title:</td>
+			               		<td><input type="text" name="labeltext" size="40" value="Missing"></input></td>                 
+			            	</tr>
+					<tr>
+			               		<td align="right">Last Update:</td>
+			               		<td><input type="text" name="lastupdateformattext" size="40" value="Missing"></input></td>                 
+			            	</tr> 
+					<tr>
+			               		<td align="right"></td>
+			               		<td>Use the Java SimpleDateFormat to specify the date format.</td>                 
+			            	</tr> 
+		
+					<tr>
+			               		<td align="right">Minimum (Expected):</td>
+			               		<td><input type="text" name="mintext" size="10" value="Missing"></input></td>                 
+			            	</tr>                     
+					<tr>
+			               		<td align="right">Maximum (Expected):</td>
+			               		<td><input type="text" name="maxtext" size="10" value="Missing"></input></td>                 
+			            	</tr>
+					<tr>
+			               		<td align="right">Refresh Interval (in Seconds):</td>
+			               		<td><input type="text" name="updateFrequency" size="10" value="Missing"></input></td>                 
+			            	</tr>
+					<tr id="thresholdsradios">
+						<td align="right" valign="top" style="padding-top:5px;">Condition Thresholds: </td>
+						<td>	<input type="radio" id="thresholdBehaviorUp" name="thresholdBehavior" value="up"/>Condition applies when gauge value is equal or <b>greater than</b> threshold<br/>
+							<input type="radio" id="thresholdBehaviorDown" name="thresholdBehavior" value="down"/>Condition applies when gauge value is equal or <b>less than</b> threshold
+						</td>
+					</tr>
+					<tr id="thresholdsui">
+						<td></td>
+						<td>
+							<table>
+								<tr>
+							       		<td align="right">CRITICAL Threshold (%):</td>
+							       		<td><input type="text" name="thresholdCriticalText" size="10" value="Missing"></input></td>                 
+							    	</tr>               
+								<tr>
+							       		<td align="right">MAJOR Threshold (%):</td>
+							       		<td><input type="text" name="thresholdMajorText" size="10" value="Missing"></input></td>                 
+							    	</tr>   
+								<tr>
+							       		<td align="right">MINOR Threshold (%):</td>
+							       		<td><input type="text" name="thresholdMinorText" size="10" value="Missing"></input></td>                 
+							    	</tr>   
+								<tr>
+							       		<td align="right">OK Threshold (%):</td>
+							       		<td><input type="text" name="thresholdOkText" size="10" value="Missing"></input></td>                 
+							    	</tr>   
+								<tr>
+							       		<td align="right">UNKNOWN Threshold (%):</td>
+							       		<td><input type="text" name="thresholdUnknownText" size="10" value="Missing"></input></td>                 
+							    	</tr>
+							</table>
+		
+						</td>
+					</tr>
+					<tr id="thresholdsfooterlabel">	
+						<td></td>
+						<td>Threshold evaluations are calculated using the expected minimum/maximum values.<br/></td>                 
+					</tr>	
+		
+				    <tr>
+						<td align="right">Display Options:</td>
+				        <td ><input type="checkbox" name="showElementName"></input>&#160;Show element name</td>
+				    </tr>
+				    <tr>	
+						<td align="right"></td>
+				        <td ><input type="checkbox" name="showAverage"></input>&#160;Show average value</td>
+				    </tr>
+					<tr id="trendlineui">	
+						<td align="right"></td>
+				        <td ><input type="checkbox" name="showTrendline"></input>&#160;Show sparkline</td>
+				    </tr>
+					<tr >	
+						<td align="right"></td>
+				        <td ><input type="checkbox" name="showMinMax"></input>&#160;Show range (expected minimum/maximum values)</td>
+				    </tr>
+					<tr >	
+						<td align="right"></td>
+				        <td ><input type="checkbox" name="showActual"></input>&#160;Show actual/current value</td>
+				    </tr>
+					<tr >	
+						<td align="right"></td>
+				        <td ><input type="checkbox" name="showMetricLabel"></input>&#160;Show metric name (or specified gauge title)</td>
+				    </tr>
+					<tr >	
+						<td align="right"></td>
+				        <td ><input type="checkbox" name="showLastUpdate"></input>&#160;Show last update</td>
+				    </tr>
+				</table>           
+			</html>
+		
+			<do>
+				<set attr="gaugemetricoverridelabel" value='{labeltext}'/>
+				<set attr="gaugelastupdateformat" value='{lastupdateformattext}'/>
+				<set attr="gaugerangemin" value='{mintext}'/>
+				<set attr="gaugerangemax" value='{maxtext}'/>
+				<set attr="gaugecriticalthreshold" value='{thresholdCriticalText}'/>
+				<set attr="gaugemajorthreshold" value='{thresholdMajorText}'/>
+				<set attr="gaugeminorthreshold" value='{thresholdMinorText}'/>
+				<set attr="gaugeokthreshold" value='{thresholdOkText}'/>
+				<set attr="gaugeunknownthreshold" value='{thresholdUnknownText}'/>
+				<set attr="frequency" value='{updateFrequency}'/>		
+		      		
+				<set attr="showAverageTemp" value="{showAverage}"/>
+				<case>
+					<when where="self::node()[@showAverageTemp='on']">
+						<set attr='gaugeshowaveragevalue' value='true' />
+					</when>
+					<default>
+						<set attr='gaugeshowaveragevalue' value='false' />
+					</default>
+				</case>
+		
+				<set attr="showTrendlineTemp" value="{showTrendline}"/>
+				<case>
+					<when where="self::node()[@showTrendlineTemp='on']">
+						<set attr='gaugeshowsparcline' value='true' />
+					</when>
+					<default>
+						<set attr='gaugeshowsparcline' value='false' />
+					</default>
+				</case>
+		
+				<set attr="showMinMaxTemp" value="{showMinMax}"/>
+				<case>
+					<when where="self::node()[@showMinMaxTemp='on']">
+						<set attr='gaugeshowrangeextents' value='true' />
+					</when>
+					<default>
+						<set attr='gaugeshowrangeextents' value='false' />
+					</default>
+				</case>
+		
+				<set attr="showActualTemp" value="{showActual}"/>
+				<case>
+					<when where="self::node()[@showActualTemp='on']">
+						<set attr='gaugeshowactualvalue' value='true' />
+					</when>
+					<default>
+						<set attr='gaugeshowactualvalue' value='false' />
+					</default>
+				</case>
+				
+				<set attr="showElementNameTemp" value="{showElementName}"/>
+				<case>
+					<when where="self::node()[@showElementNameTemp='on']">
+						<set attr='chart-showelementname' value='true' />
+					</when>
+					<default>
+						<set attr='chart-showelementname' value='false' />
+					</default>
+				</case>
+
+				<set attr="showMetricLabelTemp" value="{showMetricLabel}"/>
+				<case>
+					<when where="self::node()[@showMetricLabelTemp='on']">
+						<set attr='gaugeshowmetriclabel' value='true' />
+					</when>
+					<default>
+						<set attr='gaugeshowmetriclabel' value='false' />
+					</default>
+				</case>
+
+				<set attr="showLastUpdateTemp" value="{showLastUpdate}"/>
+				<case>
+					<when where="self::node()[@showLastUpdateTemp='on']">
+						<set attr='gaugeshowlastupdate' value='true' />
+					</when>
+					<default>
+						<set attr='gaugeshowlastupdate' value='false' />
+					</default>
+				</case>
+				
+				<set attr="thresholdBehaviorTemp" value="{thresholdBehavior}" />
+				<case>
+					<when where="self::node()[@thresholdBehaviorTemp='up']">
+						<set attr='gaugethresholdbehavior' value='up' />
+					</when>
+					<when where="self::node()[@thresholdBehaviorTemp='down']">
+						<set attr='gaugethresholdbehavior' value='down' />
+					</when>
+				</case>
+		
+				<delete attr="showAverageTemp"/> 
+				<delete attr="showTrendlineTemp"/> 
+				<delete attr="showMinMaxTemp"/> 
+				<delete attr="showActualTemp"/>
+				<delete attr="showElementNameTemp"/>		
+				<delete attr="showMetricLabelTemp"/>		
+				<delete attr="showLastUpdateTemp"/>		
+				<delete attr="thresholdBehaviorTemp"/> 
+		
+			</do>
+	    </recipe>
+			
+	</templates>
+	   
+	<generate from='addAGauge'>
+	      <create>
+	         <namesubst>Add a Speedometer Gauge</namesubst>
+	         <descriptionsubst>Inserts a new Speedometer Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__SpeedometerTemplate</bindgraphicparam>
+	         <gaugesparclinewidthparam>140</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>22</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>speedo</gaugetypeparam>	         	         	       
+	      </create>
+	      <create>
+	         <namesubst>Add a LED Bar Gauge</namesubst>
+	         <descriptionsubst>Inserts a new LED Bar Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__LEDBarTemplate</bindgraphicparam>
+	         <gaugesparclinewidthparam>396</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>24</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>ledbar</gaugetypeparam>	         	         	       
+	      </create>
+	      <create>
+	         <namesubst>Add a Cylinder Gauge</namesubst>
+	         <descriptionsubst>Inserts a new Cylinder Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__CylinderTemplate</bindgraphicparam>
+	         <gaugesparclinewidthparam>74</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>14</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>cylinder</gaugetypeparam>	         	         	       
+	      </create>
+	      <create>
+	         <namesubst>Add a Basic Display Gauge</namesubst>
+	         <descriptionsubst>Inserts a new Basic Display Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__BasicDisplayTemplate</bindgraphicparam>
+	         <gaugesparclinewidthparam>140</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>22</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>basicdisplay</gaugetypeparam>	         	         	       
+	         <gaugecontextgraphicparam>Nodes__Technology__3D__Devices__HardDrive_ALL</gaugecontextgraphicparam>	         	         	       
+	      </create>	      	    
+	      <create>
+	         <namesubst>Add a Sparkline Gauge</namesubst>
+	         <descriptionsubst>Inserts a new Sparkline Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__SparklineTemplate</bindgraphicparam>
+	         <gaugesparclinewidthparam>178</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>19</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>sparkline</gaugetypeparam>	         	         	       
+	      </create>	      	    
+	      <create>
+	         <namesubst>Add a Percent Bar Gauge</namesubst>
+	         <descriptionsubst>Inserts a new Percent Bar Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__PercentBarTemplate</bindgraphicparam>
+	         <gaugesparclinewidthparam>178</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>19</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>percentbar</gaugetypeparam>	         	         	       
+	      </create>	      	    
+	      <create>
+	         <namesubst>Add a Raw Value Gauge</namesubst>
+	         <descriptionsubst>Inserts a new Raw Value Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__RawValueThresholdTemplate</bindgraphicparam>
+	         <gaugesparclinewidthparam>178</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>19</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>rawvalue</gaugetypeparam>	         	         	       
+	      </create>
+	      <create>
+	         <namesubst>Add a Speedometer Gauge (WHITE)</namesubst>
+	         <descriptionsubst>Inserts a new Speedometer Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__SpeedometerTemplate_WHITE</bindgraphicparam>
+	         <gaugesparclinewidthparam>140</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>22</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>speedo</gaugetypeparam>	         	         	       
+	      </create>	  
+	      <create>
+	         <namesubst>Add a Dial Gauge</namesubst>
+	         <descriptionsubst>Inserts a new Dial Gauge into the current drawing.</descriptionsubst>
+	         <bindgraphicparam>Nodes__Technology__Gauges__GaugeContent__Dial</bindgraphicparam>
+	         <gaugesparclinewidthparam>140</gaugesparclinewidthparam>
+	         <gaugesparclineheightparam>22</gaugesparclineheightparam>	         	         	       
+	         <gaugetypeparam>speedo</gaugetypeparam>	         	         	       
+	      </create>	          	      	    
+	</generate>
+		  
+   <generate from='GaugeProperties'>
+      <create>
+         <namesubst>Gauge Properties</namesubst>
+         <matchsubst>self::svg:g[@type='gaugeouterwrappergroup']/svg:g[@group_type='gaugeconfig']/bind:generatedata | self::svg:g[@group_type='gaugeconfig']/bind:generatedata</matchsubst>
+      </create>
+   </generate>
+		       
+    <recipe name="GaugeContextGraphic">
+    	<description>Inserts a new Line Chart into the current drawing.</description>    
+        <name>Graphic</name>
+        <disabled>false</disabled>
+		<category>Gauges</category>
+        <matchnodeset>self::svg:g[@type='gaugeouterwrappergroup' and @gaugetype='basicdisplay']/svg:g[@group_type='gaugeconfig'] | self::svg:g[@group_type='gaugeconfig']</matchnodeset>
+        
+		<extract>
+			<string name='currentGaugeContextGraphic'>@gaugecontextgraphic</string>
+		</extract>
+	
+		<html>		       
+			<lookup name='label' target="//input[@name='contextgraphictext']" attr="value" value="{currentGaugeContextGraphic}"/>
+	
+			<do>
+				<!-- process average checkbox. On by default. -->
+				<delete where="//input[@name='showGraphic']" attr="unchecked"/>   
+				<set where="//input[@name='showGraphic']" attr='checked' value='true' />
+				<case>
+					<when where="self::node()[@gaugedisplaygraphic='false']">
+						<set where="//input[@name='showGraphic']" attr='unchecked' value='true' />
+						<delete where="//input[@name='showGraphic']" attr='checked'/>
+					</when>
+				</case>		
+			</do>
+
+			The gauge can optionally display a graphic from the <b>Graphics > Clipart</b> or <b>Graphics > Nodes</b> libraries. The graphic location 
+			is specified using double-underscore "__" characters to separate folder and graphic names. Do not include the Graphics folder in the path. Any 
+			special characters must be encoded. 		
+         <br/><br/>
+         To grab a graphic's location: 1) Close this dialog. 2) Right-click the desired graphic and select Generate Graphic Location. 3) Reopen Properties 
+         and paste (Ctrl + v) into the Graphic Location field below.
+         <br/><br/>         	
+			<table border="0" width="100%">
+				<tr>
+	         		<td align="right">Graphic Location:</td>
+	         		<td><input type="text" name="contextgraphictext" size="50" value="Missing"></input></td>                 
+	          	</tr>
+				<tr>	
+					<td></td>
+		            <td ><input type="checkbox" name="showGraphic"></input>&#160;Show graphic</td>
+		        </tr>
+			</table>           
+		</html>
+	
+		<do>
+			<set attr="gaugecontextgraphic" value='{contextgraphictext}'/>
+			<set attr="showGraphicTemp" value="{showGraphic}"/>
+			<case>
+				<when where="self::node()[@showGraphicTemp='on']">
+					<set attr='gaugedisplaygraphic' value='true' />
+				</when>
+				<default>
+					<set attr='gaugedisplaygraphic' value='false' />
+				</default>
+			</case>			
+		</do>
+		
+    </recipe>        
+            
+</recipes>

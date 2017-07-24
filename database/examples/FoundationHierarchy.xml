@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+
+     The fields available for Tideway Foundation using the default queries are:
+
+     Field Name             Value
+     ==========             =====
+     
+     The host.* properties correspond to columns returned from 'Host' type
+     queries.  If you add/remove columns from the query they will be added/removed
+     from the alarm properties available.
+     
+     Default values are;
+
+     host.name				Host name
+    
+     service.SPVI			Software Instance Name	
+     service.BAI			Business Application Instance in the format (Business App. Name/Business App. Type/Product Version)
+     service.Host           Host Name
+
+	 BAI                    Business Application Instance Name
+	 SUBNET                 Subnet range
+     SWITCH				    Switch
+     
+     * Note Tideway does not guarantee orientation of network connection information.
+
+-->
+<hierarchy>
+	<group class="gen_folder" name="Components">
+	<group class="gen_folder" name="Application Instance">
+		<generator class="formula_organizations" field="BAI" />
+	</group>
+		<group class="gen_folder" name="Host">
+			<generator class="admin_automation_server" field="host.name" />
+	</group>
+		<group class="gen_folder" name="Host and Software Instance">
+			<generator class="admin_automation_server" field="service.Host">
+				<generator class="admin_automation_repository" field="service.SPVI"/>
+			</generator>
+		</group>
+	<group class="gen_folder" name="Software Instance">
+		<generator class="admin_automation" field="service.SPVI" />
+		</group>	
+		<group class="gen_folder" name="Subnets">
+			<generator class="net_lan" field="SUBNET" />
+		</group>		
+		<group class="gen_folder" name="Switches">
+			<generator class="telcom_switch" field="SWITCH" />
+		</group>		
+	</group>
+</hierarchy>

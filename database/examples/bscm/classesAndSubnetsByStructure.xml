@@ -1,0 +1,101 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<hierarchy case="yes">
+
+    <group name="Classes" class="gen_folder">
+
+       <group name="By Source Class" class="gen_folder">
+          <generator field="source.class" class="gen_folder" >
+             <generator field="source.cn" class="gen_folder" >
+             </generator>
+          </generator>
+       </group>
+       <group name="By Structure Class" class="gen_folder">
+          <generator field="structure.class" class="gen_folder" >
+             <generator field="structure.cn" class="gen_folder" >
+             </generator>
+          </generator>
+       </group>
+    </group>
+
+    <group name="Groupings" class="gen_folder">
+       <group name="By Domain" class="gen_folder">
+
+          <filter>
+             <test type="script"><![CDATA[
+               // @debug off
+
+               // Figure out the domain.
+               var domain = 'Uncategorized'
+               var name = alarm.getField( 'structure.cn' )
+               if( name != undefined )
+               {
+                  var nm = name.split( '\\.' )
+                  if( nm.length >= 3 )
+                  {
+                     // Test first.  Is it a number?
+                     var num = parseInt( nm[0] )
+                     if( num != 0 && !isNaN( num ) )
+                        domain = new java.lang.String( nm[ 0 ] + '.' + nm[ 1 ] + '.' + nm[ 2 ] )
+
+                     // Not a dotted ip address, so use the last 2 or 3 sections for domain.
+                     else
+                     {
+                        if( nm.length == 3 )
+                           domain = new java.lang.String( nm[ nm.length - 2 ] + '.' + nm[ nm.length - 1 ] )
+                        else
+                           domain = new java.lang.String( nm[ nm.length - 3 ] + '.' + nm[ nm.length - 2 ] + '.' + nm[ nm.length - 1 ] )
+                     }
+                  }
+               }
+			   
+			   // Figure out subnet.  In this case we are using the "ipAddress" property; it can be any valid property 
+               // of the structure element which denotes the structure element's ip address
+			   var subnet = 'No Network'
+			   var val = alarm.getField( 'structure.ipAddress' )
+			   if( val != undefined )
+			   {
+			      var lastDot = val.lastIndexOf( '.' )
+				  if( lastDot > 0 )
+				  {
+				     subnet = val.substring( 0, lastDot ) + ' LAN'
+				  }
+			   }
+			   
+               // Set the domain and subnet of the alarm
+               alarm.setField( 'domain', domain )
+               alarm.setField( 'subnet', subnet )
+
+               // Test succeeds
+               true
+
+             ]]></test>
+          </filter>
+
+          <generator field="domain" class="gen_folder" >
+             <generator field="structure.cn" class="gen_folder" >
+             </generator>
+          </generator>
+       </group>
+	   <group name="By Network" class="gen_folder">
+		  <generator field="subnet" class="gen_folder" >
+			 <generator field="structure.cn" class="gen_folder" >
+	       </generator>
+	   </generator>
+	</group>
+    </group>
+</hierarchy>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+The XML file must contain a "hierarchy" element that
+surrounds one or more groups, generators or filters.
+-->
+
+<!ELEMENT hierarchy (group|filter|generator|test)+ >
+<!ATTLIST hierarchy
+     case (yes|no) "yes">
+<!-- 
+
+A "group" is a named element whose contents are controlled by the 
+filter(s) defined within it.  If no filters are defined, then all alarms 
+are attached to the group.  Groups can contain other groups, but the 
+contained groups will only see the subset of alarms that passed their 
+parent group's filter(s), if any.  You name the group with its "name" 
+attribute.  The class of element is given by the "class" attribute.  This 
+is useful for choosing a nice icon for the group, adding popup menu 
+operations, and other class-sensitive features.  The "affected" attribute 
+gives you a way to say that the affected element for this alarm is 
+potentially this group, if no more detailed element claims the alarm 
+instead.  
+--> 
+
+<!ELEMENT group (filter|fref|group|generator|param|properties|pref)* >
+<!ATTLIST group
+     name CDATA #REQUIRED
+     class CDATA #REQUIRED
+     affected (yes|no) "no"
+     rollup CDATA #IMPLIED
+     rollupParameters CDATA #IMPLIED> 
+
+<!--
+A "filter" controls which alarms can be attached to a group or generator 
+element.  One or more filters are specified, and either all of the filters 
+must pass (when the group's operator is and) or any of the filters must 
+pass (when the group's operator is or).  A filter can test an alarm's 
+fields, or it can test other information known when new alarms arrive.  
+If you give a name to a filter, then you can reuse it in groups and 
+generators defined later, using the fref element.  Filters can contain 
+other filters or frefs, so you can build complex, multipart tests for 
+inclusion.  
+--> 
+
+<!ELEMENT filter (filter|fref|field|test|tref)+ >
+<!ATTLIST filter
+    name CDATA #IMPLIED
+    operator (and|or) "and"
+    invert (true|false) "false">
+
+<!-- 
+A "field" is a test of a field within the incoming alarm.  You can 
+choose one of the named fields, and compare its value using one of the 
+specified operators.  You can compare it to the "value" attribute.  The 
+"invert" attribute can invert the result of the true/false comparison.
+--> 
+
+<!ELEMENT field EMPTY>
+<!ATTLIST field
+    name CDATA #REQUIRED
+    operator (
+        equals|
+        less|
+        less_or_equals|
+        greater|
+        greater_or_equals|
+        contains|
+        starts_with|
+        ends_with) "equals"
+    value CDATA #REQUIRED
+    case (yes|no) #IMPLIED
+    invert (true|false) "false">
+
+<!--
+A "test" is a test of the alarm's affected element.  You can test whether 
+an element has a specific capability (such as "console"), or you can run a 
+script to evaluate some script fragment, which should return a boolean 
+result.  You can say invert="true" to invert the result.
+--> 
+
+<!ELEMENT test (#PCDATA) >
+<!ATTLIST test
+    name CDATA #IMPLIED
+    type (element|script|code) #REQUIRED
+    expr CDATA #IMPLIED
+    invert (true|false) "false">
+
+<!-- 
+An "fref" (filter reference) is used to refer to a filter that was 
+previously defined.  The name attribute will refer to the name of a 
+previously defined filter, so you can reuse a filter multiple times.  
+--> 
+
+<!ELEMENT fref EMPTY>
+<!ATTLIST fref
+    name CDATA #REQUIRED>
+
+<!-- 
+A "tref" (test reference) is used to refer to a test that was
+previously defined.  The name attribute will refer to the name of a 
+previously defined test, so you can reuse a test multiple times.
+--> 
+
+<!ELEMENT tref EMPTY>
+<!ATTLIST tref
+    name CDATA #REQUIRED>
+        
+<!-- 
+A "generator" is a way to dynamically create new elements when alarms 
+arrive, based on the value of the alarms' fields.  A new element will be 
+created when a new, distinct field value arrives.  As with groups, you 
+can choose the class to use with the "class" attribute.  Or, you could say 
+that the generated element's class is derived from another alarm field's 
+value, if you use the class_from_field attribute instead of the class 
+attribute.  You would name the field to use as the class_from_field's 
+value.  Because this dynamic mechanism could result in an unlimited number 
+of generated elements over time, the "hold" attribute can be used to cause 
+generated elements to age out after a period of time specified in the 
+adapter settings.  Like groups, you can specify that generated elements 
+are the affected elements of new alarms.  
+--> 
+
+<!ELEMENT generator (filter|fref|generator|group|param|properties|pref)* >
+<!ATTLIST generator
+    field CDATA #REQUIRED
+    class CDATA #IMPLIED
+    class_from_field CDATA #IMPLIED
+    hold (yes|no) "no"
+    affected (yes|no) "no"
+    case (yes|no) #IMPLIED
+    maxdepth CDATA #IMPLIED
+    parentfield CDATA #IMPLIED
+    rollup CDATA #IMPLIED
+    rollupParameters CDATA #IMPLIED>
+
+<!--
+A "param" is an arbitrary parameter which can be assigned to elements.
+Adapters use params to support adapter-specific behavior.
+--> 
+
+<!ELEMENT param EMPTY>
+<!ATTLIST param
+    name CDATA #REQUIRED
+    value CDATA #REQUIRED>
+
+<!--
+A "properties" is a container for a group of "page" tags. It can
+optionally be named, which allows a "pref" tag to reference the
+named "properties" tag and effectively re-use its definition.
+--> 
+
+<!ELEMENT properties (page)+ >
+<!ATTLIST properties
+    name CDATA #IMPLIED
+>
+
+<!--
+A "pref" is a properties reference. It references, by name, a "properties"
+tag, which contains a definition of one or more element properties.
+Referencing a "properties" tag with a "pref" is effectively re-using the
+"properties" definition at the point of the "pref".
+--> 
+
+<!ELEMENT pref EMPTY >
+<!ATTLIST pref
+    name CDATA #IMPLIED
+>
+
+<!--
+A "page" allows grouping the "property" and "value" tags it contains to a
+specific named page for visual presentation in the client. If a name is not
+given, the default page will be used.
+--> 
+
+<!ELEMENT page (property|value)+ >
+<!ATTLIST page
+    name CDATA #IMPLIED
+>
+
+<!--
+A "property" defines, for a group or generated element, an element property
+with a value to be computed from an alarm field for the alarm creates,
+updates, and deletes it receives. "name" is the name of the property.
+"field" is the alarm field used to compute the value. "function" is the type
+of computation to be used on the field, with the value assigned to the named
+property. "parameter" is a parameterized value passed to the function.
+"parameter" is used by the "ROLLINGAVG" and PSEUDOAVG" functions to indicate
+how many values to keep in the average. "computeOnGet" (default false) false
+to compute the value on alarm creates, updates, and deletes for alarms attaching
+to the element. If true, iterate over alarms and compute the value only when the
+value is needed (i.e. for a property page or on getAttr()). "computeOnNoAlarms"
+(default is null) if set will set the property to the supplied value if no alarms
+are present, however, if not set, it will pick up the value of the last alarm
+deleted when no alarms are present. "computeLastDateTimeStampField" (default is null)
+is only used if LAST or LASTWITHVALUE are set, and if set will be the alarm field value 
+analyzed to determine if the last alarm date and time stamp is later than the one used
+for setting this property, then it will elevate this alarm property value, otherwise,
+it will ignore the alarm transaction - NOTE: the base behavior is strictly last
+alarm transaction received has the property elevated.
+
+The custom Property values are taken from the alarm field when a compute of the
+custom property is triggered. The triggers are alarm create, change, or delete
+against the element.
+
+(O) The value of the alarm field is left as is and no conversions are done.
+(A) The value of the alarm field is interpreted as string data
+(N) The value of the alarm field is interpreted as numeric data. If the alarm
+    field is a string, an attempt will be made to convert it into a numeric value.
+
+LAST -    (O) Alarm field value for most recent alarm create, change, delete
+              against the element.
+LASTWITHVALUE - 
+          (O) Alarm field value for most recent alarm create, change, delete
+              against the element if the field is in the alarm.
+FIRST -   (O) Alarm field value for first alarm create, change, delete against
+              the element.
+AVG -     (N) Alarm field value averaged over all existing alarms against the element.
+SUM -     (N) Alarm field value summed over all existing alarms against the element.
+ROLLINGAVG - (N) Alarm field value averaged over the last n (where n is given in the
+                 "parameter" attribute) alarm creates and changes (but not deletes)
+                 against the element. n defaults to 10.
+PSEUDOAVG -  (N) Alarm field value pseudo-averaged over the last n (where n is given
+                 in the "parameter" attribute) alarm creates and changes (but not
+                 deletes) against the element. n defaults to 10.
+LOWEST -  (A) Alarm field value minimum in alphnumeric sort order across all
+              alarm creates, changes, deletes against the element.
+HIGHEST - (A) Alarm field value maximum in alphnumeric sort order across all
+              alarm creates, changes, deletes against the element.
+MIN -     (N) Alarm field value minimum in numeric order across all alarm creates,
+              changes, deletes against the element.
+MAX -     (N) Alarm field value maximum in numeric order across all alarm creates,
+              changes, deletes against the element.
+
+Notes on property's:
+- You do not want to re-use the same name across custom property pages.
+- You do not want to re-use the same name as a Formula Property (i.e. Element, Condition, etc)
+- You do not want to have two custom property's computing the same function against the same alarm field.
+- If a property is computed against an alarm field, then that alarm field is mandatory.
+
+--> 
+
+<!ELEMENT property EMPTY >
+<!ATTLIST property
+    name CDATA #REQUIRED
+    field CDATA #REQUIRED
+    function (LAST|FIRST|AVG|SUM|LOWEST|HIGHEST|MIN|MAX|ROLLINGAVG|PSEUDOAVG|LASTWITHVALUE) #REQUIRED
+    parameter CDATA #IMPLIED
+    computeOnGet (true|false) "false"
+    computeOnNoAlarms CDATA #IMPLIED
+    computeLastDateTimeStampField CDATA #IMPLIED
+>
+
+<!--
+A "value" defines, for a group or generated element, an element property
+to be created with a literal value.
+--> 
+
+<!ELEMENT value EMPTY >
+<!ATTLIST value
+    name CDATA #REQUIRED
+    value CDATA #REQUIRED
+>

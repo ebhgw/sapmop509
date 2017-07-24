@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+
+  Sample Algorithms.xml file.  See algorithms.dtd for more information
+  on the structure of this file.
+
+  If the Algorithms.xml file is modified and reloaded by a running Managed Objects
+  Server, the read in file superimposes new definitions on the old ones.
+
+-->
+
+<algorithms>
+
+<!-- This algorithm looks for any condition that accounts for at least a % of the child objects.
+     Parameterized. -->
+
+    <algorithm name="paramCount">
+	<parameter name="defaultCondition" description="Default element condition if there are no elements." type="condition" default="OK" />
+	<parameter name="reason" description="Text describing why this element was set to the condition." type="text" default="Condition set by paramCount algorithm." />
+	<parameter name="countAmount" description="Count Amount to test." type="choice:100%|75%|50%|25%" default="50%" />
+	<gather relationship="NAM" />
+ 	<gather relationship="ORG" />
+	<count defaultCondition="{defaultCondition}" reason="{reason}" amount="{countAmount}" />
+    </algorithm>
+
+
+<!-- This algorithm sets a Condition. Parameterized. -->
+    <algorithm name="paramSet">
+	<parameter name="resultCondition" description="Condition for the element." type="condition" default="OK" />
+	<parameter name="reason" description="Text describing why this element was set to the condition." type="text" default="Condition set by paramSet algorithm." />
+	<set result="{resultCondition}" reason="{reason}" />
+    </algorithm>
+
+
+<!-- This algorithm simply takes the highest condition of its children.
+     With a parameterized child relationship, defaultCondition, and reason -->
+
+    <algorithm name="paramHighest">
+	<parameter name="defaultCondition" description="Default element condition if there are no elements." type="condition" default="OK" />
+	<parameter name="reason" description="Text describing why this element was set to the condition." type="text" default="Condition set by paramHighest algorithm." />
+	<parameter name="gather" description="Kind of children to roll-up." type="kind" default="NAM" />
+	<gather relationship="{gather}" />
+	<conditionreduce testCondition="UNKNOWN" />
+	<highest defaultCondition="{defaultCondition}" reason="{reason}" />
+    </algorithm>
+
+
+<!-- This algorithm tests two bands, each converting a certain proportion of
+     child elements that are critical into a named condition. Parameterized. -->
+
+    <algorithm name="paramBand">
+	<parameter name="1stBandCheckCondition" description="Band one Test Condition." type="condition" default="CRITICAL" />
+	<parameter name="1stBandAmount" description="Band one Amount to test." type="text" default="75%" />
+	<parameter name="1stBandResultCondition" description="Band one Result Condition." type="condition" default="CRITICAL" />
+	<parameter name="2ndBandCheckCondition" description="Band two Test Condition." type="condition" default="CRITICAL" />
+	<parameter name="2ndBandAmount" description="Band two Amount to test." type="text" default="50%" />
+	<parameter name="2ndBandResultCondition" description="Band two Result Condition." type="condition" default="MAJOR" />
+	<gather relationship="NAM" />
+	<gather relationship="ORG" />
+	<band testCondition="{1stBandCheckCondition}" amount="{1stBandAmount}" result="{1stBandResultCondition}" />
+	<band testCondition="{2ndBandCheckCondition}" amount="{2ndBandAmount}" result="{2ndBandResultCondition}" />
+    </algorithm> 
+
+
+<!-- This algorithm runs a script. Parameterized. -->
+
+    <algorithm name="paramScript">
+	<parameter name="script" description="The script to run." type="text" />
+	<script script="{script}" resolveScriptParameters="true" />
+    </algorithm>
+
+
+<!-- This algorithm applies a property reduce to gathered NAM and ORG children then
+     takes the highest condition. Parameterized. -->
+
+    <algorithm name="paramReduce">
+	<parameter name="property" description="The Property to be matched by 'value'." type="text" default="dname" />
+	<parameter name="value" description="The Value to match Property as a regular expression." type="text" default="*" />
+	<parameter name="invert" description="Invert the match result." type="boolean" default="No" />
+	<gather relationship="NAM" />
+	<gather relationship="ORG" />
+	<matchreduce property="{property}" value="{value}" invert="{invert}" />
+	<highest />
+    </algorithm>
+
+
+<!-- This algorithm sets a Condition based on integer thresholds of element properties. Parameterized. -->
+ <algorithm name="paramElementPropertyBand">
+    <parameter default="Response Time" description="Element property name."
+      name="elementproperty" type="choice:Response Time|Average Response Time|Minimum Response Time|Maximum Response Time"/>
+    <parameter description="Lower bound." name="min" type="text"/>
+    <parameter description="Upper bound." name="max" type="text"/>
+    <parameter default="OK"
+      description="Resulting condition for the element."
+      name="resultCondition" type="condition"/>
+    <parameter default="Condition set by elementPropertyBand algorithm."
+      description="Text describing why this element was set to the condition."
+      name="reason" type="text"/>
+    <elementpropertyband elementproperty="{elementproperty}" max="{max}"
+      min="{min}" reason="{reason}" result="{resultCondition}"/>
+  </algorithm>
+
+  <!-- This algorithm sets a Condition based on integer thresholds.  Default set up for BEM. -->
+  <algorithm name="bemEndUserBand">
+    <elementpropertyband elementproperty="Response Time" max="1000" min="0"
+      reason="End User Response is within expected threshold." result="OK"/>
+    <elementpropertyband elementproperty="Response Time" max="3000"
+      min="1001"
+      reason="End User Response has exceeded expected threshold." result="MINOR"/>
+    <elementpropertyband elementproperty="Response Time" max="5000"
+      min="3001"
+      reason="End User Response has exceeded expected threshold." result="MAJOR"/>
+    <elementpropertyband elementproperty="Response Time" max="10000000"
+      min="5001"
+      reason="End User Response has exceeded expected threshold." result="CRITICAL"/>
+    <elementpropertyband elementproperty="Response Time" max="0"
+      min="-10000000"
+      reason="Synthetic TestResponse has exceeded expected threshold." result="CRITICAL"/>
+  </algorithm>
+
+  <!-- This algorithm sets a Condition based on integer thresholds.  Default set up for BEM. -->
+  <algorithm name="bemSyntheticBand">
+    <elementpropertyband elementproperty="Response Time" max="500" min="0"
+      reason="Synthetic Test Response is within expected threshold." result="OK"/>
+    <elementpropertyband elementproperty="Response Time" max="1500" min="501"
+      reason="Synthetic Test Response has exceeded expected threshold." result="MINOR"/>
+    <elementpropertyband elementproperty="Response Time" max="3000"
+      min="1501"
+      reason="Synthetic TestResponse has exceeded expected threshold." result="MAJOR"/>
+    <elementpropertyband elementproperty="Response Time" max="10000000"
+      min="3001"
+      reason="Synthetic TestResponse has exceeded expected threshold." result="CRITICAL"/>
+    <elementpropertyband elementproperty="Response Time" max="0"
+      min="-10000000"
+      reason="Synthetic TestResponse has exceeded expected threshold." result="CRITICAL"/>
+  </algorithm>
+
+<!-- This algorithm is a parameter based version of the standard bemSyntheticBand allowing customers to input
+     this data visually via the GUI. -->
+  <algorithm name="paramBemSyntheticBand">
+    <parameter description="OK Lower bound." name="Number1" type="text"/>
+    <parameter description="OK Upper bound." name="Number2" type="text"/>
+    <parameter description="MINOR Lower bound." name="Number3" type="text"/>
+    <parameter description="MINOR Upper bound." name="Number4" type="text"/>
+    <parameter description="MAJOR Lower bound." name="Number5" type="text"/>
+    <parameter description="MAJOR Upper bound." name="Number6" type="text"/>
+    <parameter description="CRITICAL Lower bound." name="Number7" type="text"/>
+    <parameter description="CRITICAL Upper bound." name="Number8" type="text"/>
+    <elementpropertyband elementproperty="Response Time" min="{Number1}" max="{Number2}"
+       reason="Threshold Exceeded for Synthetic Test" result="OK"/>
+    <elementpropertyband elementproperty="Response Time" min="{Number3}" max="{Number4}"
+      reason="Threshold Exceeded for Synthetic Test" result="MINOR"/>
+    <elementpropertyband elementproperty="Response Time" min="{Number5}" max="{Number6}"
+      reason="Threshold Exceeded for Synthetic Test" result="MAJOR"/>
+    <elementpropertyband elementproperty="Response Time" min="{Number7}" max="{Number8}"
+      reason="Threshold Exceeded for Synthetic Test" result="CRITICAL"/>
+    <elementpropertyband elementproperty="Response Time" max="0"
+      min="-10000000"
+      reason="Severe errors have been generated for this Test." result="CRITICAL"/>
+  </algorithm>
+ 
+
+
+
+<!-- This algorithm takes the lowest of its NAM and ORG children. -->
+
+    <algorithm name="lowest">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="lowest" />
+    </algorithm>
+        
+<!-- This algorithm takes the average of its NAM and ORG children. -->
+
+    <algorithm name="average">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="average" />
+    </algorithm>
+        
+<!-- This algorithm simply takes the highest condition of its NAM and ORG children. -->
+
+    <algorithm name="highest">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="reduce" testCondition="UNKNOWN" />
+        <exec command="highest" />
+    </algorithm>
+        
+<!-- This algorithm tests a series of bands, each converting a certain proportion of
+     child elements that are critical into a named condition. -->
+     
+    <algorithm name="bands">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="band" testCondition="CRITICAL" amount="75%" result="CRITICAL" />
+        <exec command="band" testCondition="CRITICAL" amount="50%" result="MAJOR" />
+        <exec command="band" testCondition="CRITICAL" amount="25%" result="MINOR" />
+        <exec command="count" amount="25%" />
+    </algorithm>
+        
+<!-- This algorithm looks for any condition that accounts for at least 50% of the child objects -->
+
+    <algorithm name="count">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="count" amount="50%" />
+    </algorithm>
+        
+<!-- This algorithm gathers children, then invokes algorithm "count".  -->
+
+    <algorithm name="invoking">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="invoke" name="count" />
+    </algorithm>
+        
+<!-- This algorithm gathers everything on ORG and NAM, then removes anything not of class router.
+     It then checks a couple of bands.  Failing that, it shows as the lowest condition. -->
+
+    <algorithm name="splitting">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+            <exec command="reduce" invert="yes" property="className" value="/router/i" />
+            <split>
+                <branch>
+                    <exec command="band" testCondition="CRITICAL" amount="75%" result="CRITICAL" />
+                    <exec command="band" testCondition="CRITICAL" amount="50%" result="MAJOR" />
+                </branch>
+                <branch>
+                    <exec command="band" testCondition="CRITICAL" amount="25%" result="MINOR" />
+                </branch>
+                <branch>
+                    <exec command="lowest" />
+                </branch>
+            </split>
+    </algorithm>
+
+<!-- This algorithm is an example of how to use a reduction with a script.
+     It gathers everything on ORG, and then reduces the set to only those
+     whose class name is "port."  It then takes the highest severity of
+     the remaining port elements as the condition. -->
+     
+    <algorithm name="ports">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="reduce" invert="yes" script="element.getElementClass().getName() == 'port'" />
+        <exec command="highest" />
+    </algorithm>
+
+<!-- These algorithms are examples of how to use a reduction with regular
+     expressions.  It gathers everything on ORG, and then reduces the set
+     to only those whose class name has the given property.  It then
+     takes the average severity of the remaining elements as the
+     condition. -->
+     
+    <algorithm name="hosts">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="reduce" invert="yes" property="className" value="host" />
+        <exec command="average" />
+    </algorithm>
+
+    <algorithm name="ciscorouters">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <exec command="reduce" invert="yes" property="className" value="/cisco/i" />
+        <exec command="highest" />
+    </algorithm>
+
+<!-- This algorithm gathers everything on ORG and NAM.  If all the items in the element
+     are suppressed, then that element is suppressed.  Otherwise, it uses the highest
+     condition. -->
+
+    <algorithm name="suppressSensitive">
+        <exec command="gather" relationship="NAM" />
+        <exec command="gather" relationship="ORG" />
+        <split>
+            <branch>
+                <script script="if( conditionState.elements.size() == 0 ) { conditionState.setResult( formula.conditions.UNKNOWN ); conditionState.setState( ConditionState.FINISHED ); }" />
+            </branch>
+            <branch>
+                <scriptreduce script="!element.isSuppressed()" invert="yes" />
+                <script script="if( conditionState.elements.size() == 0 ) { conditionState.setResult( formula.conditions.UNMANAGED ); conditionState.setState( ConditionState.FINISHED ); }" />
+            </branch>
+            <branch>
+                <conditionreduce testCondition="UNKNOWN" />
+                <exec command="highest" />
+            </branch>
+        </split>
+    </algorithm>
+
+</algorithms>
+

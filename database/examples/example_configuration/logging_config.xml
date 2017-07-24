@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration>
+        <appender name="A1" class="org.apache.log4j.FileAppender">
+        <!-- change this to be your log file name -->
+                <param name="File"   value="/FX_Issues/SR19673/logs/fxmonitor.log" /> 
+                <!-- if you want a new file each run or not... -->
+                <param name="Append" value="true" />        
+                <layout class="org.apache.log4j.PatternLayout">
+                        <param name="ConversionPattern" value="%d{DATE} %t %-5p %c{2} - %m%n"/>
+                </layout>           
+        </appender>
+        <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+                <layout class="org.apache.log4j.PatternLayout">
+                     <param name="ConversionPattern" value="%d{DATE} %-5p %c - %m%n"/>
+                </layout>
+        </appender>
+        <root>
+                <priority value="INFO"/>
+                <appender-ref ref="A1"/>
+        </root>
+</log4j:configuration>
+

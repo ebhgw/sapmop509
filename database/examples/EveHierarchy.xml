@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields available for Event Manager are:
+
+     Field Name     Value
+     ==========     =====
+     id             alarm ID
+     severity       Possible values are "CRITICAL", "MAJOR", "MINOR", "INFORMATIONAL"
+     date           most recent alarm date and time, in normal format
+     accum          accumulation counter
+     is_assigned    has this alarm been assigned? true/false
+     escalated_up   has this alarm escalated in severity or priority? true/false
+     escalated_down has this alarm de-escalated in severity or priority? true/false
+     can_escalate   can this alarm escalate in severity or priority? true/false
+     can_delay      was this alarm delayed in being displayed? true/false
+     can_threshold  was this alarm subject to a threshold before being displayed? true/false
+     can_accumulate can this alarm accumulate when duplicates are found? true/false
+     can_discard    can this alarm discard duplicated when found? true/false
+     can_timeout    can this alarm timeout after some period of time? true/false
+     ems            the Element Management System that this alarm refers to
+     ems_class      the class of Element Management System that this alarm refers to
+     initdate       the initial date and time this alarm first appeared
+     assignedto     the user to which this alarm is assigned
+     enrouteto      the user to which this alarm is en route
+     text           the alarm description text
+     priority       the numeric alarm priority 1-99
+     rule           the name of the rule that created this alarm
+     group          the logical group to which this alarm belongs
+     circuit        a descriptive name for a circuit which this alarm affects
+     segment        a segment of the above circuit (numeric)
+     object         a logical object name matching this alarm
+     hrlt3          Hierarchy Resource List type 3
+     hrlt4          Hierarchy Resource List type 4
+     hrlt5          Hierarchy Resource List type 5
+     hrln3          Hierarchy Resource List name 3
+     hrln4          Hierarchy Resource List name 4
+     hrln5          Hierarchy Resource List name 5
+     
+-->
+
+<hierarchy>
+
+    <!--
+    Element breakout just like previous adapter implementation
+    with CreateClasses=true adapter property
+    -->
+
+    <generator field="class" class_from_field="class" hold="yes" affected="yes">
+        <generator field="ems" class_from_field="class" hold="yes" affected="yes">
+            <generator field="hrln3" class_from_field="hrlt3" affected="yes">
+                <generator field="hrln4" class_from_field="hrlt4" affected="yes">
+                    <generator field="hrln5" class_from_field="hrlt5" affected="yes" />
+                </generator>
+            </generator>
+        </generator>
+    </generator>
+
+</hierarchy>
+

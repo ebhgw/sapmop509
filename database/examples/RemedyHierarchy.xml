@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<hierarchy>
+    <group name="Schemas" class="applications">
+        <generator field="schema" affected="yes">
+            <group class="admin_users" name="Assigned to">
+                 <generator affected="yes" class="admin_user" field="assignedTo"/>
+            </group>
+            <group name="Status" class="gen_stoplight">
+                <group name="New" class="barCritical">
+                    <filter>
+                        <field name="status" value="New" />
+                    </filter>
+                </group>
+                <group name="Assigned" class="barMinor">
+                    <filter>
+                        <field name="status" value="Assigned" />
+                    </filter>
+                </group>
+                <group name="Fixed" class="barOK">
+                    <filter>
+                        <field name="status" value="Fixed" />
+                    </filter>
+                </group>
+                <group name="Rejected" class="barHarmless">
+                    <filter>
+                        <field name="status" value="Rejected" />
+                    </filter>
+                </group>
+                <group name="Closed" class="barOK">
+                    <filter>
+                        <field name="status" value="Closed" />
+                    </filter>
+                </group>
+            </group>
+        </generator>
+    </group>
+
+  <generator field="__si_serverInformation" affected="no" class="__SI_SERVER_INFORMATION_ROOT" hold="yes">
+    <generator field="__si_serverName" affected="no" class="server_host" >
+      <group name="Available Schemas" class="admin_databases" >
+        <filter>
+          <field name="__si_schemaIsAvailable" value="isAvailable" />
+        </filter>
+        <generator field="__si_schemaName" affected="yes" class="__SI_AVAILABLE_SCHEMA" />
+      </group>
+      <group name="Configured Schemas" class="admin_databases" >
+        <filter>
+          <field name="__si_schemaIsConfigured" value="isConfigured" />
+        </filter>
+        <generator field="__si_schemaName" affected="yes" class="__SI_CONFIGURED_SCHEMA">
+          <group name="Available Fields" class="__SI_AVAILABLE_FIELDS_FOLDER" >
+            <filter>
+              <field name="__si_fieldIsAvailable" value="isAvailable" />
+              <field name="__si_fieldIsCore" value="notCore" />
+            </filter>
+            <group name="By Data Type" class="__SI_AVAILABLE_FIELDS_FOLDER" >
+              <generator field="__si_fieldType" affected="no" class="__SI_AVAILABLE_FIELDS_FOLDER" >
+                 <generator field="__si_fieldNLI" affected="yes" class="__SI_AVAILABLE_FIELD" />
+              </generator>
+            </group>
+            <group name="By Name" class="__SI_AVAILABLE_FIELDS_FOLDER" >
+              <generator field="__si_fieldNLI" affected="yes" class="__SI_AVAILABLE_FIELD" />
+            </group>
+            <group name="By Id" class="__SI_AVAILABLE_FIELDS_FOLDER" >
+              <generator field="__si_fieldINL" affected="yes" class="__SI_AVAILABLE_FIELD" />
+            </group>
+            <group name="By Display Label" class="__SI_AVAILABLE_FIELDS_FOLDER" >
+              <generator field="__si_fieldLNI" affected="yes" class="__SI_AVAILABLE_FIELD" />
+            </group>
+          </group>
+          <group name="Configured Fields" class="gen_folder" >
+            <filter>
+              <field name="__si_fieldIsConfigured" value="isConfigured" />
+            </filter>
+            <group name="Core Fields" class="gen_folder" >
+              <filter>
+                <field name="__si_fieldIsCore" value="isCore" />
+              </filter>
+              <generator field="__si_fieldNLI" affected="yes" class="__SI_CORE_FIELD" />
+            </group>
+            <group name="Additional Fields" class="gen_folder" >
+              <filter>
+                <field name="__si_fieldIsCore" value="notCore" />
+              </filter>
+              <group name="Polled Fields (slower polls)" class="__SI_ADDITIONAL_FIELDS_FOLDER" >
+                <filter>
+                  <field name="__si_fieldIsPolled" value="isPolled" />
+                </filter>
+                <generator field="__si_fieldNLI" affected="yes" class="__SI_CONFIGURED_FIELD" />
+              </group>
+              <group name="Property Page Fields (faster polls)" class="__SI_ADDITIONAL_FIELDS_FOLDER" >
+                <filter>
+                  <field name="__si_fieldIsPolled" value="notPolled" />
+                </filter>
+                <generator field="__si_fieldNLI" affected="yes" class="__SI_CONFIGURED_FIELD" />
+              </group>
+            </group>
+          </group>
+        </generator>
+      </group>
+    </generator>
+  </generator>
+
+</hierarchy>

@@ -1,0 +1,374 @@
+<?xml version="1.0"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+  Last generated: 2/20/07 1:22 PM
+  From adapter: MOM1
+-->
+
+<!--
+Please refer to the msmomConfiguration_1.0.dtd file
+for details on the definition of this file.
+-->
+
+<!DOCTYPE msmomconfig SYSTEM "msmomConfiguration_1.0.dtd" >
+
+<msmomconfig>
+
+      <!-- At least one version is required -->
+
+      <version name="MOM2005">
+
+            <!-- MOM2005 Properties -->
+
+            <property name="columnAlarmKey">
+                 idAlert
+            </property>
+            <property name="columnLastUpdated">
+                 lastModified
+            </property>
+            <property name="columnResolutionState">
+                 ResolutionState
+            </property>
+            <property name="columnSeverity">
+                 AlertLevel
+            </property>
+
+            <property name="resolvedState">
+                 255
+            </property>
+
+            <!-- Following is not used for MOM2005, since get severity mappings from the DB -->
+            <property name="severityToLabelMap">
+            </property>
+
+            <property name="alarmPropertyToDBColumnMap">
+                 <li>GUID=idAlert</li>
+                 <li>RuleName=RuleName</li>
+                 <li>Computer=ComputerName</li>
+                 <li>Alert=Alert</li>
+                 <li>Description=Description</li>
+                 <li>Source=Culprit</li>
+                 <li>AlertLevel=AlertLevel</li>
+                 <li>State=State</li>
+                 <li>RepeatCount=int=RepeatCount</li>
+                 <li>TimeRaised=date=TimeRaised</li>
+                 <li>TimeOfFirstEvent=date=TimeOfFirstEvent</li>
+                 <li>TimeOfLastEvent=date=TimeOfLastEvent</li>
+                 <li>TimeResolved=date=TimeResolved</li>
+                 <li>ResolvedBy=ResolvedBy</li>
+                 <li>LastTimeStateWasModified=date=LastTimeStateWasModified</li>
+                 <li>TimeAdded=date=TimeAdded</li>
+                 <li>LastModified=date=LastModified</li>
+                 <li>LastModifiedBy=LastModifiedBy</li>
+                 <li>CustomField1=CustomField1</li>
+                 <li>CustomField2=CustomField2</li>
+                 <li>CustomField3=CustomField3</li>
+                 <li>CustomField4=CustomField4</li>
+                 <li>CustomField5=CustomField5</li>
+                 <li>RuleID=idprocessrule</li>
+                 <li>idComputer=idComputer</li>
+                 <li>ResolutionStateID=ResolutionStateID</li>
+                 <li>ResolutionState=State</li>
+            </property>
+
+            <property name="sqlStatementSelect">
+                 select a.idAlert, 'RuleName'=p.name, 'ComputerName'=c.name, 'Alert'=a.name,
+                         a.Description, a.Culprit, a.AlertLevel, r.State, a.RepeatCount,
+                         a.TimeRaised, a.TimeOfFirstEvent, a.TimeOfLastEvent, a.TimeResolved,
+                         a.ResolvedBy, a.LastTimeStateWasModified, a.TimeAdded, a.LastModified,
+                         a.LastModifiedBy, a.CustomField1, a.CustomField2, a.CustomField3,
+                         a.CustomField4, a.CustomField5, a.idprocessrule, a.idComputer, 'ResolutionStateID'=a.resolutionstate
+                         from alert a, computer c, processrule p, resolutionstate r WITH (NOLOCK)
+            </property>
+            <property name="sqlStatementWhere">
+                 where a.idcomputer = c.idcomputer and a.idProcessRule = p.idprocessrule and
+                 a.resolutionstate = r.resolutionid and a.resolutionstate != 255
+            </property>
+            <property name="sqlStatementWhereUpdate">
+                 where a.idcomputer = c.idcomputer and a.idProcessRule = p.idprocessrule and
+                 a.resolutionstate = r.resolutionid
+            </property>
+            <property name="sqlStatementWhereAppender">
+                 and a.LastModified &gt;
+            </property>
+            <property name="sqlStatementOrderBy">
+                 order by a.LastModified
+            </property>
+
+            <property name="sqlResolveOpQuery">
+                 update Alert set ResolutionState = ?, lastmodified = getutcdate(),
+                 LastTimeStateWasModified = getutcdate(), LastModifiedBy = ? where idAlert = ?
+            </property>
+
+            <property name="sqlResolveOpClosedQuery">
+                 update Alert set ResolutionState = ?, lastmodified = getutcdate(),
+                 LastTimeStateWasModified = getutcdate(), TimeResolved = getutcdate(),
+                 LastModifiedBy = ?, ResolvedBy = ? where idAlert = ?
+            </property>
+
+			<property name="sqlAllComputersQuery"> 
+				select c.idComputer, c.Name as 'ComputerName' from Computer c
+			</property>
+            <property name="sqlComputerDetailOpsQuery">
+                 select d.name, a.value from computerattribute a, computerattributedefinition d where
+                 a.idComputer = ? and a.idComputerAttributeDefinition = d.idComputerAttributeDefinition
+            </property>
+            <property name="computerDetailKeyColumn">
+                 Name
+            </property>
+            <property name="computerDetailValColumn">
+                 Value
+            </property>
+            <property name="computerDetailKeyAlarmProperty">
+                 idComputer
+            </property>
+            <property name="computerDetailNameAlarmProperty">
+                 Computer
+            </property>
+
+            <property name="sqlLoadOpsQuery">
+                 select resolutionid, state from ResolutionState
+            </property>
+            <property name="opsLabelColumn">
+                 State
+            </property>
+            <property name="opsResolutionIdColumn">
+                 ResolutionId
+            </property>
+
+            <property name="sqlLoadRuleQuery">
+                 select 'RuleName'=name, Description, isenabled from processrule where idProcessRule = ?
+            </property>
+
+            <property name="sqlSeverityMappingFinder">
+                 select Level, Name from AlertLevel
+            </property>
+            <property name="severityMappingNameColumn">
+                 Level
+            </property>
+            <property name="severityMappingLabelColumn">
+                 Name
+            </property>
+
+            <property name="sqlTimeSkewQuery">
+                 select getutcdate() as utcdate
+            </property>
+
+      </version>
+
+      <version name="MOM2007">
+
+            <!-- MOM2007 Properties -->
+
+            <property name="columnAlarmKey">
+                 AlertId
+            </property>
+            <property name="columnLastUpdated">
+                 LastModified
+            </property>
+            <property name="columnResolutionState">
+                ResolutionState <!-- ResolutionStateID -->
+            </property>
+            <property name="columnSeverity">
+                 Severity
+            </property>
+
+            <property name="resolvedState">
+                 255
+            </property>
+
+            <property name="severityToLabelMap">
+                 <li>0=Success</li>
+                 <li>1=Information</li>
+                 <li>2=Warning</li>
+                 <li>3=Error</li>
+                 <li>4=Critical Error</li>
+                 <li>5=Security Issue</li>
+                 <li>6=Service Unavailable</li>
+            </property>
+
+	    <!--
+	    	IMPORTANT. Do not modify left-most property names. They are used internally my the Managed Objects server.
+	    	If the name is changed certain MS MOM adapter functionality will break. It is OK to modify column names,
+	    	as long as you update the sqlStatementSelect below accordingly.
+	    -->
+            <property name="alarmPropertyToDBColumnMap">
+                 <li>GUID=AlertId</li>
+                 <li>RuleName=RuleName</li>
+                 <li>Computer=Computer</li>
+                 <li>Alert=Alert</li>
+                 <li>Description=AlertDescription </li>
+                 <li>AlertDetail=MomDetail </li>
+                 <li>Source=Culprit</li>
+                 <li>AlertLevel=Severity</li>
+                 <li>State=ResolutionStateName</li>
+                 <li>RepeatCount=int=RepeatCount</li>
+                 <li>TimeRaised=date=TimeRaised</li>
+                 <li>TimeResolved=date=TimeResolved</li>
+                 <li>LastTimeStateWasModified=date=TimeResolutionStateLastModified</li>
+                 <li>ResolvedBy=ResolvedBy</li>
+                 <li>TimeAdded=date=TimeAdded</li>
+                 <li>LastModified=date=LastModified</li>
+                 <li>LastModifiedBy=LastModifiedBy</li>
+                 <li>CustomField1=CustomField1</li>
+                 <li>CustomField2=CustomField2</li>
+                 <li>CustomField3=CustomField3</li>
+                 <li>CustomField4=CustomField4</li>
+                 <li>CustomField5=CustomField5</li>
+                 <li>RuleID=RuleId</li>
+                 <li>idManagedEntity=BaseManagedEntityId</li>
+                 <li>ResolutionStateID=ResolutionState</li>
+                 <li>ResolutionState=ResolutionStateName</li>
+                 <li>IsMonitorAlert=bool=IsMonitorAlert</li>
+                 <li>Category=Category</li>
+            </property>
+
+            <property name="sqlStatementSelect">
+                SELECT
+                aView.Id AS 'AlertId',
+                p.RuleName,
+                (CASE WHEN aView.[MonitoringObjectPath] IS NULL THEN aView.[MonitoringObjectName] ELSE aView.[MonitoringObjectPath] END) AS Computer,
+                aView.Name AS 'Alert',
+                (CASE WHEN aView.[Description] IS NULL THEN aView.[AlertStringDescription] ELSE aView.[Description] END) AS AlertDescription,
+                aView.Severity,
+                aView.AlertParams AS 'MomDetail',
+                aView.ResolutionState,
+                r.ResolutionStateName,
+                aView.RepeatCount,
+                aView.TimeRaised,
+                aView.MonitoringObjectDisplayName AS 'Culprit',
+                aView.TimeResolved,
+                aView.TimeResolutionStateLastModified,
+                aView.ResolvedBy,
+                aView.TimeAdded,
+                aView.LastModified,
+                aView.IsMonitorAlert,
+                aView.Category,
+                aView.LastModifiedBy,
+                aView.CustomField1,
+                aView.CustomField2,
+                aView.CustomField3,
+                aView.CustomField4,
+                aView.CustomField5,
+                aView.MonitoringRuleId AS 'RuleId',
+                aView.MonitoringObjectId AS 'BaseManagedEntityId',
+                aView.ResolutionState AS Expr1
+                FROM
+                AlertView AS aView WITH (NOLOCK)
+                LEFT JOIN ResolutionState AS r WITH (NOLOCK) ON aView.ResolutionState = r.ResolutionState
+                LEFT JOIN Rules AS p WITH (NOLOCK) ON aView.MonitoringRuleId = p.RuleId
+            </property>
+
+          <property name="sqlStatementWhere">
+              <!-- where aView.ResolutionState = r.ResolutionState  and aView.ResolutionState = 0 -->
+          </property>
+
+          <property name="sqlStatementWhereUpdate">
+                 where aView.ResolutionState = r.ResolutionState
+            </property>
+            <property name="sqlStatementWhereAppender">
+                 and aView.LastModified &gt;
+            </property>
+            <property name="sqlStatementOrderBy">
+                 order by aView.LastModified
+            </property>
+
+            <property name="sqlResolveOpQuery">
+                 update Alert set ResolutionState = ?, lastmodified = getutcdate(),
+                 LastModifiedBy = ? where AlertId = ?
+            </property>
+
+            <property name="sqlResolveOpClosedQuery">
+                 update Alert set ResolutionState = ?, lastmodified = getutcdate(),
+                 TimeResolved = getutcdate(),
+                 LastModifiedBy = ?, ResolvedBy = ? where AlertId = ?
+            </property>
+
+			<property name="sqlAllComputersQuery"> 
+				select c.BaseManagedEntityId, c.NetworkName as 'Computer' from MTV_Computer c
+			</property>
+            <!-- Following are not available for MOM2007 -->
+            <property name="sqlComputerDetailOpsQuery">
+            </property>
+            <property name="computerDetailKeyColumn">
+            </property>
+            <property name="computerDetailValColumn">
+            </property>
+            <property name="computerDetailKeyAlarmProperty">
+            </property>
+            <property name="computerDetailNameAlarmProperty">
+            </property>
+
+            <property name="sqlLoadOpsQuery">
+                 select ResolutionState, ResolutionStateName from ResolutionState
+            </property>
+            <property name="opsLabelColumn">
+                 ResolutionStateName
+            </property>
+            <property name="opsResolutionIdColumn">
+                 ResolutionState
+            </property>
+
+            <property name="sqlLoadRuleQuery">
+                 select RuleName, Comment, RuleEnabled from Rules where RuleId = ?
+            </property>
+
+            <!-- Following are not used for MOM2007, uses the severityToLabelMap property instead -->
+            <property name="sqlSeverityMappingFinder">
+            </property>
+            <property name="severityMappingNameColumn">
+            </property>
+            <property name="severityMappingLabelColumn">
+            </property>
+
+            <property name="sqlTimeSkewQuery">
+                 select getutcdate() as utcdate
+            </property>
+            
+            <property name="sqlAddAlertHistoryQuery">
+            	INSERT INTO AlertHistory 
+            	(
+					AlertHistoryId, 
+					AlertId, 
+					ResolutionState,
+					Comments,
+					TimeModified,
+					TimeModifiedOffset,
+					TimeResolutionStateLastModified,
+					TimeResolutionStateLastModifiedOffset,
+					TimeResolutionStateLastModifiedInDB,
+					ModifiedBy,
+					TimeAdded		
+					) VALUES (
+					newid(),
+					?,
+					?,
+					?,
+					getutcdate(),
+					?,
+					?,
+					?,
+					?,
+					?,
+					getutcdate()
+					)            
+            </property>
+
+      </version>
+
+</msmomconfig>
+

@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<recipes 
+    xmlns:bind="http://www.managedobjects.com/bind" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:data="http://www.managedobjects.com/data"
+    >
+    
+    <!-- Any namespaces defined at the top level are made available to recipes
+    below through a prefix mapper. -->
+    
+    <recipe name="Wrap" batch='true'>
+        <name>Wrap</name>
+        <disabled>true</disabled>
+        <!-- Match against at least one selected element. -->
+        <match debug="true">self::svg:*</match>
+        <!-- We have no HTML section, so this is a simple recipe (acts as action). -->
+        <do>
+            <nest>
+                <svg:g>
+                    <bind:layout name="wrap"/>
+                    <svg:rect rx="5" bind:container="true" stroke="black" strokewidth="1" fill="none" width="10" height="10"/>
+                </svg:g>
+            </nest>    
+        </do>    
+    </recipe>
+       
+    <recipe name="Unwrap">
+        <name>Unwrap</name>
+        <disabled>true</disabled>
+        <match>self::svg:g</match>
+        <do>
+            <!-- Remove container rectangle, if present. -->
+           <delete where="*[@bind:container]"/>
+            <!-- Remove bind commands? -->
+           <delete where="bind:*"/>
+           <unnest/>
+        </do>
+    </recipe>
+    
+	<recipe name='HTML Layout'>
+	  <!--
+	    HTML Layout
+	    -->
+	  <name>HTML Layout</name>
+		<match>self::svg:g|self::svg:svg</match>
+      <disabled>true</disabled>     
+		
+		<extract>
+			<element name='layout'>bind:layout</element>
+			<string name='current'>bind:layout/@name/text()</string>
+		</extract>	
+		<html>
+			<p>HTML Layout can be applied to any group (of either the
+		'svg' type or 'g' type. HTML Layout uses a series of constraint
+		tags to direct how your objects are going to be laid out. </p>
+			<p>The <lookup name='current'/> layout is being used, currently.</p>
+			<p>HTML Layout provides constraints as follows:
+			<table>
+				<tr><th>Name</th><th>Effect</th></tr>
+				<tr><td>br</td><td>Moves to the next line.</td></tr>
+				<tr><td>tab</td><td>Designates a column.</td></tr>
+				<tr><td>hfill</td><td>Expands horizontally to fill the column.</td></tr>
+				<tr><td>vfill</td><td>Expands vertically to fill the column.</td></tr>
+			</table></p>
+		</html>
+		<do>
+			<upsert>
+				<bind:layout name='html'/>
+			</upsert>
+		</do>
+		<undo>
+			<unset>@opacity</unset>
+		</undo>
+	</recipe>
+  
+  <recipe name='Cluster Layout'>
+    <!--
+      Cluster 
+      -->
+    <name>Cluster Layout</name>
+    <disabled>true</disabled>     
+    
+    <match>self::svg:g[bind:children]|self::svg:svg[bind:children]</match>
+    <extract>
+      <element name='layout'>bind:layout</element>
+      <string name='current'>bind:layout/@name/text()</string>
+    </extract>  
+    <html>
+      <p>Cluster Layout can be applied to any group (of either the
+        'svg' type or 'g' type. Cluster Box packs your objects into a
+        circular shape, with the biggest things in the middle. </p>
+      <p>The <lookup name='current'/> layout is being used, currently.</p>
+    </html>
+    <do>
+      <upsert>
+        <bind:layout name='cluster'/>
+      </upsert>
+    </do>
+    <undo>
+      <unset>@opacity</unset>
+    </undo>
+  </recipe>
+  
+  <recipe name='Cluster Box Layout'>
+    <!--
+      Cluster Box
+      -->
+    <name>Cluster Layout</name>
+    <disabled>true</disabled>     
+    
+    <match>self::svg:g|self::svg:svg</match>
+    <extract>
+      <element name='layout'>bind:layout</element>
+      <string name='current'>bind:layout/@name/text()</string>
+    </extract>  
+    <html>
+      <p>Cluster Box Layout can be applied to any group (of either the
+        'svg' type or 'g' type. Cluster Box packs your objects into a
+        rectangular shape, with the biggest things in the middle.
+      </p>
+      <p>The <lookup name='current'/> layout is being used, currently.</p>
+    </html>
+    <do>
+      <upsert>
+        <bind:layout name='clusterbox'/>
+      </upsert>
+    </do>
+    <undo>
+      <unset>@opacity</unset>
+    </undo>
+  </recipe>
+  
+  <recipe name='HTML Container'>
+    <!--
+      HTML Container
+      -->
+    <name>HTML Container</name>
+      <disabled>true</disabled>     
+    
+		<match>self::svg:g|self::svg:svg</match>
+		<extract>
+			<element name='layout'>bind:layout</element>
+			<string name='current'>bind:layout/@name/text()</string>
+		</extract>	
+		<do>
+			<delete where="*" attr="transform"/>
+			<set where="svg:ellipse" attr='cx' value='0'/>
+			<set where="svg:ellipse" attr='cy' value='0'/>
+			<delete where="svg:rect" attr='x'/>'
+			<delete where="svg:rect" attr='y'/>'
+			<upsert where="svg:rect[bind:container]">
+				<svg:rect fill='none' stroke='black' stroke-width='2' width='400' height="1" bind:container='true' rx='3' ry='3'>
+					<bind:height value='${height}'/>
+					<bind:rx value="${width div 10}"/>
+					<bind:ry value="${width div 10}"/>
+				</svg:rect>
+			</upsert>
+			<upsert>
+				<bind:layout name='html' vstretch='true'/>
+			</upsert>
+		</do>
+		<undo>
+		</undo>
+  </recipe>
+  
+	<recipe name='HTML Layout Constraint'>
+	  <!--
+	    HTML Layout Constraint
+	    -->
+	  <name>HTML Layout Constraint</name>
+      <disabled>true</disabled>     	 
+		<match>../bind:layout[@name='html']</match>
+		<extract>
+			<stringset name='current' from='@constraint'/> 
+		</extract>
+		<html>
+			<p>Applies a constraint to an element being laid out
+			by the HTML layout. The current constraint is <lookup name='current'/>.</p>
+			<p>Layout: <choice current='current' result='layout'>
+					<item value=' '>None</item>
+					<item value='p'>Paragraph</item>
+					<item value='tab'>Tab</item>
+					<item value='br'>Line break</item>
+				</choice>
+			</p>
+			<p>Horizontal: <choice current='current' result='hor'>
+				<item value=' '>None</item>
+				<item value='left'>Left</item>
+				<item value='center'>Center</item>
+				<item value='right'>Right</item>
+			</choice>
+			</p>
+			<p>Vertical: <choice current='current' result='ver'>
+				<item value=' '>None</item>
+				<item value='vtop'>Top</item>
+				<item value='vcenter'>Center</item>
+				<item value=' '>Bottom</item>
+			</choice>
+			</p>
+		</html>
+		<do>
+			<set attr="constraint" value="{layout} {hor} {ver}"/>
+		</do>
+	</recipe>
+  
+	<recipe name='Sort By Condition'>
+	  <!--
+	    Sort by Condition
+	    -->
+	  <name>Sort By Condition</name>
+      <disabled>true</disabled>     
+	  
+		<match>bind:layout|bind:children/bind:layout</match>
+		<description>Sorts the elements being laid out by their conditions.
+		  Not all layouts support sorting!
+		</description>
+		<extract>
+			<string name='sort'/>
+		</extract>
+		<do>
+			<set where='bind:layout' attr='sort' value='condition'/>
+			<set where='bind:children/bind:layout' attr='sort' value='condition'/>
+		</do>
+	</recipe>
+  
+  <recipe name='Unmark/Unpin'>
+    <name>Unmark/Unpin</name>
+    <disabled>true</disabled>
+    <match>self::*</match>
+    <description>Removes any marks or pins from the seletected objects.
+    </description>
+    <extract>
+      <string name='sort'/>
+    </extract>
+    <do>
+      <set attr='bind:marks' value=''/>
+    </do>
+  </recipe>
+  
+  <recipe name='Remove Transforms'>
+    <name>Remove Transforms</name>
+    <disabled>true</disabled>
+    <match>self::*</match>
+    <description>Removes transformations from the selected objects.
+    </description>
+    <extract>
+      <string name='sort'/>
+    </extract>
+    <do>
+      <delete where="@transform | @bind:originalTransform"/>
+    </do>
+  </recipe>  
+  
+  <recipe name='Bind Related'>
+    <name>Bind Related</name>
+    <disabled>true</disabled>
+    <match>bind:children</match>
+    <extract>
+      <stringset name='current' split=','>bind:children/@relations</stringset>
+    </extract>
+    <html>
+      <p>Can bind in all, or some relationships as children. <br/>
+        Current: <lookup name="current"/>.
+      </p>
+      <table>
+        <tr>
+          <td>Available relations are:</td>
+          <td>
+            <choice result='relations' type="checkbox">
+              <item value='*'>All</item>
+              <item value='froober'/>
+              <item value='forper'/>
+              <item value='block'/>
+            </choice>
+          </td>
+        </tr>
+      </table>
+    </html>
+    <do>
+      <set where='bind:children' attr="relations" value="{relations}"/>
+    </do>
+  </recipe>
+  
+  <recipe name='Bind Root Related'>
+    <name>Bind Root Related</name>
+    <disabled>true</disabled>
+    <extract>
+      <stringset name='current' split=','>bind:children/@relations</stringset>
+    </extract>
+    <html>
+      <p>Can bind in all, or some relationships as children. <br/>
+        Current: <lookup name="current"/>.
+      </p>
+      <table>
+        <tr>
+          <td>Available relations are:</td>
+          <td>
+            <choice result='relations' type="checkbox">
+              <item value='*'>All</item>
+              <item value='froober'/>
+              <item value='forper'/>
+              <item value='block'/>
+            </choice>
+          </td>
+        </tr>
+      </table>
+    </html>
+    <do>
+      <set where='bind:children' attr="relations" value="{relations}"/>
+    </do>
+  </recipe>
+  
+  <recipe name='Link Height' batch='true'>
+	  <!--
+	    Link Height
+	    -->
+	  <name>Link Height</name>
+     <disabled>true</disabled>
+		<match>self::*[@height]</match>
+		<description>
+			Sets the height of all selected elements to the
+			height of the first element that was selected. If the first element's
+			height is altered, the other elements will change their
+			heights as well.
+		</description>
+		<do>
+			<!-- Ensure that the elements to be linked all
+			have unique identifiers. -->
+			<identify match='rest'/>
+			<!-- Execute this insert command only against the first element
+				in the match set. -->
+			<insert match='first' for='rest'>
+				<bind:height xpath='../@height'/>
+			</insert>
+		</do>
+	</recipe>
+  
+	<recipe name='Link Width' batch='true'>
+	  <!--
+	    Link width
+	    -->
+	  <name>Link Width</name>
+     <disabled>true</disabled>
+	  
+		<match>self::*[@width]</match>
+		<description>
+			Sets the width of all selected elements to the
+			width of the first element that was selected.
+		</description>
+		<do>
+			<!-- Ensure that the elements to be linked all
+				have unique identifiers. -->
+			<identify match='rest'/>
+			<!-- Execute this insert command only against the first element
+				in the match set. -->
+			<insert match='first' for='rest'>
+				<bind:width xpath='../@width'/>
+			</insert>
+		</do>
+	</recipe>
+	
+	<recipe name='Create Container'>
+		<name>Create Container</name>
+      <disabled>true</disabled>
+		
+		<description>Creates a container that can hold children and other
+		objects, and can lay out those objects in an orderly way.</description>
+		<do>
+			<insert>
+				<svg:g>
+					<svg:rect stroke='rgb(128,150,128)' stroke-width='2' rx='4' ry='4' fill="none" width='500' height='5' bind:container='true'/>
+					<bind:children self='false' />
+					<bind:layout pad='5' name='packed rectangle' wrap='true' />
+				</svg:g>
+			</insert>				
+		</do>
+	</recipe>
+  <recipe name='Wrap with Box'>
+    <name>Wrap with Box</name>
+    <disabled>true</disabled>    
+    <description>Creates a container holding the selected objects, and
+      wraps that container with a rectangle.</description>
+    <do>
+      <insert>
+        <svg:g>
+          <svg:rect stroke='rgb(128,150,128)' stroke-width='2' rx='4' ry='4' fill="none" width='500' height='5' bind:container='true'/>
+          <bind:layout pad='5' name='flow' wrap='true' />
+        </svg:g>
+      </insert>       
+    </do>
+  </recipe>
+  <recipe name='Update Layout'>
+		<name>Update Layout</name>
+		<description>Triggers a full update and layout.</description>
+		<do>
+<!-- Nothing -->			
+		</do>
+	</recipe>
+	
+	<recipe name='Connector Style'>
+		<name>Connector Style</name>
+		<disabled>true</disabled>		
+		<!-- match debug='true'>bind:children/bind:layout</match -->
+		<description>
+			Allows choice of connector styles for automatically laid out elements.
+		</description>
+		<extract>
+			<string name='current'>bind:children/bind:layout/@connect/text()</string>
+		</extract>	
+		<html>
+			You can choose from the following connector styles:<br/>
+			<choice current='current' result="newstyle">
+				<item value="">None</item>
+				<item value="Nodes__Smart__Wire">Smart Wire</item>
+				<item value="Nodes__Smart__ConditionWire">Condition Wire</item>
+			</choice>
+		</html>
+		<do>
+			<set where="bind:children/bind:layout" attr="connect" value="{newstyle}"/>			
+		</do>
+	</recipe>
+	
+	<recipe name='Connection Style'>
+		<name>Connection Style</name>
+      <disabled>true</disabled>		
+		<match>@bind:connect</match>
+		<description>
+			Changes the style of connection used between elements.
+		</description>
+		<extract>
+			<string name='current'>@bind:graphic</string>
+			<string name='connection'>@bind:connect</string>
+			<string name='sport'>@source-port</string>
+			<string name='dport'>@dest-port</string>
+		</extract>	
+		<html>
+			You can choose from the following connector styles:<br/>
+			<choice current='current' result="newstyle">
+				<item value="">None</item>
+				<item value="Nodes__Smart__Wire">Smart Wire</item>
+				<item value="Nodes__Smart__ConditionWire">Condition Wire</item>
+			</choice>
+		</html>
+		<do>
+			<insert where="before">
+				<svg:g bind:graphic='{newstyle}' bind:connect='{connection}' source-port='{sport}' dest-port='{dport}'/>
+			</insert>
+			<delete where="self::*"/>
+		</do>
+	</recipe>
+	
+	<recipe name='Connection Ports'>
+		<name>Connection Ports</name>
+      <disabled>true</disabled>		
+		<match>@bind:connect</match>
+		<description>
+			Allows source and destination ports to be set to some
+			standard port names.
+		</description>
+		<extract>
+			<string name='sport'>@source-port</string>
+			<string name='dport'>@dest-port</string>
+		</extract>
+		<html>
+			Alter the port (location) that a connection will attach to.
+			<table>
+				<tr><td>Source</td><td>
+					<choice current="sport" result='newsport'>
+						<item value='North'/>
+						<item value='East'/>
+						<item value='South'/>
+						<item value='West'/>
+						<item value='Center'/>
+					</choice>	
+				</td></tr>
+				<tr><td>Destination</td><td>
+					<choice current="dport" result='newdport'>
+						<item value='North'/>
+						<item value='East'/>
+						<item value='South'/>
+						<item value='West'/>
+						<item value='Center'/>
+					</choice>	
+				</td></tr>
+			</table>
+		</html>
+		<do>
+			<set attr="source-port" value="{newsport}"/>
+			<set attr="dest-port" value="{newdport}"/>
+		</do>
+	</recipe>
+	
+	<recipe name='Bind Children to Path'>
+		<name>Bind Children to Path</name>
+      <disabled>true</disabled>     
+		<match>self::svg:path|self::svg:circle|self::svg:rect|self::svg:ellipse|self::svg:polyline|self::svg:line</match>
+		<description>
+			Binds the children of the ambient element to the selected
+			path element, laying the children out along the path.
+		</description>
+		<do>
+			<identify match='first'/>
+			<!-- Remember that we have to be very careful about
+				inserting SVG nodes; the svg: prefix on SVG nodes is
+				mandatory at this time. We could use an xmlns attribute
+			  on the top SVG node, or we could assume that the default
+			  namespace within an insert block is SVG.
+			  The where='after' statement causes the contents of the
+			  insert block to be inserted just after the element that
+			  matched against the recipe. You can also use 'before', or
+			  use an xpath expression. The xpath should terminate in
+			  the name of the element being inserted, which in this case
+			  is svg:g. This allows the upsert code to detect if an 
+			  element already exists in the desired position. The xpath
+			  is the name of the element that is GOING to exist, if
+			  not yet present.
+			-->
+			<insert where='after'>
+				<svg:g>
+					<bind:children self='false'/>
+					<bind:layout name='path' path='#{first}'/>
+				</svg:g>
+			</insert>
+		</do>
+	</recipe>
+	
+	<!-- The templates area defines recipes that require
+		a generation pass to take place. When the generation is
+		run, each create tag can contain zero or more other tags.
+		Those tags are located inside the recipe template and 
+		substitution is performed, removing the tag and replacing
+		it with the create tag's contents. -->
+		
+	<templates>
+		<recipe id='setHTMLConstraint'>
+			<name>HTML Layout <type>type</type></name>
+			<match>../bind:layout[@name='html']</match>
+			<extract>
+				<string name='current'>@constraint</string>
+			</extract>
+			<do>
+				<set attr="constraint"><tag>br</tag></set>
+			</do>
+		</recipe>
+					 
+					 
+	</templates>
+	 
+	 
+	<generate from='setHTMLConstraint'>
+		<create><type>None (remove)</type><tag> </tag></create>
+		<create><type>Line Break</type><tag>br</tag></create>
+		<create><type>Tab</type><tag>tab</tag></create>
+		<create><type>Horizontal Fill</type><tag>hfill</tag></create>
+		<create><type>Vertical Fill</type><tag>vfill</tag></create>
+		<create><type>Paragraph Break</type><tag>p</tag></create>
+		<create><type>Left Align</type><tag>left</tag></create>
+		<create><type>Right Align</type><tag>right</tag></create>
+		<create><type>Center Align</type><tag>center</tag></create>
+	</generate>
+			    
+    <recipe name="Rounded Rectangle"> 
+        <name>Convert to Rounded Rectangle</name>
+        <category>Shape</category>
+        <description>Rounds off the corners of a rectangle.</description>
+        <match>self::svg:rect[not(@rx)]</match>
+        <do>
+            <set attr="rx" value="10"/>
+        </do>
+    </recipe>
+    
+    <recipe name="Square Rectangle">
+        <name>Convert to Squared Rectangle</name>
+        <category>Shape</category>
+        <description>Removes rounding from a rectangle.</description>
+        <match>self::svg:rect[@rx]</match>
+        <do>
+            <delete attr="rx"/>
+        </do>
+    </recipe>
+    
+    <recipe name="Edit Rounding">
+        <name>Edit Rounding</name>
+        <category>Shape</category>
+        <description>Adjusts the rounding of a rectangle.</description>
+        <extract>
+            <string name='current'>@rx</string>
+        </extract>
+        <match>self::svg:rect</match>
+        <html>
+            <p>Rounding: 
+                <choice current='current' result='new'>
+                    <item value='0'/>
+                    <item value='5'/>
+                    <item value='10'/>
+                    <item value='15'/>
+                    <item value='25'/>
+                </choice>
+            </p>
+        </html>
+        <do>
+            <set attr="rx" value="{new}"/>
+        </do>
+    </recipe>
+
+    <recipe name="Fix Overflow"> 
+        <name>Fix Overflow</name>        
+        <disabled>true</disabled>
+        <description>Rounds off the corners of a rectangle.</description>
+        <match>self::svg:svg[@height or @width]</match>
+        <do>
+            <set attr="overflow" value="visible"/>
+            <delete attr="height"/>
+            <delete attr="width"/>
+        </do>
+    </recipe>
+
+    <recipe name="Enable Over-scaling"> 
+        <name>Enable Dashboard Fit-to-Space Scaling</name>        
+        <disabled>false</disabled>
+        <description>Sets overscaling flag hint for dashboard.</description>
+        <match>self::svg:svg[not(@allowoverscaling) or @allowoverscaling='false']</match>
+        <do>
+           <set attr="allowoverscaling" value="true"/>
+        </do>
+    </recipe>
+
+    <recipe name="Disable Over-scaling"> 
+        <name>Disable Dashboard Fit-to-Space Scaling</name>        
+        <disabled>false</disabled>
+        <description>Sets overscaling flag hint for dashboard.</description>
+        <match>self::svg:svg[@allowoverscaling='true']</match>
+        <do>
+           <set attr="allowoverscaling" value="false"/>
+        </do>
+    </recipe>
+
+    <recipe name="Whack ID attr"> 
+        <name>Whack ID Attr</name>        
+        <disabled>true</disabled>
+        <description>Whack ID Attr</description>
+        <match>self::*</match>
+        <do>
+            <delete attr="id"/>
+        </do>
+    </recipe>
+
+</recipes>

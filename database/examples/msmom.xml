@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields available for Microsoft Operations Manager (MOM) are:
+
+     Field Name     	Value
+     ==========     	=====
+     id             	alarm ID (internal to Formula)
+     severity       	Possible values are CRITICAL, MAJOR, MINOR, INFORMATIONAL, and OK
+     date           	most recent alarm date and time, in normal format
+     GUID		This is the unique ID of the alarm from the alert table.
+     Computer		The actual name of the computer as represented in the computer table
+     RuleName		The name of the Rule associated to the alert from the alert table
+     Alert		The name column from the alert table.  This is typical descriptive type of information related to the alert
+     Description	The description of the alert for the alert table
+     Source		The source of the alert which comes from the Culprit column of the alert table
+     State		This is the textual representation of the alert.  (New, Resolved, etc)
+     ResolutionState	This is the textual representation of the alert.  (New, Resolved, etc)
+     RepeatCount	The repeat count column from the alert table
+     ResolvedBy		The value of the ResolvedBy column from the alert table
+     AlertLevel		The numeric value that represents the level of the alert (defined in Onepoint.AlertLevel)
+     RuleID		The ID of the Rule associated to this alert
+     idComputer		The unique ID of the computer related to this alert.  (Expanded out to the real name based on lookup in Onepoint.Computer)
+     ResolutionStateID	The numeric representation of the Resolution state which is later expanded out via a lookup in Onepoint.ResolutionState.  For instance; Resolved = 255.
+     CustomField1	The Custom Field from the alert table. 
+     CustomField2	The Custom Field from the alert table.
+     CustomField3	The Custom Field from the alert table.
+     CustomField4	The Custom Field from the alert table.
+     CustomField5	The Custom Field from the alert table.
+     AlertLevel
+     RuleID
+     idComputer
+     ResolutionStateID
+     TimeRaised
+     TimeOfFirstEvent
+     TimeOfLastEvent
+     TimeResolved
+     LastModified
+     TimeStateWasModified
+     TimeAdded
+
+-->
+
+<hierarchy>
+
+	<group name="Computers" class="hosts">
+		<generator field="Computer" affected="yes" >
+			<generator field="Source" />
+		</generator>
+	</group>
+
+	<group name="Source" class="application">
+		<generator field="Source" />
+	</group>
+
+</hierarchy>
+
+

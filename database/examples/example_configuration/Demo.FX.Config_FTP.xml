@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<fxmonitor>
+
+  <adapters>
+		<adapter>
+			<name>FXAdapter</name>
+			<type>PRIMARY</type>
+			<group>Tail</group>
+			<alarmformat>XML</alarmformat>
+		 	<adapterport>50001</adapterport>
+		 	<adapterhost>localhost</adapterhost>
+		 	<adapterretry>60</adapterretry>
+		</adapter>	
+	</adapters>
+	
+	<settings>
+		<filepolicy>none</filepolicy>
+    <!--filestore>cachefiles</filestore-->
+	</settings>
+ 
+    <readers>
+      <reader>
+        <name>Demo FTP Reader</name>
+        <class>com.mosol.integration.fx.collectors.FTPCollector</class>
+        <parser>Demo Parser</parser>
+        <settings>
+          <directory>FTP DATA DIRECTORY</directory>
+          <encoding>UTF-8</encoding>
+          <filepolicy>LEAVE</filepolicy>
+          <filematch>DemoData.csv</filematch>
+          <!-- filemaxage type="mins">10</filemaxage -->
+          <persist>yes</persist>
+          <port>21</port>
+          <sendfile>ALL</sendfile>
+          <server>FTP HOST NAME</server>
+          <password>FTP HOST PASSWORD</password>
+          <user>FTP HOST USERNAME</user>
+          <poll>10</poll>
+          <delay>0</delay>
+          <retry>5</retry>
+        </settings>
+      </reader>
+    </readers>
+
+
+  <parsers>
+    <parser>
+		  <name>Demo Parser</name>
+		  <class>com.mosol.integration.fx.parsers.DelimitedFileParser</class>
+		  <settings>
+        <lifetime type="mins" relative="create">5</lifetime>
+		    <headerline>0</headerline>
+		    <startline>1</startline> 
+		    <delimiter>;</delimiter>
+        <datecolumns>Planned_Start_Date,Planned_End_Date</datecolumns>
+        <dateformats>dd.MM.yyyy HH:mm,dd.MM.yyyy HH:mm</dateformats>
+      </settings>
+	  </parser>
+  </parsers>
+
+</fxmonitor>

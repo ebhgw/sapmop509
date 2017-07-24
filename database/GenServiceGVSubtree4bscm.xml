@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE hierarchy PUBLIC "-//Managed Objects, Inc.//DTD hierarchy 2.0//EN" "http://www.ManagedObjects.com/dtds/hierarchy_2.0.dtd">
+<!--
+	Used to generate the subtree from Service/SSA/Acronimo by bscm job
+-->
+<hierarchy case="yes">
+	<generator field="structure.parent.parent.parent.cn" class="ServizioGlobalView" >
+		<generator field="structure.parent.parent.cn" class="Servizio" >
+			<generator field="structure.parent.cn" class="SSA" >
+				<generator field="structure.cn" class="Acronimo" >
+				</generator>
+			</generator>
+		</generator>
+	</generator>
+</hierarchy>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+		Copyright (c) 2014 NetIQ Corporation. All Rights Reserved. THIS WORK IS
+		SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES. IT MAY
+		NOT BE USED, COPIED, DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED,
+		DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S PRIOR
+		WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT
+		AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND CIVIL
+		LIABILITY. NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR
+		IMPLIED WARRANTY, INCLUDING WITHOUT THE IMPLIED WARRANTIES OF
+		MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+		NON-INFRINGEMENT. NETIQ, THE AUTHORS OF THE WORK, AND THE OWNERS OF
+		COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE,
+		ARISING FROM, OUT OF, OR IN CONNECTION WITH THE WORK OR THE USE OR
+		OTHER DEALINGS IN THE WORK.
+	-->
+<recipes xmlns:bind="http://www.managedobjects.com/bind"
+	xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:data="http://www.managedobjects.com/data">
+
+	<!--
+		<bind:chart chart-showthresholdbands="true" *> <bind:thresholdband
+		threshold-band-floor="0" threshold-band-ceiling="500000000"
+		threshold-band-condition="OK"/> </bind:chart>
+	-->
+
+	<recipe name="Background Color Bands">
+		<name>Background Color Bands</name>
+		<category>Charts</category>
+		<description>Background Color Bands</description>
+		<matchnodeset>self::svg:g//bind:chart[@chart-type='line'] |
+			self::svg:g//bind:chart[@chart-type='bar'] |
+			self::svg:g//bind:chart[@chart-type='stackedbar']
+			
+		</matchnodeset>
+		<!-- store the floor and ceiling values of bands, so we can pre-populate the html input textfields -->
+		<extract>
+			<string name='currentCriticalFloor'>bind:thresholdband[@threshold-band-condition='Critical']/@threshold-band-floor</string>
+		</extract>
+		<extract>
+			<string name='currentCriticalCeiling'>bind:thresholdband[@threshold-band-condition='Critical']/@threshold-band-ceiling</string>
+		</extract>
+		<extract>
+			<string name='currentMajorFloor'>bind:thresholdband[@threshold-band-condition='Major']/@threshold-band-floor</string>
+		</extract>
+		<extract>
+			<string name='currentMajorCeiling'>bind:thresholdband[@threshold-band-condition='Major']/@threshold-band-ceiling</string>
+		</extract>
+		<extract>
+			<string name='currentMinorFloor'>bind:thresholdband[@threshold-band-condition='Minor']/@threshold-band-floor</string>
+		</extract>
+		<extract>
+			<string name='currentMinorCeiling'>bind:thresholdband[@threshold-band-condition='Minor']/@threshold-band-ceiling</string>
+		</extract>
+		<extract>
+			<string name='currentOkFloor'>bind:thresholdband[@threshold-band-condition='Ok']/@threshold-band-floor</string>
+		</extract>
+		<extract>
+			<string name='currentOkCeiling'>bind:thresholdband[@threshold-band-condition='Ok']/@threshold-band-ceiling</string>
+		</extract>
+		<extract>
+			<string name='currentInfoFloor'>bind:thresholdband[@threshold-band-condition='Info']/@threshold-band-floor</string>
+		</extract>
+		<extract>
+			<string name='currentInfoCeiling'>bind:thresholdband[@threshold-band-condition='Info']/@threshold-band-ceiling</string>
+		</extract>
+		<extract>
+			<string name='currentUnmanagedFloor'>bind:thresholdband[@threshold-band-condition='Unmanaged']/@threshold-band-floor</string>
+		</extract>
+		<extract>
+			<string name='currentUnmanagedCeiling'>bind:thresholdband[@threshold-band-condition='Unmanaged']/@threshold-band-ceiling</string>
+		</extract>
+		<extract>
+			<string name='currentUnknownFloor'>bind:thresholdband[@threshold-band-condition='Unknown']/@threshold-band-floor</string>
+		</extract>
+		<extract>
+			<string name='currentUnknownCeiling'>bind:thresholdband[@threshold-band-condition='Unknown']/@threshold-band-ceiling</string>
+		</extract>
+		<!-- pre-populate the input fields with values extracted from svg DOM in above steps -->
+		<html>
+			<lookup name='currentCriticalFloor' target="//input[@name='floorCritical']"
+				attr="value" value="{currentCriticalFloor}" />
+			<lookup name='currentCriticalCeiling' target="//input[@name='ceilingCritical']"
+				attr="value" value="{currentCriticalCeiling}" />
+			<lookup name='currentMajorFloor' target="//input[@name='floorMajor']"
+				attr="value" value="{currentMajorFloor}" />
+			<lookup name='currentMajorCeiling' target="//input[@name='ceilingMajor']"
+				attr="value" value="{currentMajorCeiling}" />
+			<lookup name='currentMinorFloor' target="//input[@name='floorMinor']"
+				attr="value" value="{currentMinorFloor}" />
+			<lookup name='currentMinorCeiling' target="//input[@name='ceilingMinor']"
+				attr="value" value="{currentMinorCeiling}" />
+			<lookup name='currentInfoFloor' target="//input[@name='floorInfo']"
+				attr="value" value="{currentInfoFloor}" />
+			<lookup name='currentInfoCeiling' target="//input[@name='ceilingInfo']"
+				attr="value" value="{currentInfoCeiling}" />
+			<lookup name='currentOkFloor' target="//input[@name='floorOk']"
+				attr="value" value="{currentOkFloor}" />
+			<lookup name='currentOkCeiling' target="//input[@name='ceilingOk']"
+				attr="value" value="{currentOkCeiling}" />
+			<lookup name='currentUnmanagedFloor' target="//input[@name='floorUnmanaged']"
+				attr="value" value="{currentUnmanagedFloor}" />
+			<lookup name='currentUnmanagedCeiling' target="//input[@name='ceilingUnmanaged']"
+				attr="value" value="{currentUnmanagedCeiling}" />
+			<lookup name='currentUnknownFloor' target="//input[@name='floorUnknown']"
+				attr="value" value="{currentUnknownFloor}" />
+			<lookup name='currentUnknownCeiling' target="//input[@name='ceilingUnknown']"
+				attr="value" value="{currentUnknownCeiling}" />
+		
+			<!-- pre-select the checkboxes if a band is enabled, i.e the corresponding band tag with correct condition attribute exists in svg DOM -->
+			<do>
+				<case>
+					<when where="bind:thresholdband[@threshold-band-condition='Critical']">
+						<set where="//input[@name='isCritical']" attr='checked' value='true' />
+					</when>
+				</case>
+				<case>
+					<when where="bind:thresholdband[@threshold-band-condition='Major']">
+						<set where="//input[@name='isMajor']" attr='checked' value='true' />
+					</when>
+				</case>
+				<case>
+					<when where="bind:thresholdband[@threshold-band-condition='Minor']">
+						<set where="//input[@name='isMinor']" attr='checked' value='true' />
+					</when>
+				</case>
+				<case>
+					<when where="bind:thresholdband[@threshold-band-condition='Ok']">
+						<set where="//input[@name='isOk']" attr='checked' value='true' />
+					</when>
+				</case>
+				<case>
+					<when where="bind:thresholdband[@threshold-band-condition='Info']">
+						<set where="//input[@name='isInfo']" attr='checked' value='true' />
+					</when>
+				</case>
+				<case>
+					<when where="bind:thresholdband[@threshold-band-condition='Unmanaged']">
+						<set where="//input[@name='isUnmanaged']" attr='checked'
+							value='true' />
+					</when>
+				</case>
+				<case>
+					<when where="bind:thresholdband[@threshold-band-condition='Unknown']">
+						<set where="//input[@name='isUnknown']" attr='checked' value='true' />
+					</when>
+				</case>
+
+			</do>
+			<!-- html content of the recipe UI -->
+			<p>Click the checkbox for each condition band you want to enable and
+				specify the floor and ceiling value for each band. </p>
+			<br />
+			<table border="0">
+				<tr>
+					<td>
+						<input type="checkbox" name="isCritical" />
+						Critical
+					</td>
+					<td>
+						Floor:
+						<input type="text" uiid="floorCritical" name="floorCritical"
+							cols="10" value="x" />
+					</td>
+					<td>
+						Ceiling:
+						<input type="text" name="ceilingCritical" cols="10" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="isMajor" />
+						Major
+					</td>
+					<td>
+						Floor:
+						<input type="text" name="floorMajor" cols="10" value="" />
+					</td>
+					<td>
+						Ceiling:
+						<input type="text" name="ceilingMajor" cols="10" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="isMinor" />
+						Minor
+					</td>
+					<td>
+						Floor:
+						<input type="text" name="floorMinor" cols="10" value="" />
+					</td>
+					<td>
+						Ceiling:
+						<input type="text" name="ceilingMinor" cols="10" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="isInfo" />
+						Info
+					</td>
+					<td>
+						Floor:
+						<input type="text" name="floorInfo" cols="10" value="" />
+					</td>
+					<td>
+						Ceiling:
+						<input type="text" name="ceilingInfo" cols="10" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="isOk" />
+						Ok
+					</td>
+					<td>
+						Floor:
+						<input type="text" name="floorOk" cols="10" value="" />
+					</td>
+					<td>
+						Ceiling:
+						<input type="text" name="ceilingOk" cols="10" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="isUnmanaged" />
+						Unmanaged
+					</td>
+					<td>
+						Floor:
+						<input type="text" name="floorUnmanaged" cols="10" value="" />
+					</td>
+					<td>
+						Ceiling:
+						<input type="text" name="ceilingUnmanaged" cols="10" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" name="isUnknown" />
+						Unknown
+					</td>
+					<td>
+						Floor:
+						<input type="text" name="floorUnknown" cols="10" value="" />
+					</td>
+					<td>
+						Ceiling:
+						<input type="text" name="ceilingUnknown" cols="10" value="" />
+					</td>
+				</tr>
+			</table>
+		</html>
+		<do>
+			<!-- Before we write out new svg DOM content, delete existing tags and attributes, so there is no stale data in the DOM. -->
+			<delete where="bind:thresholdband" />
+			<!-- store the state of UI checkboxes as temporary attributes -->
+			<set attr="bandIsCriticalOnTemp" value="{isCritical}" />
+			<set attr="bandIsMajorOnTemp" value="{isMajor}" />
+			<set attr="bandIsMinorOnTemp" value="{isMinor}" />
+			<set attr="bandIsInfoOnTemp" value="{isInfo}" />
+			<set attr="bandIsOkOnTemp" value="{isOk}" />
+			<set attr="bandIsUnmanagedOnTemp" value="{isUnmanaged}" />
+			<set attr="bandIsUnknownOnTemp" value="{isUnknown}" />
+
+			<!-- Based on UI state, update the attribute of the chart tag and insert band tags enabled bands. -->
+			<case>
+				<when where="../bind:chart[@bandIsCriticalOnTemp='on']">
+					<insert where=".">
+						<bind:thresholdband threshold-band-condition="Critical"
+							threshold-band-floor="{floorCritical}" threshold-band-ceiling="{ceilingCritical}" />
+					</insert>
+				</when>
+				<when where="../bind:chart[@bandIsMajorOnTemp='on']">
+					<insert where=".">
+						<bind:thresholdband threshold-band-condition="Major"
+							threshold-band-floor="{floorMajor}" threshold-band-ceiling="{ceilingMajor}" />
+					</insert>
+				</when>
+				<when where="../bind:chart[@bandIsMinorOnTemp='on']">
+					<insert where=".">
+						<bind:thresholdband threshold-band-condition="Minor"
+							threshold-band-floor="{floorMinor}" threshold-band-ceiling="{ceilingMinor}" />
+					</insert>
+				</when>
+				<when where="../bind:chart[@bandIsInfoOnTemp='on']">
+					<insert where=".">
+						<bind:thresholdband threshold-band-condition="Info"
+							threshold-band-floor="{floorInfo}" threshold-band-ceiling="{ceilingInfo}" />
+					</insert>
+				</when>
+				<when where="../bind:chart[@bandIsOkOnTemp='on']">
+					<insert where=".">
+						<bind:thresholdband threshold-band-condition="Ok"
+							threshold-band-floor="{floorOk}" threshold-band-ceiling="{ceilingOk}" />
+					</insert>
+				</when>
+				<when where="../bind:chart[@bandIsUnmanagedOnTemp='on']">
+					<insert where=".">
+						<bind:thresholdband threshold-band-condition="Unmanaged"
+							threshold-band-floor="{floorUnmanaged}" threshold-band-ceiling="{ceilingUnmanaged}" />
+					</insert>
+				</when>
+				<when where="../bind:chart[@bandIsUnknownOnTemp='on']">
+					<insert where=".">
+						<bind:thresholdband threshold-band-condition="Unknown"
+							threshold-band-floor="{floorUnknown}" threshold-band-ceiling="{ceilingUnknown}" />
+					</insert>
+				</when>
+
+			</case>
+			
+			<!-- Clean up. Delete temporary attributes. -->
+			<delete attr="bandIsCriticalOnTemp" />
+			<delete attr="bandIsMajorOnTemp" />
+			<delete attr="bandIsMinorOnTemp" />
+			<delete attr="bandIsInfoOnTemp" />
+			<delete attr="bandIsOkOnTemp" />
+			<delete attr="bandIsUnmanagedOnTemp" />
+			<delete attr="bandIsUnknownOnTemp" />
+
+		</do>
+	</recipe>
+
+</recipes>

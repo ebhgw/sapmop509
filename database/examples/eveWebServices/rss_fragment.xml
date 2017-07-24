@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<rss version="2.0">
+	<channel>
+		<title>National Hurricane Center (Atlantic)</title>
+		<link>http://www.nhc.noaa.gov</link>
+		<description>
+			Active tropical cyclones in the Atlantic, Caribbean, and the Gulf of Mexico
+		</description>
+		<copyright/>
+		<language>enus</language>
+		<lastBuildDate>Thu, 9 Sep 2004 10:43:14 +0000</lastBuildDate>
+		<item>
+			<title>TROPICAL DEPRESSION FRANCES Public Advisory (HPCC)</title>
+			<link>http://www.nhc.noaa.gov/text/NFDSCCNS1.shtml</link>
+
+			<description>
+				The NHC has issued its final advisory on this system. Public Advisories from the Hydrometeorological Prediction Center (HPCC) will provide updates as long as the system remains a flood threat.
+			</description>
+		</item>		
+		<item>
+			<title>TROPICAL DEPRESSION FRANCES Advisory Archive</title>
+			<link>
+			http://www.nhc.noaa.gov/archive/2004/refresh/FRANCES+shtml/070303.shtml?
+			</link>
+			<description>
+			Archive of all advisories released for this tropical cyclone
+			</description>
+		</item>
+		<item>
+			<title>HURRICANE IVAN Public Advisory Number 28</title>
+
+			<link>
+			http://www.nhc.noaa.gov/text/refresh/MIATCPAT4+shtml/090857.shtml?
+			</link>
+			<description>Issued 5 AM AST THU SEP 09 2004</description>
+		</item>
+		<item>
+			<title>HURRICANE IVAN Forecast/Advisory Number 28</title>
+			<link>
+			http://www.nhc.noaa.gov/text/refresh/MIATCMAT4+shtml/090816.shtml?
+			</link>
+			<description>Issued 0900Z THU SEP 09 2004</description>
+		</item>
+		<item>
+			<title>HURRICANE IVAN Discussion Number 28</title>
+			<link>
+			http://www.nhc.noaa.gov/text/refresh/MIATCDAT4+shtml/090853.shtml?
+			</link>
+			<description>Issued 5 AM EDT THU SEP 09 2004</description>
+		</item>
+	</channel>
+</rss>

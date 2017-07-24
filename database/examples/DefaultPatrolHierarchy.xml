@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields available for BMC PATROL are:
+
+     Field Name     Value
+     ==========     =====
+     id               alarm ID
+     severity         Possible values are "CRITICAL", "MAJOR", "MINOR", "INFORMATIONAL", and "OK"
+     date             most recent alarm date and time, in normal format
+     args             arguments
+     description      description text (without state change indicator, if applicable)
+     description_long description text (with state change indicator, if applicable)
+     diary            diary text
+     catalog          catalog of the event
+     expectancy       expectancy of the event
+     origin           origin of the event
+     source           source of the event
+     eid              event ID
+     type             Possible values are "INFORMATION", "CHANGE_STATUS", "ERROR", "WARNING", "ALARM", "RESPONSE"
+     status           Possible values are "OPEN", "ACKNOWLEDGED", "CLOSED", "ESCALATED", "DELETED"
+     owner            owner of the event
+     handler          handler of the event
+     host             host for this event
+     appl             application class for this event
+     inst             application instance for this event
+     parm             application parameter for this event
+     hostType         host type (/appType) for this event
+-->
+
+<hierarchy>
+
+    <!--
+    Filter to remove some common Patrol "noise" events.
+    -->
+
+    <filter operator="or" invert="true">
+
+        <!-- Don't show INFORMATION/STATUS_CHANGE alarms from the
+             standard catalog with class of connect(7)/disconnect,
+             remote script, remote process, result, or set.
+         -->
+
+        <filter operator="and">
+            <field name="catalog" value="0" />
+            <filter operator="or">
+                <field name="type" value="INFORMATION" />
+                <field name="type" value="CHANGE_STATUS" />
+                <field name="type" value="RESPONSE" />
+            </filter>
+            <filter operator="or">
+                <field name="class"  value="40" />              <!--  Response events -->
+                <field name="class"  value="7" />               <!--  Login events -->
+                <field name="class"  value="Disconnect" />      <!--  Logoff events -->
+                <field name="class"  value="RemPsl" />          <!--  Executing a PSL script remotely -->
+                <field name="class"  value="RemProcess" />      <!--  Executing a process remotely -->
+                <field name="class"  value="Result" />          <!--  Result of remote execution -->
+                <field name="class"  value="PslSet" />          <!--  Setting a PSL variable remotely -->
+                <field name="origin" value="PemEngine" />       <!--  Maintenance events -->
+            </filter>
+        </filter>
+
+        <!-- Uncomment the following stanza to remove "State Change" alarms from the
+             alarm display for the adapter.  State Change alarms are always emanated
+             as the result of a parameter changing the state of an instance, and perhaps
+             the application class of the parameter.  The machine state may also change,
+             and emanate an event.
+
+             These events may not be useful for a given business situation, since the
+             original "root cause" alarm is the parameter changing state, which is
+             always reflected in Formula properly.
+          -->
+
+        <!--
+
+        <filter operator="or">
+            <field name="description_long" operator="starts_with" value="State Change" />
+        </filter>
+
+        -->
+
+        <!-- Many times the Patrol agent emanates two events for a parameter's state change,
+             class 9 or 11, and UpdParState.  The following is an example of removing all
+             UpdParState from the alarm display, thereby removing some redudancy.
+         -->
+
+        <!--
+
+        <filter operator="or">
+            <field name="class" value="UpdParState" />
+        </filter>
+
+        -->
+
+    </filter>
+
+    <!--
+    Element breakout into host/appl/inst/parm
+    -->
+
+    <generator field="host" class_from_field="hostType" hold="yes" affected="yes">
+        <generator field="appl" class="patrolAppl" hold="yes" affected="yes">
+            <generator field="inst" class="patrolInst" affected="yes">
+                <generator field="parm" class="patrolParm" affected="yes" />
+            </generator>
+        </generator>
+    </generator>
+
+</hierarchy>
+

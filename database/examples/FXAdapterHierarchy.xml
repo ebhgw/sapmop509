@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "http://www.novell.com/dtds/hierarchy_2.0.dtd">
+-->
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields available for the Script adapter are:
+
+     Field Name     Value
+     ==========     =====
+     id             alarm ID (internal to Formula)
+     
+     Also, any slot name can be used as an alarm field value.
+     
+-->
+<hierarchy case="no">
+
+    <group class="gen_folder" name="Data">
+        <generator class="gen_file" field="FilePath" hold="yes"/>
+        <filter name="filter.data">
+            <field case="no" name="ALARM_TYPE" value="data"/>
+        </filter>
+    </group>
+    <group class="server_hosts" name="Monitors">
+        <properties name="thing">
+            <page name="Properties">
+                <property field="dummy" function="LAST" name="Overlapping"/>
+            </page>
+        </properties>
+        <generator affected="yes" class="server_file" field="MonitorHost">
+            <generator class="mgmt_source" field="ParserName"/>
+        </generator>
+        <filter name="filter.status">
+            <field case="no" name="ALARM_TYPE" value="STATUS"/>
+        </filter>
+        <param name="thing" value="dummy"/>
+    </group>
+    <group class="gen_folder_shared" name="File Information">
+        <generator affected="no" class="gen_folder" field="FileDirectory" hold="no">
+            <generator class="gen_file" field="FilePath"/>
+        </generator>
+        <filter invert="false" name="filter.fileinfo" operator="and">
+            <field case="no" name="ALARM_TYPE" value="fileinfo"/>
+        </filter>
+    </group>
+</hierarchy>

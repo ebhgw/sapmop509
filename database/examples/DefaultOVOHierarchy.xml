@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+  In this file, you can specify alarm fields in order to generate
+  new elements or compare field values.
+
+  If the adapter property "EnforceResponsibilityMatrix" is set "true" then
+  messages that would normally be filtered out based on the operator
+  responsibilities matrix for the given OVO User (specified in the "OVOUser"
+  adapter property) are filtered out before begin processed by the MODL generator.
+
+  If the adapter property "EnforceResponsibilityMatrix" is set to "false" then
+  all of the active messages in ITO can be processed by the MODL generator.
+
+  Fields that are present in normal alarms
+
+  Field Name                   Value	 Description
+  ==========                   =====	 ===========
+  "Acknowledged By"            String    Operator who acknowledged
+  "Acknowledged Time"          Date      Time operator acknowledged
+  "Acknowledged"               Boolean   Message acknowledged
+  "Application"                String    Application which produced the message
+  "Auto Action Ackn"           Boolean   Auto acknowledge message after successful action completion
+  "Auto Action Anno"           Boolean   Create start & end annotations for the action
+  "Auto Action Command"        String    Command to run by auto action
+  "Auto Action Nodename"       String    Node where auto action should be run
+  "Auto Action Status"         String    Possible values are "Undefined","Defined","Started","Finished","Failed"
+  "Buffered"				   Boolean   Buffered Message
+  "Creation Time"              Date      Time message created by ITO
+  "Duplicate Count"			   Integer   Number of Duplicates
+  "Escalation Type"            String  	 Possible values are "Escalated From", "Escalated To", "No Escalation"
+  "Escalation By"			   String    Operator who escalated
+  "Escalation Server"          String	 Server escalated to
+  "Escalation Time"            Date      Time escalated by management server
+  "Forwarded"                  Boolean   Message was forwarded from another server
+  "Has CMA"                    Boolean   Has custom message attributes (OVO 7.0+)
+  "Instruction ID"             String    UUID of Instruction Text
+  "Instruction Type"           String    Instruction Type
+  "Last Time Received"         Date      Time of last duplicate
+  "Message Generated Nodename" String    Node that generated the message
+  "Message Group"              String    Message group
+  "Message Key"                String    OVO Message Key 
+  "Message Source Name"        String    Source of the message
+  "Message Source Type"        String    Message Source
+  "Message Text"               String    Message text
+  "Message Type"               String    Used to group messages into subgroups
+  "Misc Group"                 Boolean   Member of the Misc Message Group
+  "Network Type"               String    Network type
+  "Node Groups"                String    Comma-separated list of node groups this node belongs to
+  "Nodename"                   String    Hostname
+  "Notification"               Boolean   Message generated notification
+  "Notify Services"            String    Notification services
+  "Object"                     String    Object
+  "Oper Action Ackn"           Boolean   Auto acknowledge after successful action completion
+  "Oper Action Anno"           Boolean   Create start & end annotations
+  "Oper Action Command"        String    Command to run by operator action
+  "Oper Action Nodename"       String    Node where operator action should be run
+  "Oper Action Status"         String    Same as Auto Action Status
+  "Owned"                      Boolean   Message is owned by an operator
+  "Owned By"                   String    Operator who claimed ownership
+  "Owned Time"                 Date      Time operator took ownership
+  "Readonly"                   Boolean   Message is readonly
+  "Receiving Time"             Date      Time message received by management server
+  "Resolved Instr Par"         String	 Instruction-related
+  "Server Log Only"            Boolean   Message is server log only
+  "Service Name"               String	 Used in OVO Service Reporting
+  "Time Zone Diff"             Integer   Time difference to GMT in seconds
+  "Troubleticket"              Boolean   Troubleticket generated
+  "Troubleticket Ackn"         Boolean   Acknowledge message after generating troubleticket
+  "Unbuffer Time"              Date      Time unbuffered
+  "Unmatched"                  Boolean   Message matches a condition
+-->
+
+<hierarchy>
+
+	<!-- This is a special tag that tells the MODL engine to generate the map -->
+	<generator field="Element UUID" class_from_field="Object Type" affected="yes" hold="yes"/>
+
+	<!-- Top level filter -->
+	<filter operator="and">
+		<field name="Server Log Only" operator="equals" value="false"/>
+	</filter>
+	
+	<!-- Create a generator for Managed Nodes (and set affected element) -->
+	<group name="Managed Nodes" class="server_hosts" >
+		<generator field="Nodename" class="server_host" affected="yes" hold="yes" />
+	</group>
+
+	<!-- Create a generator for active messages -->
+	<group name="Active Alarms" class="mgmt_eventgroups" >
+    		<!-- Create a bucket for message matching the Misc group -->
+   		<group name="Misc" class="mgmt_eventgroups" >
+     			<generator field="Message Group" class="mgmt_eventgroup" affected="no" >
+     				<filter operator="and">
+        				<field name="Acknowledged" operator="equals" value="false"/>
+        				<field name="Misc Group" operator="equals" value="true"/>
+      				</filter>
+      			</generator>
+		</group>
+		<!-- Create buckets for each message group -->
+
+		<generator field="Message Group" class="mgmt_eventgroup" affected="no" >
+			<filter operator="and">
+				<field name="Acknowledged" operator="equals" value="false"/>
+				<field name="Misc Group" operator="equals" value="false"/>
+			</filter>
+		</generator>
+	</group>
+   
+	<!-- Create a generator for history messages -->
+	<group name="History Alarms" class="mgmt_eventgroups" >
+		<group name="Misc" class="mgmt_eventgroups" >
+			<generator field="Message Group" class="mgmt_eventgroup" affected="no" >
+				<filter operator="and">
+					<field name="Acknowledged" operator="equals" value="true"/>
+					<field name="Misc Group" operator="equals" value="true"/>
+				</filter>
+			</generator>
+		</group>
+		<generator field="Message Group" class="mgmt_eventgroup" affected="no" >
+  			<filter operator="and">
+    				<field name="Acknowledged" operator="equals" value="true"/>
+    				<field name="Misc Group" operator="equals" value="false"/>
+  			</filter>
+		</generator>
+	</group>
+
+</hierarchy>
+

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='WINDOWS-1252'?>
+<rdf:RDF
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+    xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'
+    xmlns:bdi='http://www.ManagedObjects.com/formulabdi/'>
+    <bdi:Adapter rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_gyq0w4aq_u1cwg'
+         rdfs:label='tAllarmiOUTv2'
+         bdi:superclass=''
+         bdi:visible='true'
+         bdi:deployed='true'
+         bdi:lastDeployedSession='admin'
+         bdi:lastDeployedInstance='102'
+         bdi:undeployed='true'
+         bdi:lastUndeployedSession='admin'
+         bdi:lastUndeployedInstance='101'
+         bdi:editing='false'
+         bdi:lastEditSession='[admin:3]3'
+         bdi:lastEditOrphaned='false'>
+        <bdi:dataSource rdf:resource='http://www.ManagedObjects.com/formulabdi/Database_hbxd7s7h_pgwg0'/>
+        <rdfs:comment>Read alarms</rdfs:comment>
+        <bdi:lastDeployedDate>11/04/17 15.52</bdi:lastDeployedDate>
+        <bdi:lastUndeployedDate>11/04/17 15.52</bdi:lastUndeployedDate>
+        <bdi:lastEditDate>11/04/17 15.52</bdi:lastEditDate>
+    </bdi:Adapter>
+    <bdi:Adapter rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_j1dwyji0_pyufe'
+         rdfs:label='AllarmiContatori'
+         bdi:superclass=''
+         bdi:visible='true'
+         bdi:deployed='true'
+         bdi:lastDeployedSession='admin'
+         bdi:lastDeployedInstance='2'
+         bdi:undeployed='true'
+         bdi:lastUndeployedSession='admin'
+         bdi:lastUndeployedInstance='1'
+         bdi:editing='false'
+         bdi:lastEditSession='[admin:20]6'
+         bdi:lastEditOrphaned='false'>
+        <bdi:dataSource rdf:resource='http://www.ManagedObjects.com/formulabdi/Database_hbxd7s7h_pgwg0'/>
+        <rdfs:comment>Read alarms</rdfs:comment>
+        <bdi:lastDeployedDate>11/04/17 21.44</bdi:lastDeployedDate>
+        <bdi:lastUndeployedDate>11/04/17 21.44</bdi:lastUndeployedDate>
+        <bdi:lastEditDate>11/04/17 21.52</bdi:lastEditDate>
+    </bdi:Adapter>
+    <bdi:Adapter rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'
+         rdfs:label='ImpModello'
+         bdi:superclass=''
+         bdi:visible='true'
+         bdi:deployed='true'
+         bdi:lastDeployedSession='admin'
+         bdi:lastDeployedInstance='15'
+         bdi:undeployed='true'
+         bdi:lastUndeployedSession='admin'
+         bdi:lastUndeployedInstance='14'
+         bdi:editing='false'
+         bdi:lastEditSession='[admin:140]8'
+         bdi:lastEditOrphaned='false'>
+        <bdi:dataSource rdf:resource='http://www.ManagedObjects.com/formulabdi/Database_hbxd7s7h_pgwg0'/>
+        <rdfs:comment>Read alarms</rdfs:comment>
+        <bdi:lastDeployedDate>26/04/17 17.24</bdi:lastDeployedDate>
+        <bdi:lastUndeployedDate>26/04/17 17.24</bdi:lastUndeployedDate>
+        <bdi:lastEditDate>26/04/17 17.24</bdi:lastEditDate>
+    </bdi:Adapter>
+    <bdi:Adapter rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'
+         rdfs:label='AlarmsCountData'
+         rdfs:comment=''
+         bdi:superclass=''
+         bdi:visible='true'
+         bdi:deployed='true'
+         bdi:lastDeployedSession='admin'
+         bdi:lastDeployedInstance='16'
+         bdi:undeployed='true'
+         bdi:lastUndeployedSession='admin'
+         bdi:lastUndeployedInstance='15'
+         bdi:editing='false'
+         bdi:lastEditSession='[admin:83]4'
+         bdi:lastEditOrphaned='false'>
+        <bdi:dataSource rdf:resource='http://www.ManagedObjects.com/formulabdi/Database_hbxd7s7h_pgwg0'/>
+        <bdi:lastDeployedDate>18/04/16 13.59</bdi:lastDeployedDate>
+        <bdi:lastUndeployedDate>18/04/16 13.59</bdi:lastUndeployedDate>
+        <bdi:lastEditDate>14/02/17 16.28</bdi:lastEditDate>
+    </bdi:Adapter>
+    <bdi:Adapter rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrl9t3o_m70m1'
+         rdfs:label='DatiUtilizzoVirtuali'
+         rdfs:comment=''
+         bdi:superclass=''
+         bdi:visible='true'
+         bdi:deployed='true'
+         bdi:lastDeployedSession='admin'
+         bdi:lastDeployedInstance='4'
+         bdi:undeployed='true'
+         bdi:lastUndeployedSession='admin'
+         bdi:lastUndeployedInstance='3'
+         bdi:editing='false'
+         bdi:lastEditSession='[admin:26]0'
+         bdi:lastEditOrphaned='false'>
+        <bdi:lastDeployedDate>08/07/14 13.46</bdi:lastDeployedDate>
+        <bdi:lastUndeployedDate>08/07/14 13.46</bdi:lastUndeployedDate>
+        <bdi:lastEditDate>15/09/15 17.23</bdi:lastEditDate>
+    </bdi:Adapter>
+</rdf:RDF>

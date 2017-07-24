@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields available for BMC Software COMMAND/POST are:
+
+     Field Name         Value
+     ==========         =====
+     id                 alarm ID
+     severity           Possible values are "CRITICAL", "MAJOR", "MINOR", "INFORMATIONAL", and "OK"
+     date               most recent alarm date and time, in normal format
+     currentOperator    operator name assigned to this alarm
+     msg                description text
+     comment            accumulated comments on alarm
+     alertType          type of alart: tool-dependent
+     hasAccepted        true/false whether assigned operator accepted alarm
+     hasAcknowledge     true/false whether supervisor acknowledged alarm
+     hasComment         true/false whether comment is present
+     hasDescription     true/false whether description is present
+     OSICategory        OSI category for alarm (eg. "Software")
+     priority           Numeric priority of alarm (1..100)
+     state              State of alarm; possible values are:
+                        "active", "eventClose", "timeOutClose", "opClosed", "supClosed", "neverActive"
+     text               Abbreviated textual form of alarm
+     timeAccepted       time operator accepted alarm
+     timeAcknowledged   time supervisor acknowledged alarm
+     timeAssigned       time supervisor assigned alarm
+     timeClosed         time alarm closed
+     timeReceived       time alarm occurred
+     toolId             the id of the tool that originated this alarm
+     toolType           the type of tool that originated this alarm
+     tokens             list of alarm-specific fields in this alarm (with leading underscore)
+     _token1,_token2    Actual token names appearing in alarm; see tokens (eg. _pctFull)
+     
+-->
+
+<hierarchy>
+
+    <group name="Tools" class="Tools">
+        <generator field="toolId" affected="yes">
+            <generator field="alertType" affected="yes">
+            </generator>
+        </generator>
+    </group>
+</hierarchy>
+
+

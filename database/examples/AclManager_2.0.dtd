@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!ELEMENT acl-manager (users, groups, acls)>
+<!ELEMENT users         (user)*>
+<!ELEMENT groups        (group)*>
+<!ELEMENT acls          (acl)*>
+<!ELEMENT user          (email|phone|fax|pager|restrict|logins|LDAP.url|LDAP.url.alternate|LDAP.authentication|LDAP.protocol|LDAP.dname)*>
+<!ATTLIST user          name            CDATA   #REQUIRED
+                        password        CDATA   #IMPLIED
+                        fullname        CDATA   #REQUIRED>
+<!ELEMENT email         (#PCDATA)>
+<!ELEMENT phone         (#PCDATA)>
+<!ELEMENT fax           (#PCDATA)>
+<!ELEMENT pager         (#PCDATA)>
+<!ELEMENT restrict      (#PCDATA)>
+<!ELEMENT logins        (#PCDATA)>
+<!ELEMENT LDAP.url      (#PCDATA)>
+<!ELEMENT LDAP.url.alternate    (#PCDATA)>
+<!ELEMENT LDAP.authentication   (#PCDATA)>
+<!ELEMENT LDAP.protocol         (#PCDATA)>
+<!ELEMENT LDAP.dname            (#PCDATA)>
+<!ELEMENT group         (member)*>
+<!ATTLIST group         name            CDATA   #REQUIRED
+                        description     CDATA   #REQUIRED>
+<!ELEMENT member        (#PCDATA)>
+<!ATTLIST member        name            CDATA   #REQUIRED
+                        type (user|group) "user" >
+<!ELEMENT acl           (aclentry)+>
+<!ATTLIST acl           name            CDATA   #REQUIRED
+                        description     CDATA   #REQUIRED
+                        readonly        (yes|no) "no">
+<!ELEMENT aclentry      (permission)+>
+<!ATTLIST aclentry      name            CDATA   #REQUIRED
+                        type (user|group) "group"
+                        permit          (yes|no) "yes">
+<!ELEMENT permission    (#PCDATA)>
+<!ATTLIST permission    name (view|manage|access|define) "view">
+
+

@@ -1,0 +1,1296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<recipes 
+    xmlns:bind="http://www.managedobjects.com/bind" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:data="http://www.managedobjects.com/data"
+    >
+    
+    <templates>    
+		<recipe id="addAChart">
+			<name><type>type</type></name>
+         		<recipeparam name="typeparam" ><attrsubst>attrsubst</attrsubst></recipeparam>		  
+			<category>Charts</category>
+			<match>self::svg:g[not(@type='gaugeouterwrappergroup') and not(@type='chartouterwrappergroup')]|self::svg:svg</match>
+			<description>Inserts a new Line Chart into the current drawing.</description>
+			<do>
+				<insert where="append">
+					<svg:g type="chartouterwrappergroup" lockedgroup="true" transform="translate({MouseClickX},{MouseClickY})">
+						<bind:layout gap="0" columns="1" name="grid" wrap="true" xmlns:bind="http://www.managedobjects.com/bind" pad="-1.25" />
+						<svg:rect opacity="0" x="10" y="0" display="inline" fill="lightgray" width="1" xmlns:bind="http://www.managedobjects.com/bind" rx="4" bind:container="true" height="1" ry="4" stroke="none" stroke-width="1" />
+						<svg:g transform="translate({MouseClickX},{MouseClickY})">
+							<bind:chart frequency="15" chart-metric="Total.Summary.Used" chart-forcefixedsize="false" 
+								chart-showaveragelines="true" chart-width="450" chart-type="{typeparam}"
+								chart-height="350" chart-lasttimewindowtype="Minutes" chart-lasttimewindowunits="30" chart-lineseriesstrokewidth="4" 
+								chart-dnameoverridedatasource="formulaServer=Server/root=Administration" chart-showelementname="true">
+								<bind:chartscriptexpression enabled="false" exclude-script="true">
+                                    <![CDATA[
+//Sample Script to select expressions - this script matches expressions beginning with the name Heap.
+//The expressions object is an arraylist containing expressions which support the following methods :
+// setEnabled(boolean) - Enable the expression to be charted
+// setLabel(String)    - Set a new label for this expression.
+// setColor(String)    - Set the color for this series - can be hex or valid color values.
+// getDataType         - returns the data type for the series - long/double/ElementCondition/ConditionCount 
+var colors = [ '#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', 'blue', 'red' ];
+var labels = ['one','two','three','four','five','six','seven','eight','nine','ten'];
+var indx=0;
+
+for ( var i=0; i < expressions.size() ; i++ )
+    {
+      if ( indx >=5 ) // Chart only 5 valid expressions
+           break;
+      var expression = this.expressions.get(i);
+      if ( ( expression.getName().startsWith("Heap")  )  ) 
+      {
+           expression.setEnabled(true);
+           expression.setColor(colors[indx]);
+           expression.setLabel(labels[indx]);
+           writeln( "Enabled : " + expression + ":" + expression.getProfile() );
+           indx++;
+     }
+    }
+]]>                           
+                                </bind:chartscriptexpression>
+                                <bind:chartcustomdname exclude-script="true" enabled="false"><![CDATA[
+// The last line of the script must be an expression that evaluates to a valid element dname.
+// Do not use the return statement.
+
+// 'layoutElement' is a variable that refers to the element that owns the current layout. It is of type ElementCommon. 
+// The following is an example showing how the element can be queried. Here we iterate over all NAM children of an element,
+// and pick the first OK child element that has 'org' as its class and use it as the source element for the gauge. If none are found
+// we use the element that owns this layout as the source.
+
+var sourceElementDname = layoutElement.getDName();
+var children = layoutElement.enumerateChildren(formula.relations.NAM);
+while (children.hasMoreElements()) {
+   var child = children.nextElement();
+   if(child.getElementClassName().equals("org")) {
+      var condition = child.getAttr("Condition");
+      if(condition.val.cond_val() == formula.conditions.OK) {
+         sourceElementDname = child.getDName();
+         break;
+      } else {
+      	formula.log.info('Skipping element since its condition is not critical: '+child.getDName());
+      }      
+   }
+}
+
+formula.log.info("Using the following element dname as the source element: " + sourceElementDname+"\n");
+//last line of the script must be an expression that evaluates to a valid element dname
+sourceElementDname
+]]>
+								</bind:chartcustomdname>
+						    </bind:chart>
+						</svg:g>
+					</svg:g>
+				</insert>
+			</do>
+	   </recipe>
+	</templates>
+	
+	<generate from='addAChart'>
+      <create>
+         <type>Add a Line Chart</type>
+         <attrsubst>line</attrsubst>                          
+      </create>
+      <create>
+         <type>Add a Bar Chart</type>
+         <attrsubst>bar</attrsubst>                          
+      </create>
+      <create>
+         <type>Add a Stacked Bar Chart</type>
+         <attrsubst>stackedbar</attrsubst>                          
+      </create>
+      <create>
+         <type>Add a Pie Chart</type>
+         <attrsubst>pie</attrsubst>                          
+      </create>
+	</generate>
+
+
+	<!-- /////////////////////////////////////////////////// -->
+	<templates>
+	<recipe id="editChartMetrics">
+		<recipeparam name="deletewhere" ><deletewhere>deletewhere</deletewhere></recipeparam>	
+		<name>Data Properties</name>
+		<category><categorysubst>cat</categorysubst></category>
+		<matchnodeset><matchsubst>matchSubst</matchsubst></matchnodeset>
+		<description>Edits general chart property settings</description>
+		
+		<extract>
+			<string name='lasttimewindowtype'>@chart-lasttimewindowtype</string>
+			<string name='lasttimewindowunits'>@chart-lasttimewindowunits</string>
+			<string name='metric'>@chart-metric</string>
+         <string name='currentCalendar'>@calendar</string>
+			<string name='metriclabel'>@chart-metric-label</string>
+			<string name='metricexpression'>@chart-metric-expression</string>
+			<string name='currentscript'>bind:chartscriptexpression/text()</string>
+		</extract>
+
+		<html>
+
+			<do>			
+				<delete where="{deletewhere}"/>
+				<!--
+					specific chart metric overrides generic chart metric regular
+					expression
+				-->
+				<case>
+					<when where="self::node()[@chart-metric]">
+						<set where="//input[@id='radio_specifysingleexpression']" attr='checked' value='true' />
+						<set where="//input[@id='specifysingleexpressiontext']" attr='value' value='{metric}' />
+						<set where="//input[@id='singleexpressionlabeltext']" attr='value' value='{metriclabel}' />
+					</when>
+					<when
+						where="self::node()[@chart-metric-expression and not(@chart-metric)]">
+						<set where="//input[@id='radio_specifyregularexpression']" attr='checked' value='true' />
+						<set where="//input[@id='regularexpressiontext']" attr='value' value='{metricexpression}' />
+					</when>
+					<when where="self::node()/bind:chartscriptexpression[@enabled='true']">
+						<set where="//input[@id='radio_specifyscriptexpression']" attr='checked' value='true' />
+						<set where="//textarea[@id='scriptexpressiontext']" attr='value' value='{currentscript}' />
+					</when>
+					<!-- default to specific metric option -->
+					<default>
+						<set where="//input[@id='radio_specifysingleexpression']" attr='checked' value='true' />
+					</default>
+				</case>
+
+				<case>
+					<when where="self::node()[@chart-lasttimewindowtype='Last']">
+						<set where="//input[@id='radio_specifymostrecentvalue']" attr='checked' value='true' />
+					</when>
+					<default>
+						<set where="//input[@id='radio_specifytimerange']" attr='checked' value='true' />
+					</default>
+				</case>
+
+				<lookup name='currentscriptval' target="//textarea[@name='scriptexpressiontext']" attr="text()" value="{currentscript}" />
+				<lookup name='lasttimewindowtype' target="//option[@value='{lasttimewindowtype}']" attr="selected" value="true" />
+				<lookup name='lasttimewindowunits' target="//input[@name='timewindowlastunitstext']" attr="value" value="{lasttimewindowunits}" />
+			</do>
+
+			<table border="0">
+				<tr>
+					<td border="0" align="left" colspan="2">
+						<b>Specify Data Window:</b>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="4">
+						<table>
+							<tr>
+								<td border="0" align="right">
+									<input enables=""
+											 disables="timewindowlastunitstext,timewindowlasttypecombo,calendarsCombo"
+											 id="radio_specifymostrecentvalue" type="radio" name="unitspecify" value="specifymostrecentvalue"></input>
+								</td>
+								<td align="left">Most Recent Value</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td border="0" align="right">
+									<input enables="timewindowlastunitstext,timewindowlasttypecombo,calendarsCombo"
+											 disables=""
+											 id="radio_specifytimerange" type="radio" name="unitspecify" value="specifytimerange"></input>
+								</td>
+								<td align="left">Time Range</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="right">Last</td>
+					<td>
+						<table>
+							<tr>
+								<td>
+									<input uiid="timewindowlastunitstext" id="timewindowlastunitstext"
+										type="text" name="timewindowlastunitstext" cols="5" />
+								</td>
+								<td>
+									<select name="timewindowlasttypecombo" id="timewindowlasttypecombo"
+										uiid="timewindowlasttypecombo">
+										<option value="Minutes">Minutes</option>
+										<option value="Hours">Hours</option>
+										<option value="Days">Days</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+            <tr>
+               <td align="right">Use Calendar</td>
+               <td colspan="2">
+                  <table>                 
+                     <tr>
+                        <td valign="middle" align="left">
+                           <select name="calendarsCombo" id="calendarsCombo" uiid="calendarsCombo" autofilltype="calendars" current='currentCalendar'>
+                           </select>
+                        </td>
+                        <td>
+                           <i>Calendar applies only to availability</i>
+                        </td>
+                     </tr>
+                  </table>
+               </td>                          
+            </tr>
+
+				<tr>
+					<td border="0" align="left" colspan="2">
+						<b>Specify Metric:</b>
+					</td>
+				</tr>
+				            
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>
+								<td border="0" align="right">
+									<input disables="regularexpressiontext,scriptexpressiontext"
+										enables="specifysingleexpressiontext,singleexpressionlabeltext"
+										id="radio_specifysingleexpression" type="radio" name="expressionspecify"
+										value="specifysingleexpression"></input>
+								</td>
+								<td align="left">Single Metric</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right">Metric Name:</td>
+					<td>
+						<input uiid="specifysingleexpressiontext" id="specifysingleexpressiontext"
+							type="text" name="specifysingleexpressiontext" size="60"></input>
+					</td>
+				</tr>
+				<tr id="metriclabelrow">
+					<td align="right">Label:</td>
+					<td>
+						<input uiid="singleexpressionlabeltext" id="singleexpressionlabeltext"
+							type="text" name="singleexpressionlabeltext" size="60"></input>
+					</td>
+				</tr>
+
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>				
+								<td border="0" align="right">
+									<input enables="regularexpressiontext"
+										disables="scriptexpressiontext,specifysingleexpressiontext,singleexpressionlabeltext"
+										id="radio_specifyregularexpression" type="radio" name="expressionspecify"
+										value="specifyregularexpression"></input>
+								</td>
+								<td align="left">Specify Regular Expression Metric Matcher</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right">Regular Expression:</td>
+					<td>
+						<input uiid="regularexpressiontext" id="regularexpressiontext"
+							type="text" name="regularexpressiontext" size="60"></input>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>
+								<td border="0" align="right">
+									<input enables="scriptexpressiontext"
+										disables="regularexpressiontext,specifysingleexpressiontext,singleexpressionlabeltext"
+										id="radio_specifyscriptexpression" type="radio" name="expressionspecify"
+										value="specifyscriptexpression">
+										<BR />
+									</input>
+								</td>
+								<td align="left">Specify Script</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">Formula Script:</td>
+					<td align="left">
+						<textarea uiid="scriptexpressiontext" id="scriptexpressiontext"
+							name="scriptexpressiontext" cols="60" rows="17"></textarea>
+					</td>
+				</tr>
+
+			</table>
+		</html>
+
+		<do>
+
+			<!-- Process time controls -->
+         <set attr='calendar' value='{calendarsCombo}' />
+
+			<set attr="unitspecify_temp" value="{unitspecify}" />
+			<case>
+				<when where="self::node()[@unitspecify_temp='specifymostrecentvalue']">
+					<set attr='chart-lasttimewindowtype' value='Last' />
+					<set attr='chart-lasttimewindowunits' value='1' />
+				</when>
+				<default>
+					<set attr='chart-lasttimewindowtype' value='{timewindowlasttypecombo}' />
+					<set attr='chart-lasttimewindowunits' value='{timewindowlastunitstext}' />
+				</default>
+			</case>
+			<delete attr="unitspecify_temp" />
+
+			<!--  remove explicit minutes window which overrides this setting -->
+			<delete attr="chart-last-time-window-minutes" />
+
+			<!-- Process metrics-->
+			<!-- set a temporary DOM variable to use for later lookups -->
+			<set attr="recipeexpressionspecify_temp" value="{expressionspecify}" />
+
+			<case>
+				<when
+					where="self::node()[@recipeexpressionspecify_temp='specifysingleexpression']">
+					<set attr='chart-metric' value='{specifysingleexpressiontext}' />
+					<set attr='chart-metric-label' value='{singleexpressionlabeltext}' />
+					<!--
+						remove reggular expression or it will get matched against as well
+					-->
+					<delete attr="chart-metric-expression" />
+					<set where='bind:chartscriptexpression' attr='enabled' value='false' />
+				</when>
+				<when
+					where="self::node()[@recipeexpressionspecify_temp='specifyregularexpression']">
+					<set attr='chart-metric-expression' value='{regularexpressiontext}' />
+					<!--
+						remove explicit metric and label setting which overrides this
+						setting
+					-->
+					<delete attr="chart-metric" />
+					<delete attr="chart-metric-label" />
+                    			<set where='bind:chartscriptexpression' attr='enabled' value='false'/>
+				</when>
+				<when
+					where="self::node()[@recipeexpressionspecify_temp='specifyscriptexpression']">
+					<!--
+						remove explicit metric and label setting which overrides this
+						setting
+					-->
+					<upsert where='bind:chartscriptexpression'>
+						<bind:chartscriptexpression exclude-script="true" enabled="true" />
+					</upsert>
+					<set where='bind:chartscriptexpression' attr='cdata()'
+						value='{scriptexpressiontext}' />
+				</when>
+			</case>
+			<!--  remove our temporary DOM variable -->
+			<delete attr="recipeexpressionspecify_temp" />
+		</do>
+	</recipe>
+	</templates>
+	
+	
+      <!-- /////////////////////////////////////////////////// -->
+      
+   <recipe id="setPieChartProperties">
+      <name>Pie Chart Properties</name>
+      <category>Charts</category>
+      <matchnodeset>self::svg:g[@type='chartouterwrappergroup']/svg:g/bind:chart[@chart-type='pie']</matchnodeset>
+      <description>Set Pie Chart Properties</description>
+
+      <html>
+      
+         <do>
+            <!-- Update gradient ui options -->
+            <case>
+               <when where="self::node()[@chart-piegradient='none']">
+                  <set where="//option[@id='GR_none']" attr='selected' value='true' />
+               </when>
+               <when where="self::node()[@chart-piegradient='default' or not(@chart-piegradient)]">
+                  <set where="//option[@id='GR_default']" attr='selected' value='true' />
+               </when>
+               <!-- default to none -->
+               <default>
+                  <set where="//option[@id='GR_none']" attr='selected' value='true' />
+               </default>
+            </case>
+
+            <!-- Update shadow ui options -->
+            <case>
+               <when where="self::node()[@chart-usepieshadow='true' or  not ( @chart-usepieshadow)]">
+                  <case>
+                     <when where="self::node()[@chart-pieshadowwidth='1']">
+                        <set where="//option[@id='PS_1']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='2' or  not ( @chart-pieshadowwidth)]">
+                        <set where="//option[@id='PS_2']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='3']">
+                        <set where="//option[@id='PS_3']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='4']">
+                        <set where="//option[@id='PS_4']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='5']">
+                        <set where="//option[@id='PS_5']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='6']">
+                        <set where="//option[@id='PS_6']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='7']">
+                        <set where="//option[@id='PS_7']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='8']">
+                        <set where="//option[@id='PS_8']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='9']">
+                        <set where="//option[@id='PS_9']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pieshadowwidth='10']">
+                        <set where="//option[@id='PS_10']" attr='selected' value='true' />
+                     </when>
+                     <!-- default to none  -->
+                     <default>
+                       <set where="//option[@id='PS_none']" attr='selected' value='true' />
+                     </default>
+                  </case>
+               </when>
+               <!-- default to none -->
+               <default>
+                  <set where="//option[@id='PS_none']" attr='selected' value='true' />
+               </default>
+            </case>
+
+            <!-- Update sort order ui options -->
+            <case>
+               <when where="self::node()[@chart-piesortorder='SeriesAscending' or not(@chart-piesortorder)]">
+                  <set where="//option[@id='SO_seriesAscending']" attr='selected' value='true' />
+               </when>
+               <when where="self::node()[@chart-piesortorder='SeriesDescending']">
+                  <set where="//option[@id='SO_seriesDescending']" attr='selected' value='true' />
+               </when>
+               <when where="self::node()[@chart-piesortorder='ValuesAscending']">
+                  <set where="//option[@id='SO_valuesAscending']" attr='selected' value='true' />
+               </when>
+               <when where="self::node()[@chart-piesortorder='ValuesDescending']">
+                  <set where="//option[@id='SO_valuesDescending']" attr='selected' value='true' />
+               </when>
+               <!-- default to Series Ascending -->
+               <default>
+                  <set where="//option[@id='SO_seriesAscending']" attr='selected' value='true' />
+               </default>
+            </case>
+
+            <!-- Update legend format ui options -->
+            <case>
+               <when where="self::node()[@chart-usepieformattedlegend='true']">
+                  <case>
+                     <when where="self::node()[@chart-pielegendformat='value']">
+                        <set where="//option[@id='LF_value']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pielegendformat='percent']">
+                        <set where="//option[@id='LF_percent']" attr='selected' value='true' />
+                     </when>
+                     <when where="self::node()[@chart-pielegendformat='both']">
+                        <set where="//option[@id='LF_both']" attr='selected' value='true' />
+                     </when>
+                     <!-- default to none -->
+                     <default>
+                        <set where="//option[@id='LF_none']" attr='selected' value='true' />
+                     </default>
+                  </case>
+               </when>
+               <!-- default to none -->
+               <default>
+                  <set where="//option[@id='LF_none']" attr='selected' value='true' />
+               </default>
+            </case>
+
+         </do>
+
+         <table border="0">
+            <tr>
+               <td align="right">Gradient:</td>
+               <td>
+                  <select name="piegradientcombo" id="piegradientcombo" uiid="piegradientcombo">
+                     <option id='GR_default' value='default'>On</option>
+                     <option id='GR_none' value='none'>Off</option>
+                  </select>
+               </td>
+            </tr>
+
+            <tr>
+               <td align="right">Shadow Width:</td>
+               <td>
+                  <select name="pieshadowcombo" id="pieshadowcombo" uiid="pieshadowcombo">
+                     <option id='PS_none' value='none'>None</option>
+                     <option id='PS_1' value='1'>1</option>
+                     <option id='PS_2' value='2'>2</option>
+                     <option id='PS_3' value='3'>3</option>
+                     <option id='PS_4' value='4'>4</option>
+                     <option id='PS_5' value='5'>5</option>
+                     <option id='PS_6' value='6'>6</option>
+                     <option id='PS_7' value='7'>7</option>
+                     <option id='PS_8' value='8'>8</option>
+                     <option id='PS_9' value='9'>9</option>
+                     <option id='PS_10' value='10'>10</option>
+                  </select>
+               </td>
+            </tr>
+
+            <tr>
+               <td align="right">Sort Order:</td>
+               <td>
+                  <select name="piesortordercombo" id="piesortordercombo" uiid="piesortordercombo">
+                     <option id='SO_seriesAscending'  value='SeriesAscending'>Series Ascending</option>
+                     <option id='SO_seriesDescending'  value='SeriesDescending '>Series Descending</option>
+                     <option id='SO_valuesAscending'  value='ValuesAscending'>Values Ascending</option>
+                     <option id='SO_valuesDescending'  value='ValuesDescending'>Values Descending</option>
+                  </select>
+               </td>
+            </tr>
+
+            <tr>
+               <td align="right">Legend Format:</td>
+               <td>
+                  <select name="pielegendformatcombo" id="pielegendformatcombo" uiid="pielegendformatcombo">
+                     <option id='LF_value'  value='value'>Value Only</option>
+                     <option id='LF_percent'  value='percent'>Percent Only</option>
+                     <option id='LF_both'  value='both'>Both Value and Percent</option>
+                     <option id='LF_none'  value='none '>Neither Value nor Percent</option>
+                  </select>
+               </td>
+            </tr>
+         </table>
+      </html>
+
+      <do>
+
+         <!-- Update gradient dom attrs -->
+         <!-- Set a temporary dom variable to use for later lookups -->
+         <set attr="recipe_piegradient_temp" value="{piegradientcombo}" />
+         <!-- Update gradient dom attrs -->
+         <case>
+            <when where="self::node()[@recipe_piegradient_temp='none' or @recipe_piegradient_temp='default']">
+                 <set attr='chart-piegradient' value='{piegradientcombo}' />
+            </when>
+         </case>
+         <!-- Remove our temporary dom variable -->
+         <delete attr="recipe_piegradient_temp" />
+
+         <!-- Update pie shadow dom attrs -->
+         <!-- Set a temporary dom variable to use for later lookups -->
+         <set attr="recipe_pieshadow_temp" value="{pieshadowcombo}" />
+         <!-- Update pie shadow dom attrs  -->
+         <case>
+            <when where="self::node()[@recipe_pieshadow_temp='none']">
+                 <set attr='chart-usepieshadow' value='false' />
+            </when>
+            <!-- default to enable shadow and set width to chosen value -->
+            <default>
+               <set attr='chart-usepieshadow' value='true' />
+               <set attr='chart-pieshadowwidth' value='{pieshadowcombo}' />
+            </default>
+         </case>
+         <!-- Remove our temporary dom variable -->
+         <delete attr="recipe_pieshadow_temp" />
+
+         <!-- Update sort order dom attrs -->
+         <!-- Set a temporary dom variable to use for later lookups -->
+         <set attr="recipe_piesortorder_temp" value="{piesortordercombo}" />
+         <!-- Update sort order dom attrs  -->
+         <!-- Set sort order to chosen value -->
+         <set attr='chart-piesortorder' value='{piesortordercombo}' />
+         <!-- Remove our temporary dom variable -->
+         <delete attr="recipe_piesortorder_temp" />
+
+         <!-- Update legend format dom attrs -->
+         <!-- Set a temporary dom variable to use for later lookups -->
+         <set attr="recipe_pielegendformat_temp" value="{pielegendformatcombo}" />
+         <!-- Update legend format dom attrs  -->
+         <case>
+            <when where="self::node()[@recipe_pielegendformat_temp='none']">
+                 <set attr='chart-usepieformattedlegend' value='false' />
+            </when>
+            <!-- default to enable legend format and set format to chosen value -->
+            <default>
+               <set attr='chart-usepieformattedlegend' value='true' />
+               <set attr='chart-pielegendformat' value='{pielegendformatcombo}' />
+            </default>
+         </case>
+         <!-- Remove our temporary dom variable -->
+         <delete attr="recipe_pielegendformat_temp" />
+      </do>
+
+   </recipe>
+
+<!-- /////////////////////////////////////////////////// -->
+	
+	<recipe id="editCommonProperties">
+		<name>Chart Properties</name>
+		<category>Charts</category>
+		<matchnodeset>self::svg:g[@type='chartouterwrappergroup']/svg:g/bind:chart</matchnodeset>
+		<description>Edits general chart property settings</description>
+
+		<extract>
+			<string name='currentcharttype'>@chart-type</string>
+			<string name='currentchartwidth'>@chart-width</string>
+			<string name='currentchartheight'>@chart-height</string>
+			<string name='currentconstrainsize'>@chart-forcefixedsize</string>
+			<string name='currentlegendlocation'>@chart-legendlocation</string>
+			<string name='currentfrequency'>@frequency</string>
+			<string name='currentLineWidth'>@chart-lineseriesstrokewidth</string>
+			<string name='currentTitle'>@chart-title</string>
+		</extract>
+
+		<html>
+
+			<do>				
+				<case>
+					<!-- Default legend to 'bottom'.  If it's something else, the lookup will catch it. -->
+					<when where="self::node()[@chart-legendlocation='south' or not(@chart-legendlocation)]">
+						<set where="//option[@value='south']" attr='selected' value='true' />
+					</when>
+				</case>			
+				<!-- Turn off 'constrainsize' by default.  Only turn it back on if set to true -->
+				<set where="//input[@name='constrainsize']" attr='unchecked' value='true' />
+				<case>
+					<!-- check explicit 'chart-forcefixedsize' of 'true' and set checked to TRUE -->
+					<when where="self::node()[@chart-forcefixedsize='true']">
+						<set where="//input[@name='constrainsize']" attr='checked' value='true' />
+					</when>
+				</case>
+				
+				<!-- Turn on 'chart-showlastupdated' by default.  Only turn it back off if set to false. -->
+				<delete where="//input[@name='showlastupdated']" attr="unchecked"/>   
+				<set where="//input[@name='showlastupdated']" attr='checked' value='true' />
+				<case>
+					<!-- check explicit 'chart-showlastupdated' of 'true' and set checked to TRUE -->
+					<when where="self::node()[@chart-showlastupdated='false']">
+						<set where="//input[@name='showlastupdated']" attr='unchecked' value='true' />
+						<delete where="//input[@name='showlastupdated']" attr='checked'/>
+					</when>
+				</case>
+
+				<!-- Title is off by default -->
+				<set where="//input[@name='showTitle']" attr='unchecked' value='true' />
+				<case>
+					<when where="self::node()[@chart-showtitle='true']">
+						<set where="//input[@name='showTitle']" attr='checked' value='true' />
+					</when>
+				</case>
+
+				<!-- Element name in title is on by default -->
+				<set where="//input[@name='showElementName']" attr='checked' value='true' />
+				<case>
+					<when where="self::node()[@chart-showelementname='false']">
+						<delete where="//input[@name='showElementName']" attr='checked' />
+						<set where="//input[@name='showElementName']" attr='unchecked' value='true' />
+					</when>
+				</case>
+
+				<!-- Show chart border is on by default -->
+				<set where="//input[@name='showChartBorder']" attr='checked' value='true' />
+				<case>
+					<when where="self::node()[@chart-showchartborder='false']">
+						<delete where="//input[@name='showChartBorder']" attr='checked' />
+						<set where="//input[@name='showChartBorder']" attr='unchecked' value='true' />
+					</when>
+				</case>
+
+			</do>
+		
+			<lookup name='charttype' target="//option[@value='{currentcharttype}']" attr="selected" value="true"/>
+            		<lookup name='chartwidth' target="//input[@name='chartwidthtext']" attr="value" value="{currentchartwidth}"/>
+            		<lookup name='chartheight' target="//input[@name='chartheighttext']" attr="value" value="{currentchartheight}"/>
+			<lookup name='chartlegendlocation' target="//option[@value='{currentlegendlocation}']" attr="selected" value="true"/>
+			<lookup name='chartfrequency' target="//option[@value='{currentfrequency}']" attr="selected" value="true"/>
+			<lookup name='lineWidth' target="//option[@value='{currentLineWidth}']" attr="selected" value="true"/>
+			<lookup name='chartTitle' target="//input[@name='chartTitle']" attr="value" value="{currentTitle}"/>
+			
+			<table border="0">
+				<tr>
+					<td align="right">Chart Type:</td>
+					<td>
+						<select name="charttypecombo" id="charttypecombo" uiid="charttypecombo">
+							<option value="line">Line</option>
+							<option value="bar">Bar</option>
+							<option value="stackedbar">Stacked Bar</option>							
+							<option value="pie">Pie</option>							
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">Chart Width:</td>
+					<td>
+						<input uiid="chartwidthtext" id="chartwidthtext" type="text" name="chartwidthtext" cols="5" value="15"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">Chart Height:</td>
+					<td>
+						<input uiid="chartheighttext" id="chartheighttext" type="text" name="chartheighttext" cols="5" value="15"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="constrainsize" unchecked="true"/>&#160;Constrain size to width/height
+					</td>
+				</tr>
+				<tr>
+					<td align="right">Legend Position:</td>
+					<td>
+						<select name="legendpositioncombo" id="legendpositioncombo" uiid="legendpositioncombo">
+							<option value="hidden">Hidden</option>
+							<option value="south">Bottom</option>
+							<option value="east">Right</option>
+							<option value="north">Top</option>							
+							<option value="west">Left</option>							
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">Refresh Interval:</td>
+					<td>
+						<select name="frequencycombo" id="frequencycombo" uiid="frequencycombo">
+							<option value="10">10 Seconds</option>
+							<option value="15">15 Seconds</option>
+							<option value="20">20 Seconds</option>							
+							<option value="30">30 Seconds</option>							
+							<option value="45">45 Seconds</option>							
+							<option value="60">1 Minute</option>							
+							<option value="120">2 Minutes</option>							
+							<option value="240">3 Minutes</option>							
+							<option value="300">5 Minutes</option>							
+							<option value="600">10 Minutes</option>							
+							<option value="900">15 Minutes</option>							
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">Line Width: <br/><i>(line charts only)</i></td>
+					<td valign="top">
+						<select name="lineWidthCombo" id="lineWidthCombo" uiid="lineWidthCombo">
+							<option value="0.5" >0.5  px</option>
+							<option value="0.75">0.75 px</option>
+							<option value="1"  >1    px</option>							
+							<option value="1.5">1.5  px</option>							
+							<option value="2"  >2    px</option>							
+							<option value="3"  >3    px</option>							
+							<option value="4"  >4    px</option>							
+							<option value="5"  >5    px</option>							
+							<option value="6"  >6    px</option>							
+							<option value="7"  >7    px</option>							
+							<option value="8"  >8    px</option>
+							<option value="9"  >9    px</option>
+							<option value="10" >10   px</option>							
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showlastupdated" unchecked="true"/>&#160;Show last updated
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showTitle" unchecked="true"/>&#160;Show chart title &#160;&#160;<input type="text" name="chartTitle" cols="5" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showElementName" checked="true"/>&#160;Show element name
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showChartBorder" checked="true"/>&#160;Show chart border
+					</td>
+				</tr>
+			</table>
+		</html>
+		
+		<do>
+		
+			<set attr='chart-type' value='{charttypecombo}' />
+			<set attr='chart-width' value='{chartwidthtext}' />
+			<set attr='chart-height' value='{chartheighttext}' />
+			<set attr='chart-legendlocation' value='{legendpositioncombo}' />
+			<set attr='frequency' value='{frequencycombo}' />
+			<set attr='chart-lineseriesstrokewidth' value='{lineWidthCombo}' />
+			<set attr='chart-title' value='{chartTitle}' />
+			
+			<!-- set a temporary DOM variable to use for later lookups -->
+			<set attr="constrainsizetemp" value="{constrainsize}" />
+
+			<case>
+				<when where="self::node()[@constrainsizetemp='on']">
+					<set attr='chart-forcefixedsize' value='true' />
+				</when>
+				<default>
+					<set attr='chart-forcefixedsize' value='false' />
+				</default>
+			</case>
+
+			<set attr="showlastupdatedtemp" value="{showlastupdated}"/>
+			<case>
+				<when where="self::node()[@showlastupdatedtemp='on']">
+					<set attr='chart-showlastupdated' value='true' />
+				</when>
+				<default>
+					<set attr='chart-showlastupdated' value='false' />
+				</default>
+			</case>
+
+			<set attr="showTitleTemp" value="{showTitle}"/>
+			<case>
+				<when where="self::node()[@showTitleTemp='on']">
+					<set attr='chart-showtitle' value='true' />
+				</when>
+				<default>
+					<set attr='chart-showtitle' value='false' />
+				</default>
+			</case>
+
+			<set attr="showElementNameTemp" value="{showElementName}"/>
+			<case>
+				<when where="self::node()[@showElementNameTemp='on']">
+					<set attr='chart-showelementname' value='true' />
+				</when>
+				<default>
+					<set attr='chart-showelementname' value='false' />
+				</default>
+			</case>
+
+			<set attr="showChartBorderTemp" value="{showChartBorder}"/>
+			<case>
+				<when where="self::node()[@showChartBorderTemp='on']">
+					<set attr='chart-showchartborder' value='true' />
+				</when>
+				<default>
+					<set attr='chart-showchartborder' value='false' />
+				</default>
+			</case>
+
+         	<!--  remove our temporary DOM variable -->
+         	<delete attr="constrainsizetemp"/>
+		<delete attr="showlastupdatedtemp"/>
+		<delete attr="showTitleTemp"/> 
+		<delete attr="showElementNameTemp"/>  
+		<delete attr="showChartBorderTemp"/>  
+		
+		</do>
+   	</recipe>
+
+<!-- /////////////////////////////////////////////////// -->
+	
+	<recipe id="editAxesAndGrid">
+		<name>Axes and Grid</name>
+		<category>Charts</category>
+		<matchnodeset>self::svg:g[@type='chartouterwrappergroup']/svg:g/bind:chart[not(@chart-type='pie')]</matchnodeset>
+		<description>Edits general chart property settings</description>
+
+		<extract>
+			<string name='currentchartminval'>@chart-min</string>
+			<string name='currentchartmaxval'>@chart-max</string>
+		</extract>
+
+		<html>
+
+			<do>
+				<!-- Turn off 'chart-showaveragelines' by default.  Only turn it back on if set to true -->
+				<set where="//input[@name='showseriesaverage']" attr='unchecked' value='true' />
+				<case>
+					<!-- check explicit 'chart-showaveragelines' of 'true' and set checked to TRUE -->
+					<when where="self::node()[@chart-showaveragelines='true']">
+						<set where="//input[@name='showseriesaverage']" attr='checked' value='true' />
+					</when>
+				</case>
+
+				<!-- Turn on 'chart-uselineshadow' by default.  Only turn it back off if set to false -->
+				<delete where="//input[@name='showserieslineshadow']" attr="unchecked"/>   
+				<set where="//input[@name='showserieslineshadow']" attr='checked' value='true' />
+				<case>
+					<!-- check explicit 'chart-uselineshadow' of 'true' and set checked to TRUE -->
+					<when where="self::node()[@chart-uselineshadow='false']">
+						<set where="//input[@name='showserieslineshadow']" attr='unchecked' value='true' />
+						<delete where="//input[@name='showserieslineshadow']" attr='checked'/>
+					</when>
+				</case>
+				
+				<!-- Turn off 'chart-showxgrid' by default.  Only turn it back on if set to true -->
+				<set where="//input[@name='showxaxisgrid']" attr='unchecked' value='true' />
+				<case>
+					<!-- check explicit 'chart-showxgrid' of 'true' and set checked to TRUE -->
+					<when where="self::node()[@chart-showxgrid='true']">
+						<set where="//input[@name='showxaxisgrid']" attr='checked' value='true' />
+					</when>
+				</case>
+
+				<!-- Turn off 'chart-showygrid' by default.  Only turn it back on if set to true -->
+				<set where="//input[@name='showyaxisgrid']" attr='unchecked' value='true' />
+				<case>
+					<!-- check explicit 'chart-showygrid' of 'true' and set checked to TRUE -->
+					<when where="self::node()[@chart-showygrid='true']">
+						<set where="//input[@name='showyaxisgrid']" attr='checked' value='true' />
+					</when>
+				</case>
+				
+			</do>
+		
+            <lookup name='chartminval' target="//input[@name='chartminvaltext']" attr="value" value="{currentchartminval}"/>
+            <lookup name='chartmaxval' target="//input[@name='chartmaxvaltext']" attr="value" value="{currentchartmaxval}"/>
+			
+			<table border="0">
+				<tr>
+					<td align="right">Chart Minimum Value:</td>
+					<td>
+						<input uiid="chartminvaltext" id="chartminvaltext" type="text" name="chartminvaltext" cols="5" value="15"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">Chart Maximum Value:</td>
+					<td>
+						<input uiid="chartmaxvaltext" id="chartmaxvaltext" type="text" name="chartmaxvaltext" cols="5" value="15"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showseriesaverage" unchecked="true"/>&#160;Show series average lines	
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showserieslineshadow" unchecked="true"/>&#160;Show series line shadow	
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showxaxisgrid" unchecked="true"/>&#160;Show X axis grid lines
+					</td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>
+						<input type="checkbox" name="showyaxisgrid" unchecked="true"/>&#160;Show Y axis grid lines
+					</td>
+				</tr>			
+			</table>
+		</html>
+		
+		<do>
+		
+			<set attr='chart-min' value='{chartminvaltext}' />
+			<set attr='chart-max' value='{chartmaxvaltext}' />
+			
+			<!-- set a temporary DOM variable to use for later lookups -->
+			<set attr="showseriesaveragetemp" value="{showseriesaverage}" />
+			<case>
+				<when where="self::node()[@showseriesaveragetemp='on']">
+					<set attr='chart-showaveragelines' value='true' />
+				</when>
+				<default>
+					<set attr='chart-showaveragelines' value='false' />
+				</default>
+			</case>
+
+         	<!--  remove our temporary DOM variable -->
+         	<delete attr="showseriesaveragetemp"/>       
+
+			<!-- set a temporary DOM variable to use for later lookups -->
+			<set attr="showserieslineshadowtemp" value="{showserieslineshadow}" />
+			<case>
+				<when where="self::node()[@showserieslineshadowtemp='on']">
+					<set attr='chart-uselineshadow' value='true' />
+				</when>
+				<default>
+					<set attr='chart-uselineshadow' value='false' />
+				</default>
+			</case>
+
+         	<!--  remove our temporary DOM variable -->
+         	<delete attr="showserieslineshadowtemp"/>       
+
+			<!-- set a temporary DOM variable to use for later lookups -->
+			<set attr="showxaxisgridtemp" value="{showxaxisgrid}" />
+			<case>
+				<when where="self::node()[@showxaxisgridtemp='on']">
+					<set attr='chart-showxgrid' value='true' />
+				</when>
+				<default>
+					<set attr='chart-showxgrid' value='false' />
+				</default>
+			</case>
+
+         	<!--  remove our temporary DOM variable -->
+         	<delete attr="showxaxisgridtemp"/>       
+
+			<!-- set a temporary DOM variable to use for later lookups -->
+			<set attr="showyaxisgridtemp" value="{showyaxisgrid}" />
+			<case>
+				<when where="self::node()[@showyaxisgridtemp='on']">
+					<set attr='chart-showygrid' value='true' />
+				</when>
+				<default>
+					<set attr='chart-showygrid' value='false' />
+				</default>
+			</case>
+
+         	<!--  remove our temporary DOM variable -->
+         	<delete attr="showyaxisgridtemp"/>       
+		
+		</do>
+   	</recipe>
+
+	<!-- /////////////////////////////////////////////////// -->
+	<templates>
+	<recipe id="editTargetElement">
+		<name>Source Element</name>
+		<category><categorysubst>cat</categorysubst></category>
+		<matchnodeset><matchsubst>matchSubst</matchsubst></matchnodeset>
+		<description>Edits the target element used to generated data for the current chart.</description>
+
+		<extract>
+			<string name='currentscript'>bind:chartcustomdname/text()</string>
+		    <string name='specifydname'>@chart-dnameoverridedatasource</string>
+		</extract>
+
+		<html>
+
+			<do>
+				<!-- default to 'self' and only change if other options are detected -->
+				<set where="//input[@id='radio_specifyself']" attr='checked' value='true' />
+								
+				<case>
+					<when where="self::node()[@chart-targetdatasource='Parent']">
+						<set where="//input[@id='radio_specifyparent']" attr='checked' value='true' />
+					</when>
+					<when where="self::node()[@chart-targetdatasource='Grandparent']">
+						<set where="//input[@id='radio_specifygrandparent']" attr='checked' value='true' />
+					</when>
+					<when where="self::node()[@chart-dnameoverridedatasource]">
+						<set where="//input[@id='radio_dnametext']" attr='checked' value='true' />
+					</when>
+					<when where="self::node()/bind:chartcustomdname[@enabled = 'true']">
+						<set where="//input[@id='radio_scripttext']" attr='checked' value='true' />
+						<set where="//textarea[@id='scripttext']" attr='value' value='{currentscript}' />
+					</when>
+				</case>
+			</do>
+			
+			<lookup name='currentscriptval' target="//textarea[@name='scripttext']" attr="text()" value="{currentscript}" />
+			<lookup name='specifydnameval' target="//input[@name='dnametext']" attr="value" value="{specifydname}" />
+				
+			<table border="0">
+				<tr>
+					<td border="0" align="left" colspan="2">
+						<b>Specify Target Element:</b>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>
+								<td border="0" align="right">
+									<input disables="scripttext,dnametext" id="radio_specifyself" type="radio" name="elementspecify" value="specifyself"></input>
+								</td>
+								<td align="left">Self</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>				
+								<td border="0" align="right">
+									<input disables="scripttext,dnametext" id="radio_specifyparent" type="radio" name="elementspecify" value="specifyparent"></input>
+								</td>
+								<td align="left">Parent Element</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>				
+								<td border="0" align="right">
+									<input disables="scripttext,dnametext" id="radio_specifygrandparent" type="radio" name="elementspecify" value="specifygrandparent"></input>
+								</td>
+								<td align="left">Grandparent Element</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>
+								<td border="0" align="right">
+									<input enables="dnametext" disables="scripttext" id="radio_dnametext" type="radio" name="elementspecify" value="dnametext">
+									</input>
+								</td>
+								<td align="left">Specify DName</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+				    <td>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+				    </td>
+					<td align="left">
+					   <input uiid="dnametext" id="dnametext"
+							  type="text" name="dnametext" size="62" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<table>						
+							<tr>
+								<td border="0" align="right">
+									<input enables="scripttext"	disables="dnametext" id="radio_scripttext" type="radio" name="elementspecify" value="scripttext">
+									</input>
+								</td>
+								<td align="left">Specify Custom DName With Script</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top"> </td>
+					<td align="left">
+						<textarea uiid="scripttext" id="scripttext" name="scripttext" cols="60" rows="15"></textarea>
+					</td>
+				</tr>
+
+			</table>
+		</html>
+
+		<do>			
+			<!-- set a temporary DOM variable to use for later lookups -->
+			<set attr="recipeelementspecify_temp" value="{elementspecify}" />
+
+			<case>
+				<when where="self::node()[@recipeelementspecify_temp='specifyself']">
+					<delete attr='chart-dnameoverridedatasource'/>
+					<set attr='chart-targetdatasource' value='Self' />
+					<set where='bind:chartcustomdname' attr='enabled' value='false' />
+				</when>
+				<when where="self::node()[@recipeelementspecify_temp='specifyparent']">
+					<delete attr='chart-dnameoverridedatasource'/>
+					<set attr='chart-targetdatasource' value='Parent' />
+					<set where='bind:chartcustomdname' attr='enabled' value='false' />
+				</when>
+				<when where="self::node()[@recipeelementspecify_temp='specifygrandparent']">
+					<delete attr='chart-dnameoverridedatasource'/>
+					<set attr='chart-targetdatasource' value='Grandparent' />
+					<set where='bind:chartcustomdname' attr='enabled' value='false' />
+				</when>
+				<when where="self::node()[@recipeelementspecify_temp='dnametext']">
+					<delete attr='chart-targetdatasource'/>
+					<set attr='chart-dnameoverridedatasource' value='{dnametext}' />
+					<set where='bind:chartcustomdname' attr='enabled' value='false' />
+				</when>
+				<!-- write out our custom script if specified -->
+				<when where="self::node()[@recipeelementspecify_temp='scripttext']">
+					<delete attr='chart-targetdatasource'/>
+					<delete attr='chart-dnameoverridedatasource'/>
+					<upsert where='bind:chartcustomdname'>
+						<bind:chartcustomdname exclude-script="true" enabled="true" />
+					</upsert>
+					<set where='bind:chartcustomdname' attr='cdata()' value='{scripttext}' />
+				</when>
+			</case>
+			
+			<!--  remove our temporary DOM variable -->
+			<delete attr="recipeelementspecify_temp" />
+		</do>
+	</recipe>
+	</templates>
+	<generate from='editTargetElement'>
+		<create>
+			<bindtype>Add</bindtype>
+			<categorysubst>Charts</categorysubst>
+			<matchsubst>self::svg:g[@type='chartouterwrappergroup']/svg:g/bind:chart</matchsubst>
+		</create>
+		<create>
+			<bindtype>Add</bindtype>
+			<categorysubst>Gauges</categorysubst>
+			<matchsubst>self::svg:g[@type='gaugeouterwrappergroup']/svg:g[@group_type='gaugeconfig']/bind:generatedata | self::svg:g[@group_type='gaugeconfig']/bind:generatedata</matchsubst>
+		</create>
+	</generate>
+	<generate from='editChartMetrics'>
+		<create>
+			<bindtype>Add</bindtype>
+			<categorysubst>Charts</categorysubst>
+			<matchsubst>self::svg:g[@type='chartouterwrappergroup']/svg:g/bind:chart</matchsubst>
+		</create>
+		<create>
+			<bindtype>Add</bindtype>
+			<categorysubst>Gauges</categorysubst>
+			<matchsubst>self::svg:g[@type='gaugeouterwrappergroup']/svg:g[@group_type='gaugeconfig']/bind:generatedata
+				| self::svg:g[@group_type='gaugeconfig']/bind:generatedata</matchsubst>
+			<deletewhere>//tr[@id='metriclabelrow']</deletewhere>
+		</create>
+	</generate>
+	<recipegroup>
+   		<name>Properties</name>
+		<recipeid>Gauge Properties</recipeid>
+		<recipeid>Gauge Properties&#160;</recipeid>
+   		<recipeid>Chart Properties</recipeid>
+   		<recipeid>Pie Chart Properties</recipeid>
+   		<recipeid>Data Properties</recipeid>
+   		<recipeid>Axes and Grid</recipeid>
+   		<recipeid>Background Color Bands</recipeid>
+   		<recipeid>Source Element</recipeid>
+		<recipeid>Graphic</recipeid>
+   	</recipegroup>
+</recipes>
+

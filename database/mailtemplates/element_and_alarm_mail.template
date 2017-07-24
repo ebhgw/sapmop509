@@ -1,0 +1,21 @@
+
+This is an automated message response from NetIQ Operations Center(r).
+
+Dear ~recipient~,
+
+The element named "~element.name~" has failed for some reason.
+The current condition value is ~element.Condition~.
+
+                      ------- Details -------
+                         Event:   ~event.what~
+               Automation Name:   ~automation.name~
+            Automation Runtime:   ~if (this.applet) "Client-side user: "+session.userName(); else "Server-side"~
+           Automation Activity:   ~automation.getActivity()~
+          Element Adapter Name:   ~if (this.applet) "Unavailable client-side"; else element.getAdapter().toString()~
+                  Element Name:   ~element.getName()~
+                 Element DName:   ~element.getDName()~
+
+                    ----- Alarm Properties -----
+~getAlarmProperties(2048,30,"                              ",120,"","",":   ","\n","             Alarm is not defined for this type of event");~
+
+Please respond!

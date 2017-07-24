@@ -1,0 +1,66 @@
+/*
+
+*/
+
+load('util/login.fs');
+login('localhost', 8080, 'admin', 'formula')
+
+alert('Logged in');
+
+load('custom/lib/moment.js');
+load('custom/lib/moment-lang/it.js');
+
+function getReportId (pArgs) {
+	var now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+	var rid = now; //should add a format date to cope with italian format
+	var addDash = true;
+ 
+	for(var i = 0; i < pArgs.length; i++) {
+		currArg = pArgs[i];
+		if (currArg && currArg.length > 0) {
+			if (addDash)
+				rid = rid + '-' + currArg;
+			else
+				rid = rid + currArg;
+				addDash = false;
+		}
+	}
+	return rid
+}
+
+
+var user = "admin";
+var servizio = "";
+var ssa = "";
+var acronimo = "ABCA0";
+var classecomponenteinfra = "";
+var nomecomponenteinfra = "";
+var nomelementotecno = "";
+var datada = "";
+var dataa = "";
+
+var myArgs = new Array();
+myArgs.push(user);
+myArgs.push(acronimo);
+
+var repId = getReportId(myArgs);
+myArgs.unshift(repId);
+var ele = formula.Root.findElement('logo_managedobjects=ReportAllarmi/root=Generational+Models/root=Services');
+alert('Launching operation');
+ele.perform(session, 'CSC|ReportAllarmi', [], myArgs);
+java.lang.Thread.sleep(7000);
+alert('Report ' + repId + ' launched');
+
+//sendQAlarms(reportId,user,servizio,ssa,acronimo,classecomponenteinfra,nomecomponenteinfra,nomelementotecno,datada,dataa)
+
+
+
+
+
+
+
+
+
+
+
+

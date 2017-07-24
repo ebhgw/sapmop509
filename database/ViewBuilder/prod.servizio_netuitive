@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+
+<!DOCTYPE views
+  PUBLIC "-//Novell, Inc.//DTD views 1.0//EN"
+         "http://www.Novell.com/dtds/views_1.0.dtd">
+
+<views>
+   <tree start_at="ISP_FolderBase=Production/root=Organizations">
+      <element>
+         <name>Servizio Netuitive</name>
+         <class>gen_folder</class>
+         <dname>gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+         <secure self="yes">
+            <grant names="CSC" permissions="view,access"/>
+            <grant names="admins" permissions="view,manage,access,define"/>
+         </secure>
+         <displaySourceElements>true</displaySourceElements>
+         <ignoreChildAlarms>false</ignoreChildAlarms>
+         <propagateSecurity>false</propagateSecurity>
+         <relate>Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+         <relate>Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+         <element>
+            <name>ABC - Netuitive</name>
+            <class>Servizio</class>
+            <dname>Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+            <algorithm>highestDefaultOK</algorithm>
+            <displaySourceElements>true</displaySourceElements>
+            <ignoreChildAlarms>false</ignoreChildAlarms>
+            <propagateSecurity>false</propagateSecurity>
+            <relate>Acronimo=ABCA0/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+            <relate>Acronimo=ABCD0/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+            <relate>Acronimo=ABC-StatoNetuitive/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+            <relate>Acronimo=ABRF0/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+            <element>
+               <name>ABC-StatoNetuitive</name>
+               <class>Acronimo</class>
+               <dname>Acronimo=ABC-StatoNetuitive/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+               <algorithm>highestDefaultOK</algorithm>
+               <displaySourceElements>false</displaySourceElements>
+               <ignoreChildAlarms>false</ignoreChildAlarms>
+               <propagateSecurity>false</propagateSecurity>
+               <relate>Acronimo=ABC+-+Stato+Netuitive/gen_folder=AllarmiNetuitive/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</relate>
+            </element>
+            <element>
+               <name>ABCA0</name>
+               <class>Acronimo</class>
+               <dname>Acronimo=ABCA0/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+               <algorithm>highestDefaultOK</algorithm>
+               <displaySourceElements>false</displaySourceElements>
+               <ignoreChildAlarms>false</ignoreChildAlarms>
+               <propagateSecurity>false</propagateSecurity>
+               <relate>Acronimo=ABCA0/gen_folder=AllarmiNetuitive/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</relate>
+            </element>
+            <element>
+               <name>ABCD0</name>
+               <class>Acronimo</class>
+               <dname>Acronimo=ABCD0/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+               <algorithm>highestDefaultOK</algorithm>
+               <displaySourceElements>false</displaySourceElements>
+               <ignoreChildAlarms>false</ignoreChildAlarms>
+               <propagateSecurity>false</propagateSecurity>
+               <relate>Acronimo=ABCD0/gen_folder=AllarmiNetuitive/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</relate>
+            </element>
+            <element>
+               <name>ABRF0</name>
+               <class>Acronimo</class>
+               <dname>Acronimo=ABRF0/Servizio=ABC+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+               <algorithm>highestDefaultOK</algorithm>
+               <displaySourceElements>false</displaySourceElements>
+               <ignoreChildAlarms>false</ignoreChildAlarms>
+               <propagateSecurity>false</propagateSecurity>
+               <relate>Acronimo=ABRF0/gen_folder=AllarmiNetuitive/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</relate>
+            </element>
+         </element>
+         <element>
+            <name>Sicurezza - Netuitive</name>
+            <class>Servizio</class>
+            <dname>Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+            <algorithm>highestDefaultOK</algorithm>
+            <displaySourceElements>true</displaySourceElements>
+            <ignoreChildAlarms>false</ignoreChildAlarms>
+            <propagateSecurity>false</propagateSecurity>
+            <relate>Acronimo=SWA20/Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+            <relate>Acronimo=SWCM0/Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+            <relate>Acronimo=SWP00/Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</relate>
+            <element>
+               <name>SWA20</name>
+               <class>Acronimo</class>
+               <dname>Acronimo=SWA20/Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+               <algorithm>highestDefaultOK</algorithm>
+               <displaySourceElements>false</displaySourceElements>
+               <ignoreChildAlarms>false</ignoreChildAlarms>
+               <propagateSecurity>false</propagateSecurity>
+               <relate>Acronimo=SWA20/gen_folder=AllarmiNetuitive/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</relate>
+            </element>
+            <element>
+               <name>SWCM0</name>
+               <class>Acronimo</class>
+               <dname>Acronimo=SWCM0/Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+               <algorithm>highestDefaultOK</algorithm>
+               <displaySourceElements>false</displaySourceElements>
+               <ignoreChildAlarms>false</ignoreChildAlarms>
+               <propagateSecurity>false</propagateSecurity>
+               <relate>Acronimo=SWCM0/gen_folder=AllarmiNetuitive/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</relate>
+            </element>
+            <element>
+               <name>SWP00</name>
+               <class>Acronimo</class>
+               <dname>Acronimo=SWP00/Servizio=Sicurezza+-+Netuitive/gen_folder=Servizio+Netuitive/ISP_FolderBase=Production/root=Organizations</dname>
+               <algorithm>highestDefaultOK</algorithm>
+               <displaySourceElements>false</displaySourceElements>
+               <ignoreChildAlarms>false</ignoreChildAlarms>
+               <propagateSecurity>false</propagateSecurity>
+               <relate>Acronimo=SWP00/gen_folder=AllarmiNetuitive/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</relate>
+            </element>
+         </element>
+      </element>
+   </tree>
+</views>

@@ -1,0 +1,115 @@
+//
+// Copyright (c) 2010 Hogwart srl.  All Rights Reserved.
+// 
+// Author: E. Bomitali
+//
+// Operation definitions to add to an element: (paste into Operations.ini)
+//
+// [ECM|Add Ticket]
+// description=ECM|Add Ticket Multiple
+// context=alarm
+// target=dname:root=Organizations
+// permission=manage
+// type=serverscript
+// operation=load( "custom/ecm_integration/AddTicket.fs" );
+//
+
+load('custom/ecm_integration/EcmCommander.fs');
+load('custom/lib/underscore.js');
+
+// wrapping to avoid polluting the global env (and to force garbage collecting)
+(function () {
+// Set logging
+var _logger = Packages.org.apache.log4j.Logger.getLogger('fs.ecm_integration');
+
+// Log startup
+_logger.info( "Starting Add Multiple Ticket script" )
+
+function isNumeric(num){
+    return !isNaN(num)
+}
+
+var op = 'ADD2TICKET'
+var myAlarms = alarms
+var currUser = ecmCommander.getUserFromDname(user.DName);
+
+// Create our object which will be the "callback" from the client
+var callback =
+{
+	clicked: false,
+    addTicket: function( aTicket )
+    {
+		if (this.clicked) {
+			_logger.debug('ECM|Add Ticket: double click on Ok button, skipping second click');
+			return '';
+		} else if (isNumeric(aTicket) || aTicket.length == 0) {
+			var res = 0, resAll = 0, message = '';
+			
+			try {
+				this.clicked = true;
+				for (var i = 0; i< myAlarms.length; i++) {
+							_logger.debug('ECM|Add Ticket: iter ' + i + ' user ' + currUser + ' event_handle ' + myAlarms[i].event_handle + ' ticket: ' + aTicket);
+							res = ecmCommander.executeCmd(myAlarms[i].CELLA_ORIGINE, myAlarms[i].event_handle, currUser, op, aTicket);
+							_logger.info('ECM|Add Ticket operation iter ' + i + ' ended with result ' + res);
+							resAll = resAll + res;
+						};
+			} catch (excp) {
+				_logger.error('Got error ' + excp)
+			}
+			
+			if (resAll == 0 && aTicket.length > 0) {
+				message = 'Added ticket on alarm(s)' + aTicket;
+			} else if (resAll == 0 && aTicket.length == 0) {
+				message = 'Cleared ticket on alarm(s)';
+			} else {
+				message = 'Got error on updating alarms, see fs.log';
+			}
+			
+		} else {
+			message = 'Invalid ticket number. No alarm modified';
+		}
+		session.sendMessage( message );
+		_logger.info ( message );
+		return message;
+		
+    },
+
+    cancel: function()
+    {
+		if (this.clicked) {
+			_logger.info('ECM|Add Ticket: double click, Cancel button, skipping');
+		} else {
+			this.clicked = true;
+			_logger.info( "ECM|Add Ticket operation cancelled by user" )
+			session.sendMessage( 'No ticket added/cleared' )
+		}
+		return '';
+    }
+}
+
+// We're going to send this callback and a prompt script to the client, which will
+// then cause execution to this script through remote proxy.
+
+var clientScript = "\
+    // @opt -1 \
+    // @debug off \
+    load('custom/ecm_integration/AddTicketClientScript.fs')\
+"
+
+//
+// Now, send the dialog script to the user who invoked this script
+//
+// Note: this script is sent to variables, called "callback" and "elementName"
+//       The callback is wrapped via a remote proxy using the formula.util.makeRemote()
+//       function.  The element name is simply the element name of the element
+//       the user initiated this ticket for.
+//
+
+_logger.info( "Sending dialog script to client" )
+session.invokeScript( 'Enter Trouble Ticket',
+                      clientScript,
+                      [ formula.util.makeRemote( callback ), element.name ],
+                      [ 'callback', 'elementName' ] )
+_logger.info( "Done!" )
+
+}).call(this);

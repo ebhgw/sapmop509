@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+	A ViewBuilder XML file allows Formula Elements within the Organization
+	Element	hierarchy to be created, modified, or deleted.
+--> 
+
+<!--
+	"views" is the top-most XML element. It may contain one or more
+	"tree", "create", "modify", or "delete" elements, which are described
+	below.
+
+	destroy : "yes" will prune the Element tree for the "tree" directive starting
+	          from the "start_at" location, before creating or updating the
+	          "element"s enclosed by the "tree" directive.
+		  Default is "no". 
+-->
+
+<!ELEMENT views (tree|create|modify|delete|update)+ >
+<!ATTLIST views
+        destroy (yes|no) "no"
+>
+
+<!-- 
+	"tree" will create or modify elements in the Element hierarchy. If an Element
+	already	exists, it will be updated, otherwise it will be created.
+
+	The elements root is specified with "start_at". Nested "element"s only need
+	"name" and "class", but can specify "dname".
+
+	start_at : the dname specifying the root for the enlosed "element"s.
+-->        
+
+<!ELEMENT tree (element)+ >
+<!ATTLIST tree
+        start_at CDATA #REQUIRED
+>
+
+<!--
+	"create" will create elements in the Element hierarchy. If an Element already
+	exists, it will be updated and a log message generated.
+
+	"create" does not use a "start_at" attribute, so each top-level "element" must
+	specify	a "dname" or a "name", "class", "parent" combination of tags.
+
+	Nested "element"s only need "name" and "class", but can specify "dname".
+
+	"create" does not prune the Element hierarchy, even if destroy=yes. Nor does
+	"create" auto relate children.	
+-->
+
+<!ELEMENT create (element)+ >
+
+
+<!--
+	"modify" will modify elements in the Element hierarchy. If the Element does
+	not exist, it will be created and a log message generated.
+
+	"modify" does not use a "start_at" attribute, so each top-level "element" must
+	specify	a "dname" or a "name", "class", "parent" combination of tags.
+
+	Nested "element"s only need "name" and "class", but can specify "dname".
+
+	"modify" does not prune the Element hierarchy, even if destroy=yes. Nor does
+	"modify" auto relate children.	
+-->
+
+<!ELEMENT modify (element)+ >
+
+<!--
+	"update" will modify elements in the Element hierarchy. If the Element does
+	not exist, it will be created and a log message generated.
+
+	Nested "element"s only need "name" and "class", but can specify "dname".
+
+	"update" does not prune the Element hierarchy, even if destroy=yes. It does
+	merge existing children, if the element existing with children from the import
+	file
+-->
+
+
+<!ELEMENT update (element)+ >
+
+<!--
+	"delete" will remove elements from the Element hierarchy.
+
+	"delete" does not use a "start_at" attribute, so each "element" must specify
+	a "dname" or a "name", "class", "parent" combination of tags.
+
+	Enclosed "element" tags can not be nested.
+-->
+
+<!ELEMENT delete (element)+ >
+
+<!--
+        An "element" encapsulates defining information for a specific Element.
+
+	The basic information includes:
+	- Element identification (dname, name, class, parent)
+	- Element Attributes (displaySourceElements, contact, company, address, etc.)
+	- Security information (secure, sref)
+	- Child relationships (relate)
+
+	auto_relate_children : "yes" automatically create relationships with children elements.
+	                       Default is "yes".
+
+	prevent_secure : "yes" does not apply the Element security to the child.
+	                 Default is "yes".
+-->        
+       
+<!ELEMENT element (element|relate|secure|sref|dname|name|class|parent|displaySourceElements|contact|company|address|phone|fax|pager|email|url|graphic|script|algorithm|algorithmParameters|algorithmDisseminates|matches|Lat|Lon)+ >
+<!ATTLIST element
+	auto_relate_children (yes|no) "yes"
+	prevent_secure (yes|no) "yes"
+>
+
+<!--
+        The following allow formation or specification of the enclosing Element's dname.
+
+	Tagged characters : Specifies the value of the dname, name, class, or parent.
+--> 
+
+<!ELEMENT dname (#PCDATA) >
+<!ELEMENT name (#PCDATA) >
+<!ELEMENT class (#PCDATA) >
+<!ELEMENT parent (#PCDATA) >
+
+<!--
+        The following allow the setting of the enclosing Element's attributes.
+
+	Tagged characters : specifies the attribute's value.
+--> 
+
+<!ELEMENT displaySourceElements (#PCDATA) >
+<!ELEMENT contact (#PCDATA) >
+<!ELEMENT company (#PCDATA) >
+<!ELEMENT address (#PCDATA) >
+<!ELEMENT phone (#PCDATA) >
+<!ELEMENT fax (#PCDATA) >
+<!ELEMENT pager (#PCDATA) >
+<!ELEMENT email (#PCDATA) >
+<!ELEMENT url (#PCDATA) >
+<!ELEMENT graphic (#PCDATA) >
+<!ELEMENT script (#PCDATA) >
+<!ELEMENT algorithm (#PCDATA) >
+<!ELEMENT algorithmParameters (#PCDATA) >
+<!ELEMENT algorithmDisseminates (#PCDATA) >
+<!ELEMENT matches (#PCDATA) >
+<!ELEMENT Lat (#PCDATA) >
+<!ELEMENT Lon (#PCDATA) >
+
+<!--
+	"relate" is a way to specify a child relationship for the enclosing Element.
+
+	prevent_secure : "yes" does not apply the Element security to the child.
+	                 Default is "yes".
+
+	kind : The relationship kind. Default is ORG.
+
+	Tagged characters : Specifies the dname of the child to apply the relationship.
+-->
+        
+<!ELEMENT relate (#PCDATA) >
+<!ATTLIST relate
+	prevent_secure (yes|no) "yes"
+	kind (NAM|ORG|TOP|MAP) "ORG"
+>
+
+<!--
+	"secure" is a way to specify the security to be applied to the enclosing element.
+
+	related : "yes" applies the security that is specified in this block to all elements
+	          that are specified using relate tags, where kind=ORG.
+	          Default is "no".
+
+	self : "yes" applies security only to the current element.
+	       Default is "yes".
+
+	children : "yes" applies the security only to the children of this element.
+	           Default is "no".
+
+	name : Gives this security definition a name, and allows you to invoke it again using
+	       the sref tag.
+
+	mergeRelated : "yes" means the security of the related element will be supplemented by
+	               the grant or deny security entries in the block.
+	               Default is "yes".
+-->
+
+<!ELEMENT secure (grant|deny)+ >
+<!ATTLIST secure
+	related (yes|no) "no"
+	self (yes|no) "yes"
+	children (yes|no) "no"
+	name CDATA #IMPLIED
+	mergeRelated (yes|no) "yes"
+>
+
+<!--
+	A "grant" or "deny" allows granting or denying permissions to named users or groups.
+
+	names : A comma-separated list of user or group names who are granted
+	        or denied permission to the element.
+
+	permissions : A comma-separated list of permission names. The current
+	              list includes view, access, define, and manage.
+-->
+
+<!ELEMENT grant EMPTY >
+<!ATTLIST grant
+	names CDATA #REQUIRED
+	permissions CDATA #REQUIRED
+>
+
+<!ELEMENT deny EMPTY >
+<!ATTLIST deny
+	names CDATA #REQUIRED
+	permissions CDATA #REQUIRED
+>
+
+<!--
+	An "sref" references a named "secure" block and applies the same security settings.
+
+	name : The name of the security block to be referenced.
+-->
+
+<!ELEMENT sref EMPTY >
+<!ATTLIST sref
+	name CDATA #REQUIRED
+>

@@ -1,0 +1,20 @@
+// @debug on
+// file custom/algorithm
+var ScriptName='SetSeverityByLastTlcStatus.fs';
+formula.log.debug('--------------------------------------------------------'); 
+formula.log.debug('Firing '+ScriptName+' ...');
+ 
+var thisElement = this.conditionState.subject;
+var lastTlcStatus = thisElement["lastTlcStatus"];
+formula.log.debug('LastAlarm TlcStatus: '+ lastTlcStatus);
+
+if (lastTlcStatus.toLowerCase() == "standby"){
+  this.conditionState.setResult( formula.conditions.UNKNOWN );
+  formula.log.debug('Set Condition to UNKNOWN for: '+thisElement);
+} else if (lastTlcStatus.toLowerCase() == "active"){
+  this.conditionState.setResult( formula.conditions.OK );
+  formula.log.debug('Set Condition to OK for: '+ thisElement);
+} else {
+    formula.log.error('Error on script:'+ScriptName+' - Unknown lastTlcStatus:'+ lastTlcStatus + ' cannot set condition');
+}
+this.conditionState.setState( this.conditionState.FINISHED); 

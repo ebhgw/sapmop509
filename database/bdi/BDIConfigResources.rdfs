@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='WINDOWS-1252'?>
+<rdf:RDF
+    xmlns:iapi='http://www.ManagedObjects.com/formulaiapi/'
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+    xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'>
+    <iapi:MSSQLDatabase rdf:about='http://www.ManagedObjects.com/formulabdi/Database_gy47scr9_dagjm'
+         rdfs:label='ABCTest@localhost'
+         iapi:dbDatabase='ABCTest'
+         iapi:dbPort='1433'
+         iapi:dbPassword='X-TEAV:2F813223FFFE337C7AE246CE1851D207'
+         iapi:dbUser='formula'
+         iapi:dbHost='localhost'
+         iapi:dbType='mssql'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </iapi:MSSQLDatabase>
+    <iapi:MSSQLDatabase rdf:about='http://www.ManagedObjects.com/formulabdi/Database_hbxd7s7h_pgwg0'
+         rdfs:label='DATIECM@PCDBP001'
+         iapi:dbPassword='X-TEAV:BC73E9A5E1EFEF12E7253C8E86F377A4'
+         iapi:dbUser='noc00_app'
+         iapi:dbHost='PDBCBP001.sede.corp.sanpaoloimi.com'
+         iapi:dbDatabase='DATIECM'
+         iapi:dbPort='1579'
+         iapi:dbType='mssql'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </iapi:MSSQLDatabase>
+    <iapi:MSSQLDatabase rdf:about='http://www.ManagedObjects.com/formulabdi/Database_gyctpvp1_bhjh2'
+         rdfs:label='TestIntesa@localhost'
+         iapi:dbPassword='X-TEAV:2F813223FFFE337C7AE246CE1851D207'
+         iapi:dbDatabase='TestIntesa'
+         iapi:dbUser='formula'
+         iapi:dbHost='localhost'
+         iapi:dbPort='1433'
+         iapi:dbType='mssql'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </iapi:MSSQLDatabase>
+    <iapi:MSSQLDatabase rdf:about='http://www.ManagedObjects.com/formulabdi/Database_h95kj1u7_8ou66'
+         rdfs:label='Intesa-SystemTest'
+         iapi:dbDatabase='DATIECM'
+         iapi:dbPassword='X-TEAV:A73DA53F4754EDCE59E0FFA4F993264B'
+         iapi:dbUser='noc00_app'
+         iapi:dbPort='1511'
+         iapi:dbType='mssql'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <iapi:dbHost>PDBCAT93.syssede.systest.sanpaoloimi.com</iapi:dbHost>
+    </iapi:MSSQLDatabase>
+</rdf:RDF>

@@ -1,0 +1,81 @@
+<serviceConfig>
+  <definitionSet>
+    <definition>
+      <name>Workloads to VMs</name>
+      <sources>
+        <source>
+          <element>Folder=_TenantsRoot/NCM+Root+Element=NCMAdapter/root=Elements</element>
+          <depthLimit>0</depthLimit>
+          <startDepth>0</startDepth>
+          <matchers>
+            <regexMatcher>
+              <value>.*</value>
+              <name>Name Matcher</name>
+              <description>This default matcher matches structure elements to target elements by their name only.</description>
+            </regexMatcher>
+          </matchers>
+        </source>
+      </sources>
+      <joinTargets>
+        <target>
+          <joinRules>
+            <propertyRule>
+              <propertyName1>VMName</propertyName1>
+              <propertyName2>objectId</propertyName2>
+              <caseInsensitive>false</caseInsensitive>
+              <requiresMatch>false</requiresMatch>
+              <name>Workload to VM</name>
+              <description>Join elements by property match.</description>
+            </propertyRule>
+            <nameRule>
+              <caseInsensitive>false</caseInsensitive>
+              <requiresMatch>false</requiresMatch>
+              <name>Name Rule</name>
+              <description>Join two elements by simple name match.</description>
+            </nameRule>
+          </joinRules>
+          <element>Virtual+Root=_VirtualRoot/PSO+Root+Element=PsoAdapter/root=Elements</element>
+          <depthLimit>0</depthLimit>
+          <startDepth>0</startDepth>
+          <matchers>
+            <regexMatcher reference="../../../../sources/source/matchers/regexMatcher"/>
+          </matchers>
+        </target>
+      </joinTargets>
+      <actions>
+        <copyElements>
+          <addSourceMatch>false</addSourceMatch>
+          <displaySourceElementsAsChildren>true</displaySourceElementsAsChildren>
+          <useDyamicMatching>false</useDyamicMatching>
+          <postProcessScript>@ncm/setoffer</postProcessScript>
+          <cloneTargets>false</cloneTargets>
+          <algorithms/>
+          <addSourceProperties>false</addSourceProperties>
+          <nullSourceProperties>false</nullSourceProperties>
+          <linkToCorrelated>false</linkToCorrelated>
+          <generateFromLinkedElements>false</generateFromLinkedElements>
+          <useMatchedSourceForDynamicMatch>false</useMatchedSourceForDynamicMatch>
+          <ignoreLinkedSourceElements>false</ignoreLinkedSourceElements>
+          <name>Copy Hierarchy</name>
+          <useInverseMatching>false</useInverseMatching>
+        </copyElements>
+      </actions>
+      <schedule>
+        <enabled>false</enabled>
+      </schedule>
+      <reconciliationPolicy>
+        <id>2</id>
+        <name>Merge</name>
+      </reconciliationPolicy>
+      <dependencyTargets/>
+      <dependencyGenerators/>
+      <disabled>false</disabled>
+    </definition>
+    <enableDebug>false</enableDebug>
+    <enableAudit>true</enableAudit>
+    <element>org=test/root=Organizations</element>
+    <depthLimit>0</depthLimit>
+    <startDepth>0</startDepth>
+    <matchers/>
+  </definitionSet>
+</serviceConfig>

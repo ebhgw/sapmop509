@@ -1,0 +1,107 @@
+//	CollectMatch.fs
+//
+//	Created By: E. Bomitali
+//	Date: 2014 Feb 12
+//
+//	VERSION INFORMATION
+//		Date: 2014 Feb 12
+//		Version: 1.0
+//		Notes: Original Implementation
+//
+//
+//	Purpose
+//		
+//
+//	Notes
+//		none
+//
+//	Required Changes
+//		none
+//
+//	Optional Changes
+//
+//	Implementation
+/*
+	{
+		"root": "<root dname",
+		"date": "<timestamp>",
+		"matches": [
+			{ "dname": "<...>",
+			  "match": "<...>"
+			},
+			...
+			{ 
+			  "dname": "<...>",
+			  "match": "<...>"
+			}
+		]
+	}
+	
+*/
+/*
+
+[Structure|Collect Pattern to file as Json]
+command=
+context=element
+description=Structure|Collect Pattern to file as Json
+operation=load('custom/operation/CollectPattern.fs');\r\nsession.sendMessage('Collect patterns completed');
+permission=manage
+target=dnamematch:root=Organizations
+type=serverscript
+
+*/
+
+
+// main()
+load('custom/lib/moment.js');
+
+(function () {
+	load('custom/util/FileWriter.fs');
+	var _logger = Packages.org.apache.log4j.Logger.getLogger("fs");
+	
+	var now = moment(new Date());
+	var ff = new FileWriter();
+	ff.openFile('E:\\temp\\collected_matches'+ now.format("YYYYMMDD_HHmmss") + '.json');
+	ff.println('{');
+	ff.println('"root": "' + element.DName + '",');
+	ff.println('"date": "' + now.format("YYYY-MM-DD_HH:mm:ss") + '",');
+	ff.println('"pattern": [');
+	
+	var matchOnEleAsJson = function (ele, pmatch, pscript) {
+		var res = '{\n'
+		res = res + '"dname": "' + ele.DName + '",\n';
+		res = res + '"match": "' + pmatch + '"\n,';
+		res = res + '"script": "' + pscript + '"\n';
+		res = res + '}'
+		//_logger.info('json is ' + res);
+		return res;
+	}
+	
+	var visitor =
+	{
+		count: 0,
+		add: false,
+		visit: function ( child )
+		{
+			_logger.info('Exploring ' + child.DName);
+			var lmatch = child.getMatchExpression();
+			var lscript = child.getScript();
+			if ((lmatch && lmatch != '') || (lscript && lscript != '')) {
+				if (!visitor.add) {
+					visitor.add = true;
+				} else {
+					ff.println(',');
+				}
+				ff.println(matchOnEleAsJson(child,lmatch,lscript) + '');
+				visitor.count++;
+			}
+		}
+	}
+	
+	element.walk ( visitor );
+	ff.println(']');
+	ff.println('}');
+	ff.closeFile();
+
+})();
+// eof sendMatchToClipboard.fs

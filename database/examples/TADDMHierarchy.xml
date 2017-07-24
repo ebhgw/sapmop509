@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<hierarchy>
+<!-- 
+      Please refer hierarchy_2.0.dtd in your BSM installation directory for details on the definition in this file.
+
+      Using this TADDM hierarchy file (TADDMHierarchy.xml) a user of the TADDM adapter can define data
+      to be displayed using the "field" attribute of the "generator" tag.
+
+      The "field" attribute represents a predefined set of values that are used to represent certain
+      types of data found in TADDM. The values and the data types they represent are these:
+      
+           applicationcomponent    Application Components discovered
+           businessapplication     Business Applications discovered
+           host                    Servers discovered
+           networkdevice           Network Devices discovered
+           software                Software Items discovered
+           appcompsoftwareitem     A very useful amalgam of Application Component and Software Item
+
+      Also, the "field" attribute of the "generator" tag allows the use of TADDM's fully qualified object names
+      to identify items in a discovery. Examples of such names (although not limited to this list) are:
+
+           com.collation.platform.model.topology.sys.hpux.HpUx
+           com.collation.platform.model.topology.sys.UnitaryComputerSystem
+           com.collation.platform.model.topology.sys.windows.WindowsComputerSystem
+
+      Limited querying is also allowed to identify specific items in a discovery. Again the "field" attribute of
+      the "generator" tag is be used. This means that by setting the "field" attribute to the following:
+
+           ComputerSystem.OSRunning.OSName='Linux'
+
+      that the computer systems which are running an operating system whose name is Linux are shown.
+
+      The structure of the items follows the tag structure that a query of this form would return:
+
+           SELECT * ComputerSystem WHERE OSRunning.OSName == 'Linux'
+
+      This previous query employs TADDM's Model Query Language and would return as output from the query an OSName
+      XML tag nested within a OSRunning XML tag which in turn is nested within a ComputerSystem XML tag. Hierarchically,
+      that would look like this:
+
+       ComputerSystem XML tag
+      	 OSRunning XML tag
+      		 OSName XML tag
+
+      Knowing this structure, queries can be properly formed.
+
+     -->
+
+	<group class="formula_organizations" name="Discovered Objects" > 
+		<!-- Start Default Layout -->
+		<group class="gen_folder" name="Business Applications">
+		  <generator class_from_field="icon_name" field="businessapplication"/> 
+		</group>
+
+		<group class="gen_folder" name="Hosts">
+		  <generator class_from_field="icon_name" field="host"/> 
+		</group>
+
+		<group class="gen_folder" name="Application Components">
+		  <generator class_from_field="icon_name" field="applicationcomponent"/>
+		</group>
+
+		<group class="gen_folder" name="Network Devices">
+		  <generator class_from_field="icon_name" field="networkdevice"/> 
+		</group>
+		<!-- End Default Layout -->
+	</group>
+</hierarchy>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<datasource-config>
+<datasource enabled="true" name="BSW" type="mssql">
+<schema>warehouse</schema>
+<property name="host" value="PDBCBP001.sede.corp.sanpaoloimi.com">
+</property>
+<property name="port" value="1579">
+</property>
+<property name="db" value="NOCBSW">
+</property>
+<property name="user" value="noc00_app">
+</property>
+<property name="password" value="X-TEAV:BC73E9A5E1EFEF12E7253C8E86F377A4">
+</property>
+<property name="initialConnections" value="2">
+</property>
+<property name="maximumConnections" value="10">
+</property>
+<property name="extra" value="">
+</property>
+<property name="driver" value="net.sourceforge.jtds.jdbc.Driver">
+</property>
+<property name="url" value="jdbc:jtds:sqlserver://PDBCBP001.sede.corp.sanpaoloimi.com:1579/NOCBSW;loginTimeout=120">
+</property>
+<property name="testString" value="select getdate()">
+</property>
+<property name="cacheStatements" value="true">
+</property>
+<property name="isEmbeddedDB" value="false">
+</property>
+<property name="driverIncluded" value="true">
+</property>
+<function type="primary">
+<purge-days>0</purge-days>
+</function>
+</datasource>
+</datasource-config>

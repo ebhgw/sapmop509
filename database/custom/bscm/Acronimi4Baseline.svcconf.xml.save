@@ -1,0 +1,95 @@
+<serviceConfig>
+  <definitionSet>
+    <definition>
+      <name>Syncing to ModelloBaseline</name>
+      <sources>
+        <source>
+          <element>Acronimi=Acronimi/ModelloBaseline=Adapter%3A+ModelloBaseline/root=Elements</element>
+          <depthLimit>0</depthLimit>
+          <startDepth>0</startDepth>
+          <matchers>
+            <ldapMatcher>
+              <value>(objectClass=LivelloRisorsa)</value>
+              <name>Match LivelloRisorsa class</name>
+              <description>Pick only leaves as generation is driven by a hierarchy file to be applied on leaves</description>
+            </ldapMatcher>
+          </matchers>
+        </source>
+      </sources>
+      <joinTargets>
+        <target>
+          <joinRules>
+            <propertyRule>
+              <propertyName1>${parent.get('name').concat('_').concat(${name})}</propertyName1>
+              <propertyName2>name</propertyName2>
+              <caseInsensitive>true</caseInsensitive>
+              <requiresMatch>false</requiresMatch>
+              <name>join on parent-child against name</name>
+              <description>Structure side match is on parent name + name, source side match is on name</description>
+            </propertyRule>
+          </joinRules>
+          <element>AllarmiSuElementi=AllarmiSuElementi/tAllarmiOUTv2=Adapter%3A+tAllarmiOUTv2/root=Elements</element>
+          <depthLimit>0</depthLimit>
+          <startDepth>0</startDepth>
+          <matchers>
+            <ldapMatcher>
+              <value>(objectClass=LivelloElemento)</value>
+              <name>Match LivelloElemento Class</name>
+              <description>Alarm affected elements</description>
+            </ldapMatcher>
+          </matchers>
+        </target>
+      </joinTargets>
+      <actions>
+        <copyElements>
+          <addSourceMatch>false</addSourceMatch>
+          <displaySourceElementsAsChildren>false</displaySourceElementsAsChildren>
+          <useDyamicMatching>false</useDyamicMatching>
+          <matchPattern>LivelloRisorsa=${class}</matchPattern>
+          <matchType>REGEXP</matchType>
+          <cloneTargets>false</cloneTargets>
+          <algorithms>
+            <algorithm>
+              <algorithm>paramHighest</algorithm>
+              <parameters>gather="ORG";defaultCondition="OK";reason="Condition set by paramHighest algorithm.";</parameters>
+              <matchers>
+                <ldapMatcher>
+                  <value>(objectClass=Risorsa)</value>
+                  <name>Match Risorsa Class</name>
+                  <description>Match only Risorsa class</description>
+                </ldapMatcher>
+              </matchers>
+            </algorithm>
+          </algorithms>
+          <addSourceProperties>true</addSourceProperties>
+          <nullSourceProperties>true</nullSourceProperties>
+          <linkToCorrelated>false</linkToCorrelated>
+          <generateFromLinkedElements>false</generateFromLinkedElements>
+          <useMatchedSourceForDynamicMatch>false</useMatchedSourceForDynamicMatch>
+          <ignoreLinkedSourceElements>false</ignoreLinkedSourceElements>
+          <name>Copy Hierarchy</name>
+          <useInverseMatching>false</useInverseMatching>
+        </copyElements>
+      </actions>
+      <schedule>
+        <enabled>false</enabled>
+      </schedule>
+      <reconciliationPolicy>
+        <id>2</id>
+        <name>Merge</name>
+      </reconciliationPolicy>
+      <dependencyTargets/>
+      <dependencyGenerators/>
+      <disabled>false</disabled>
+    </definition>
+    <enableDebug>true</enableDebug>
+    <enableAudit>true</enableAudit>
+    <lockDefinitionElement>false</lockDefinitionElement>
+    <savedTime>1346068473554</savedTime>
+    <savedVersion>105</savedVersion>
+    <element>gen_folder=AcroCatalog/gen_folder=testModelloBaseline/gen_folder=test/root=Generational+Models/root=Services</element>
+    <depthLimit>0</depthLimit>
+    <startDepth>0</startDepth>
+    <matchers/>
+  </definitionSet>
+</serviceConfig>

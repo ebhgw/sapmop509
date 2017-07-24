@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE hierarchy PUBLIC "-//Managed Objects, Inc.//DTD hierarchy 2.0//EN" "http://www.ManagedObjects.com/dtds/hierarchy_2.0.dtd">
+<hierarchy case="yes">
+	<generator field="structure.parent.parent.parent.cn" class="Acronimo" >
+		<generator field="structure.parent.parent.cn" class="ClasseCompInfra" >
+			<generator field="structure.parent.cn" class="CompInfra" >
+				<generator field="structure.cn" class="Risorsa" >
+				</generator>
+			</generator>
+		</generator>
+	</generator>
+</hierarchy>

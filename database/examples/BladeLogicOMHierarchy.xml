@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<hierarchy>
+<!-- hierarchy case="yes" -->
+	<test name="renamer" type="script"
+		expr="
+                var theitem='Unknown';
+                var ps2a=0;
+                var lev=0;
+                var mylob=alarm.getField('Location');
+                formula.log.debug('USAA MODL HIEARCHY TEST SCRIPT BEGINS');
+                if (mylob==null) {
+                } else  {
+		  try { 
+                          var alarmfieldfilterfields102 = java.util.StringTokenizer(mylob, ',');
+                          while (alarmfieldfilterfields102.hasMoreTokens()) {
+                            var alarmfieldfilterfield=alarmfieldfilterfields102.nextToken();
+                            lev++;
+                            if (lev==1) {
+                               alarm.setField('Site', alarmfieldfilterfield);
+                            } else 
+                            if (lev==2) {
+                               alarm.setField('Building', alarmfieldfilterfield);
+                            } else 
+                            if (lev==3) {
+                               alarm.setField('Room', alarmfieldfilterfield);
+                            } else 
+                            if (lev==4) {
+                               alarm.setField('Rack', alarmfieldfilterfield);
+                            } else {
+                               alarm.setField('Location'+lev, alarmfieldfilterfield);
+                            }
+                          }
+
+		  } catch( Exception ) {
+                      formula.log.error('usaadata2 processing Location for sublocs from ' + mylob + ' ' + Exception)
+  		  }
+               }
+         true"/>
+	<!-- end test -->
+	
+	<group class="layout_circular" name="Discovered Objects" >
+		
+		<properties name="configInfo">
+			<page name="Configuration Items">
+				<property computeOnGet="false"  field="hostname"    function="LAST" name="Name"/>
+				<property computeOnGet="false"  field="Application" function="LAST" name="Application"/>
+				<property computeOnGet="false"  field="CI"          function="LAST" name="Item"/>
+				<property computeOnGet="false"  field="IT_Service"  function="LAST" name="Service"/>
+				<property computeOnGet="false"  field="Domain"      function="LAST" name="Domain"/>
+				<property computeOnGet="false"  field="Location"    function="LAST" name="Location"/>
+				<property computeOnGet="false"  field="COSA"        function="LAST" name="COSA"/>
+			</page>
+		</properties>
+		
+		<group class="mgmt_sources" name="CI - Location">
+				<filter operator="and">
+			      <tref name="renamer"/>
+				</filter>
+			<generator affected="no" class="computer_workstation" field="Site">
+				<generator affected="no" class="type" field="Building">
+					<generator affected="no" class="subtype" field="Room">
+						<generator affected="no" class="Location" field="Rack">
+							<generator affected="no" class="computer_workstation" field="CI">
+						      <pref name="configInfo"/>
+							</generator>
+						</generator>
+					</generator>
+				</generator>
+			</generator>
+		</group>
+		
+		<group class="mgmt_sources" name="CI - COSA">
+			<generator affected="no" class="computer_workstation" field="COSA">
+				<generator affected="no" class="applications" field="Application">
+					<generator affected="no" class="application" field="IT_Service">
+						<param name="linktarget" value="IT_Service"/>
+						<generator affected="no" class="gen_file" field="CI">
+						   <pref name="configInfo"/>
+						</generator>
+					</generator>
+				</generator>
+			</generator>
+		</group>
+		
+		<group class="mgmt_sources" name="CI - Application">
+			<generator affected="no" class="applications" field="Application">
+				<generator affected="no" class="application" field="IT_Service">
+					<param name="linktarget" value="IT_Service"/>
+					<generator affected="no" class="gen_file" field="CI">
+						<pref name="configInfo"/>
+					</generator>
+				</generator>
+			</generator>
+		</group>
+		
+		<group class="mgmt_sources" name="CI">
+			<group class="mgmt_source" name="IT_Service App">
+				<generator affected="no" class="applications" field="IT_Service">
+					<generator affected="no" class="application" field="Application">
+						<pref name="configInfo"/>
+					   <param name="linksource" value="IT_Service"/>
+					   <param name="linkdomain" value="all"/>
+					</generator>
+				</generator>
+			</group>
+			
+			<group class="mgmt_source" name="App IT_Service">
+				<generator affected="no" class="applications" field="Application">
+					<generator affected="no" class="application" field="IT_Service">
+						<pref name="configInfo"/>
+					   <param name="linksource" value="Application"/>
+					   <param name="linkdomain" value="all"/>
+					</generator>
+				</generator>
+			</group>
+		</group>
+		
+		<group class="mgmt_sources" name="CI - Domain">
+			<generator affected="no" class="computer_workstation" field="Domain">
+				<generator affected="no" class="type" field="IT_Service">
+					<param name="linktarget" value="IT_Service"/>
+					<generator affected="no" class="application" field="Application">
+						<generator affected="no" class="formula_geography" field="Location0">
+							<generator affected="no" class="formula_map" field="Location1">
+								<generator affected="no" class="formula_map" field="Location2">
+									<generator affected="no" class="formula_map" field="Location3">
+										<generator affected="no" class="formula_map" field="CI">
+						               <pref name="configInfo"/>
+										</generator>
+									</generator>
+								</generator>
+							</generator>
+						</generator>
+					</generator>
+				</generator>
+			</generator>
+		</group>
+		
+	</group>
+	
+</hierarchy>

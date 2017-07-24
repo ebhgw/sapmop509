@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+The ServiceCenterConfiguration.XML file must begin with a <servicecenter> root element and it must have a
+!DOCTYPE reference to this DTD.
+
+    The only general property, <properties>, currently defined is the <connection> that contains a URL, <testURL>,
+	that is used to test the connectivity to the	Peregrine ServiceCenter Soap server.  
+    
+	Substitution properties are defined by <property> tags and associate a name to substitution string.  There are
+	four such properties defined in the sample ServiceCenterConfiguration.xml file, others may be defined as needed.
+	
+	
+	The four sample properties are:
+	  "root.soap.xmlns"    -This property defines the Soap namespace declarations needed to submit Soap requests to
+	                        the Peregrine ServiceCenter server.
+	  "root.soap.envelope" -This property defines the Soap envelope xml syntax
+	  "root.soap.endpoint.prefix" -This property defines the host and port of the Peregrine ServiceCenter Soap server
+	  "root.soap.namespace" -This property defines the Peregrine ServiceCenter webservice namespace.
+	  
+	  
+-->
+
+<!ELEMENT servicecenter (properties,property*,module*)>
+
+<!--
+-->
+
+<!ELEMENT properties (connection?,formula?,soap?)>
+<!ELEMENT connection (testURL)>
+<!ELEMENT testURL (#PCDATA)>
+<!ELEMENT property (#PCDATA)*>
+<!ATTLIST property
+          name CDATA #IMPLIED
+>
+<!ELEMENT module (properties+)>
+<!ATTLIST module
+          name CDATA #IMPLIED
+		  enable (true|false) "false"
+>
+
+<!ELEMENT formula (fields,severities)>
+<!ELEMENT fields (status,lastUpdate,key,description,assignedTo)>
+<!ELEMENT status (#PCDATA)>
+<!ELEMENT lastUpdate (#PCDATA)>
+<!ELEMENT key (#PCDATA|container|instance)*>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT assignedTo (#PCDATA)>
+
+<!ELEMENT severities (item)*>
+<!ELEMENT item EMPTY>
+<!ATTLIST item
+          fromRE CDATA #REQUIRED
+		  toSeverity CDATA #REQUIRED
+>
+<!ELEMENT soap (endpoint,namespace,server,port,username,password,operations)>
+<!ELEMENT endpoint (#PCDATA)> 
+<!ELEMENT namespace (#PCDATA)> 
+<!ELEMENT server (#PCDATA)> 
+<!ELEMENT port (#PCDATA)> 
+<!ELEMENT username (#PCDATA)> 
+<!ELEMENT password (#PCDATA)> 
+<!ELEMENT operations (pollKeys,getPollRecords,operation*)>
+<!ELEMENT pollKeys (name,envelope,body,response,instance,date)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT envelope (#PCDATA)>
+<!ELEMENT body (#PCDATA)>
+<!ELEMENT response (#PCDATA)>
+<!ELEMENT instance (#PCDATA|container|typeattribute)*>
+<!ELEMENT container (#PCDATA)>
+<!ELEMENT typeattribute (#PCDATA)>
+<!ELEMENT date (initial,format)>
+<!ELEMENT initial (#PCDATA)>
+<!ELEMENT format (#PCDATA)>
+<!ELEMENT getPollRecords (name,envelope,body,response,instance,key)>
+<!ELEMENT operation (menu,prescript?,name,response,envelope,body,message)> 
+<!ATTLIST operation
+          name CDATA #REQUIRED
+          enable (true|false) "false"
+>
+<!ELEMENT menu (#PCDATA)>
+<!ELEMENT prescript (#PCDATA)>
+<!ATTLIST prescript
+          sub (true|false) "false"
+>
+<!ELEMENT message (container,entry)>
+<!ELEMENT entry (#PCDATA)>	
+
+
+
+

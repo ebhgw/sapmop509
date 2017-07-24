@@ -1,0 +1,70 @@
+<serviceConfig>
+  <definitionSet>
+    <definition>
+      <name>SetParamHighest</name>
+      <sources>
+        <source>
+          <element>folder_application=Services/ISP_FolderBase=Production/root=Organizations</element>
+          <depthLimit>0</depthLimit>
+          <startDepth>0</startDepth>
+          <matchers>
+            <ldapMatcher>
+              <value>(objectClass=Risorsa)</value>
+              <name>Match Risorsa</name>
+              <description>This default matcher matches structure elements to target elements by their name only.</description>
+            </ldapMatcher>
+          </matchers>
+        </source>
+      </sources>
+      <joinTargets/>
+      <actions>
+        <copyElements>
+          <addSourceMatch>false</addSourceMatch>
+          <displaySourceElementsAsChildren>false</displaySourceElementsAsChildren>
+          <useDyamicMatching>false</useDyamicMatching>
+          <cloneTargets>false</cloneTargets>
+          <algorithms>
+            <algorithm>
+              <algorithm>paramHighest</algorithm>
+              <parameters>gather="ORG";defaultCondition="OK";reason="Condition set by paramHighest algorithm.";</parameters>
+              <matchers>
+                <ldapMatcher>
+                  <value>(objectClass=Risorsa)</value>
+                  <name>Match Risorsa</name>
+                  <description>This default matcher matches structure elements to target elements by their name only.</description>
+                </ldapMatcher>
+              </matchers>
+            </algorithm>
+          </algorithms>
+          <addSourceProperties>false</addSourceProperties>
+          <nullSourceProperties>false</nullSourceProperties>
+          <linkToCorrelated>false</linkToCorrelated>
+          <generateFromLinkedElements>false</generateFromLinkedElements>
+          <useMatchedSourceForDynamicMatch>false</useMatchedSourceForDynamicMatch>
+          <ignoreLinkedSourceElements>false</ignoreLinkedSourceElements>
+          <name>Copy Hierarchy</name>
+          <useInverseMatching>false</useInverseMatching>
+        </copyElements>
+      </actions>
+      <schedule>
+        <enabled>false</enabled>
+      </schedule>
+      <reconciliationPolicy>
+        <id>1</id>
+        <name>None</name>
+      </reconciliationPolicy>
+      <dependencyTargets/>
+      <dependencyGenerators/>
+      <disabled>false</disabled>
+    </definition>
+    <enableDebug>false</enableDebug>
+    <enableAudit>true</enableAudit>
+    <lockDefinitionElement>false</lockDefinitionElement>
+    <savedTime>1331551038708</savedTime>
+    <savedVersion>0</savedVersion>
+    <element>folder_application=Services/ISP_FolderBase=Production/root=Organizations</element>
+    <depthLimit>0</depthLimit>
+    <startDepth>0</startDepth>
+    <matchers/>
+  </definitionSet>
+</serviceConfig>

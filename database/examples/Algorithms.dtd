@@ -1,0 +1,771 @@
+<!--
+	Algorithms OverView
+
+        Operations Center's algorithm facility works by creating a STATE object that
+        contains the _subjects_ of the calculation (like the element
+        to calculate condition for), the _intermediate state_ of the
+        calculation (like the set of elements to operate on), and the
+        _result_ of the calculation (an ElementCondition, in this case).
+
+        The state of the calculation is passed from statement to statement
+        until there are no more statements, or a statement _terminates_
+        the calculation.
+
+        The terms statement and algorithm are somewhat interchangeable.
+        An algorithm is a grouping of statements, but both adhere to
+        the same protocol - they take a state object, examine and
+        transform it, then pass it on.
+
+        You can think of this as an assembly line, where each statement
+        gets to look at the "box" of information as it passes by, making
+        changes to it or tagging the box as "done".
+
+        There are many types of actions that can be performed by the
+        statements.  Here is a sampling of what is available:
+
+        1. Gather elements.  Usually the status of an element is calculated
+        from its children.  Gathering statements bring together the
+        children of the object.
+
+        2. Eliminate some elements.  Often some kinds of objects shouldn't
+        affect the calculation.  Reduce statements perform this element
+        elimination.
+
+        3. Perform simple calculations, like taking the highest, average,
+        or lowest condition.
+
+        4. Take a status if it achieves a certain amount or percentage.
+
+        5. Fire a script that calculates condition.
+
+        6. Declare a condition "band" with a result; this enables calculations
+        that say, "If 75% of the children are critical, go critical.  If
+        50% of children are critical, go major."
+
+        7. State "branching" is available.  If a series of statements
+        _modify_ the state, later statements can be given a copy of the
+        original state by using the "split" command.  Each branch of a
+        split is given its own copy of the state that came into the split
+        command.  You can break out of a branch by using a "skip" attribute.
+
+        The strength of the system is that all these actions can be performed
+        simultaneously, or in any desired sequence.  The usual sequence is
+        to _gather_, followed by _reduce_, then perform a condition
+        calculation, often by Highest or by Count.
+
+        A skeletal section looks like this:
+
+        <algorithm name="Name of your algorithm">
+                <gather relationship="ORG" />
+                <highest />
+        </algorirthm>
+
+        An algorithm consists of a series of commands to execute and
+        "state transfer" elements.  The basic XML keywords are:
+
+        - algorithms  : Indicates that a series of named algorithms will be declared.
+        - algorithm   : Declares an algorithm with a name.
+        - exec        : Executes a command against the current state.  The command
+                        can modify the state.  The command can also set the state
+                        as "finished", which means the calculation is terminated.
+                        An unfinished calculation is sent to the next statement.
+        - split       : Splits have "branches" inside of them.  Each branch is
+                        passed, in order, a copy of the state that was given to
+                        the split.  This enables each branch to freely modify the
+                        contents of the state object without worrying what other
+                        branches will need.  Note that the first branch to
+                        set the "finished" state will terminate the calculation.
+        - branch      : A "branch" within a split statement.
+        - defineCommand : Declares a new command (for use with the exec statement above).
+
+    The commands below can be executed using the 'exec' statement or as
+	a direct statement (i.e. <exec command="highest" /> or <highest />).
+	The commands that can be executed are:
+
+        gather        : relationship="ORG"|"NAM"|"MAP"|"TOP"
+        reduce        : script="scriptname" | property="name|dname|className|marker" | value="expr" | testCondition="CRITICAL, etc."  invert="yes"|"no"
+        band          : testCondition="CRITICAL, etc." result="MAJOR, etc." amount="25"|"50%" | reason="A reason"
+        lowest        : defaultCondition="CRITICAL, etc." | reason="A reason"
+        count         : amount="50%" | defaultCondition="CRITICAL, etc." | reason="A reason"
+        average       : defaultCondition="CRITICAL, etc." | reason="A reason"
+        highest       : defaultCondition="CRITICAL, etc." | reason="A reason"
+        script        : script="script|@scriptName"
+        invoke        : name="algorithm to invoke"
+        set           : result="CRITICAL, etc." | reason="A reason"
+
+	The attributes to the above commands (except invoke) can be parameterized.
+	See 'The parameter element' described with the parameter xml element.
+
+        "gather" places into the set of available elements all elements related to
+        the subject element along the specified relationship.  Multiple gather
+        statements can assemble all children along more than one relationship.
+
+
+        "reduce" selectively eliminates elements from the set of available
+        elements.  You should have already populated the set with a "gather".
+        You can specify a script; if you specify one, it receives the following:
+
+                - subject : The Element whose condition is being calculated.
+                - element : The Element to test for removal.
+                - server  : The Operations Center server.
+                - adapter : The adapter the element to be tested came from.
+                - state   : The state object of the current calculation.
+
+        The script should return an object of class Boolean.  If it returns
+        true, the element will be removed from the available set.
+
+        If "property" and "value" is set, then a regular expression match will
+        be performed against the element's given property (name, className,
+        dname, or marker).
+
+        If "marker" is set, then a simple marker test will be performed against
+        the element to be tested.  Markers can be specified by placing an
+        entry in elements.ini; set "marker" in the element's section.
+
+        "testCondition" returns true if the element is of the specified condition.
+        This can be used to easily remove all unknown elements, for example.
+
+        "invert" can also be set to yes; if this is done, the element will be removed
+        if it returns false.
+
+        It is often convenient to use split elements in conjunction with
+        reduce.  Doing so permits the exploration of the condition of
+        different subsets of elements.
+
+        "band" seeks a certain number of elements at a given condition.  If it
+        finds that number, it sets a resulting condition, and stops computation.
+        For example, you can set it to find 50% of elements at CRITICAL.  If it
+        finds that, it can set the condition to MAJOR, and terminate.  Successive
+        bands are often used to assign declining levels of severity to certain
+        numbers of elements at a condition level.
+
+
+        "count" tries to find a condition with the given number of elements.
+        If amount is set to 50%, it tries to find, in descending order of
+        severity, a triggering number of events.  If at least 50% of elements
+        aren't of any given severity above OK, it won't fire.
+
+
+        "lowest" takes the lowest (least severe) condition of the elements
+        in the active set.  If there are three routers and the object
+        should be OK if any of them are OK, lowest will accomplish this.
+
+
+        "average" takes the average condition of the elements in the active set.
+
+
+        "highest" takes the highest condition of the elements in the active set.
+        This corresponds to Operations Center's default behavior if no algorithm has
+        been set for a given element.
+
+
+        "script" permits the invocation of any arbitrary NOCScript.  The
+        script can examine the context of the condition calculation; it can
+        extend or reduce the set of elements, set the state of the computation,
+        change the result, or generally update the state object any way it wants.
+
+        The following context is provided to the script:
+
+                - subject : The element whose condition is being calculated.
+                - server  : The Operations Center server object.
+                - adapter : The adapter the subject comes from.
+                - stateCondition   : The current condition state.
+
+        The return value of the script is ignored.
+
+
+        "invoke" permits the recursive calling of algorithms.  The algorithm
+        specified by the name attribute will be invoked (have the current
+        state passed to it).  This is the equivalent of invoking a subroutine.
+
+        "set" allows setting of an arbitrary condition, and finishing the
+        calculation immediately.
+
+
+-->
+
+<!--
+        The algorithms element declares a series of algorithms.  You should place
+        algorithm elements inside of it.  You can also define new commands
+        that the algorithm engine executes by creating defineCommand elements.
+-->
+
+<!ELEMENT algorithms (algorithm|defineCommand)+ >
+
+<!--
+        The defineCommand element creates a new command that can be used with "exec"
+        elements.  A Java class must be available that adheres to the
+        com.mosol.util.algo.Algorithm interface.  Specify the name of the new
+        algorithm with the name attribute, and specify the class with the
+        class attribute.  The engine will execute Class.forName on the class
+        you specify, and create new instances with a no-argument constructor.
+        Your class will have its initializeAlgorithm method called when
+        it is instantiated.
+-->
+
+<!ELEMENT defineCommand EMPTY>
+<!ATTLIST defineCommand
+        name CDATA #REQUIRED
+        class CDATA #REQUIRED>
+
+<!--
+        The algorithm element declares a named algorithm.  You must specify the
+        name attribute; the algorithm is registered with the algorithm engine
+        with that name.  Algorithm elements can contain any number of exec,
+        split, etc., statements.
+-->
+
+<!ELEMENT algorithm (exec|split|parameter|average|band|count|gather|highest|invoke|lowest|scriptreduce|matchreduce|conditionreduce|script|set|elementpropertyband|timebasedsplit)+ >
+<!ATTLIST algorithm
+     name CDATA #REQUIRED>
+
+<!--
+        An exec element directs the algorithm engine to perform a command
+        The name of the command to be executed is specified with the
+        required command attribute.  Each command has a set of other
+        attributes, specific to that command, that can optionally be
+        added.  When the exec element is encountered, an appropriate
+        Algorithm/Command object is instantiated.  The initializeAlgorithm
+        method is invoked with the additional attributes on the command line.
+        This permits new commands to have any parameters they want.
+        Certain attributes have been predefined here, to aid syntax
+        checking.
+-->
+
+<!ELEMENT exec EMPTY>
+<!ATTLIST exec
+     command CDATA #REQUIRED
+     relationship (NAM|ORG|TOP|MAP|nam|org|top|map) #IMPLIED
+     script CDATA #IMPLIED
+     resolveScriptParameters (no|false|yes|true) #IMPLIED
+     property (NAME|DNAME|CLASSNAME|MARKER|name|dname|className|marker) #IMPLIED
+     value CDATA #IMPLIED
+     testCondition (UNKNOWN|CRITICAL|MAJOR|MINOR|INFO|OK|UNMANAGED|unknown|critical|major|minor|info|ok|unmanaged) #IMPLIED
+     invert (yes|no) #IMPLIED
+     result (UNKNOWN|CRITICAL|MAJOR|MINOR|INFO|OK|UNMANAGED|unknown|critical|major|minor|info|ok|unmanaged) #IMPLIED
+     amount CDATA #IMPLIED
+     defaultCondition (UNKNOWN|CRITICAL|MAJOR|MINOR|INFO|OK|UNMANAGED|unknown|critical|major|minor|info|ok|unmanaged) #IMPLIED
+     reason CDATA #IMPLIED
+     name CDATA #IMPLIED
+>
+
+<!--
+        The split element creates copies of the state passed to it then feeds
+        them to each branch.  The effect of this is to give each branch
+        a fresh copy of the state to work on.  The branch is then free to
+        modify the state any way it sees fit, and know that the other
+        branches will be unaffected.  A split contains a series of branch
+        elements.
+-->
+
+<!ELEMENT split (branch)+ >
+
+<!--
+        A branch element is similar to the algorithm element, except that
+        it has no name.  It contains exec and split statements, etc., just
+	    like algorithm.  Each branch is fed a copy of the state from its
+        enclosing split element.
+-->
+
+<!ELEMENT branch (exec|split|average|band|count|gather|highest|invoke|lowest|scriptreduce|matchreduce|conditionreduce|script|set)+ >
+
+<!--
+        The timebasedsplit element creates copies of the state passed to it then feeds
+        them to each timebasedbranch .  The effect of this is to give each timebasedbranch
+        a fresh copy of the state to work on.  The timebasedbranch is then free to
+        modify the state any way it sees fit, and know that the other
+        timebasedbranches will be unaffected.  A timebasedsplit contains a series of timebasedbranch
+        elements.
+-->
+
+<!ELEMENT timebasedsplit (timebasedbranch)+ >
+
+<!--
+        A timebasedbranch element is similar to the algorithm element, except that
+        it has no name.  It contains exec and split statements, etc., just
+	    like algorithm.  Each timebasedbranch is fed a copy of the state from its
+        enclosing split element. A timebasedbranch 
+
+	   The timebasedbranch element uses two attributes:
+	   calendar : The calendar name from the Operations Center time management system.
+	   timecategories : The time category IDs in the following format "n|n|n".  For example: "1|2|3" or "1"
+-->
+
+<!ELEMENT timebasedbranch (exec|split|average|band|count|gather|highest|invoke|lowest|scriptreduce|matchreduce|conditionreduce|script|set|timebasedsplit)+ >
+<!ATTLIST timebasedbranch 
+     calendar CDATA #IMPLIED
+     timecategories CDATA #IMPLIED
+>
+
+<!--
+        The invoke element will invoke a named algorithm. The invoking algorithm
+	must define any algorithm parameters that the invoked algorithm uses.
+
+	Required Attributes:
+	 name (text): Name of algorithm to invoke.
+	Examples:
+	 <invoke name="MyAverageAlgo" />
+-->
+
+
+<!ELEMENT invoke EMPTY>
+<!ATTLIST invoke
+     name CDATA #REQUIRED
+>
+
+
+<!--
+        The parameter element
+
+	This declares a new parameter for the algorithm. Parameters can
+	be used to modify behavior or values in the algorithm for the
+	elements that use the algorithm. Parameter values are edited in the
+	UI property page 'Condition' tab for an element, when the desired
+	algorithm is selected. The parameter values are stored in the
+	Elements.ini file under 'RollupParameters:' for each element having
+	algorithm parameters.
+
+	For example, in the algorithm:
+
+	   <algorithm name="mySet">
+		<parameter name="condition" description="A condition" type="condition" default="OK" />
+		<set result="{condition}" />
+	   </algorithm>
+
+	One property (named condition) will be presented in the UI for editing.
+	For element 'router1', the condition property could be set to CRITICAL,
+	while for 'router2' the condition property could be set to MAJOR. Which
+	means 'router1' stores CRITICAL in the RollupParameters field of its
+	Elements.ini entry, while 'router2' stores MAJOR. When the algorithm
+	'mySet' is evaluated against 'router1' at run time, the condition of
+	that element will be set to CRITICAL, while when evaluated against
+	'router2', the condition will be set to MAJOR.
+
+	The parameter element uses four attributes:
+	   name : Parameter name used in '{<name>}' substitution.
+	   description : Descriptive text for the parameter.
+	   type : One of:
+	      text : Arbitrary text string.
+	      condition : Allows: UNKNOWN, CRITICAL, MAJOR, MINOR, INFORMATIONAL, OK.
+	      boolean : Allows: YES, NO.
+	      property : Allows: name, dname, className, marker.
+	      kind : Allows: NAM, ORG, TOP, MAP.
+	      choice: : Allows one of a specific set of '|' seperated choices. Example: type="choice:100%|75%|50%|25%"
+	   default : Text to use as the default value for the parameter.
+
+	Notes:
+
+	- The text string given as an attribute (i.e. "{condition}"
+	or "MAJOR", etc.) is not converted to it's base type (i.e.
+	ElementCondition) until the algorithm statement	is evaluated
+	at run time against a specific element after parameter
+	substitution takes place. So an invalid value (i.e. result="NO")
+	will not log an exception until algorithm evaluation time,
+	not when the Algorithms.xml file is first loaded.
+
+	- If the invoke statement is used to invoke another algorithm
+	that is parameterized, the parameters must also appear with the same
+	name as parameters in the top-level algorithm. Otherwise the
+	parameters will not have values set, since parameters associate
+	with the top-level algorithm for the element.
+
+	- Care should be taken when adding, removing, or changing
+	algorithm parameters for an algorithm that is being used,
+	since the modified parameters may not be in the Elements.ini
+	file for elements using that algorithm.
+
+	- For advanced users writing additional commands to be defined
+	using the defineCommand element, parameter substitution can be used
+	within those command statements. The Details: In the
+	initializeAlgorithm() method of the class, which is invoked when
+	the Algorithms.xml file is loaded, store the passed in attribute
+	values without converting them to thier base types. In the
+	actOnState() method of the class, which is invoked when the command
+	statement is being evaluated for a specific element, perform
+	parameter substitution for each attribute value using the
+	resolveParameters() method in the ConditionState class.
+
+	A code fragment might be:
+
+	   String condition =
+	      ((com.mosol.Formula.Server.algo.ConditionState)state).
+		resolveParameters(conditionString);
+
+	Where state is the State object as passed in as a method
+	parameter to actOnState(), and conditionString is the
+	attribute value that was stored in the initializeAlgorithm()
+	method.
+-->
+
+<!ELEMENT parameter EMPTY>
+<!ATTLIST parameter
+     name CDATA #REQUIRED
+     description CDATA #IMPLIED
+     type CDATA #IMPLIED
+     default CDATA #IMPLIED
+>
+
+
+
+<!--
+	The statement elements
+
+	Note that for the elements below, the attributes must be of CDATA type
+	because they can be parameterized. For example, defaultCondition can
+	be parameterized as defaultCondition="{condition}" or hard-coded as
+	defaultCondition="INFORMATIONAL". Due to parameterization, attributes
+	can't be validated by the DTD, because parameter substitution is
+	evaluated at run time when the algorithm is executed against a
+	specific element.
+
+	A parameter element is required for each named parameter.
+
+	In the element descriptions below, a type shown after attribute names is
+	the type the attribute should evaluate to after parameter substitution.
+	   text : Arbitrary text string.
+	   number : An integer number or a percentage.
+	   condition : One of: UNKNOWN, CRITICAL, MAJOR, MINOR, INFORMATIONAL, OK.
+	   boolean : One of: YES, NO.
+	   property : One of: name, dname, className, marker.
+	   kind : One of: NAM, ORG, TOP, MAP.
+
+	The behavior of the statement elements is identical if specified using
+	the alternate exec/command usage. For example, the following two
+	are identical:
+	   <exec command="average" defaultCondition="{condition_value}" />
+	   <average defaultCondition="{condition_value}" />
+-->
+
+<!--
+        The average element will average the gathered element's conditions.
+
+	Optional Attributes:
+	 defaultCondition (condition): Condition to be set if there are no gathered elements.
+	 reason (text): text reason for why the condition was set.
+	 
+	Format:
+	 <average defaultCondition="{condition_value} reason="{reason_text}" />
+	 <average />
+	Example: 
+	 <average defaultCondition="OK" reason="Condition set by 'average' statement." />
+	 <average reason="Condition set by 'MyAverageAlgo' algorithm." />
+-->
+
+<!ELEMENT average EMPTY>
+<!ATTLIST average
+     defaultCondition CDATA #IMPLIED
+     reason CDATA #IMPLIED
+     rounding CDATA #IMPLIED
+>
+
+<!--
+    The elementpropertyband element will set condition to result if a specified
+	element property has a value within the upper and lower points defined in the algorithm.
+	The intent of this algorithm is to be used with the Business Experience Manager Suite to set
+	threasholds of integer-based element properties (namely response time).
+	If the value of the given element property falls between the upper and lower bound defined, the result
+	condition will be set to the element this algo is set to.
+
+	If not, the conditionState will not be modified.
+
+	In the case of the Operations Center Experience Manager, the min and max values are used in milliseconds.
+
+	Required Attributes:
+	 elementProperty (text): Matching criteria for the element property.
+	 min (number) (ms): Lower bound threashold.
+	 max (number) (ms): Upper bound threashold.
+	 result (condition): Condition to be set if the element property value falls within the min and max.
+	Optional Attributes:
+	 reason (text): text reason for why the condition was set. Used for root-cause.
+	 skip (text): name of algorithm to skip to.
+	 invert  (boolean): set to yes or no. Used with the skip attribute. Default is yes.
+	  If the skip attribute is set to a named algorithm:
+	  - when invert="no" and the test succeeds, the result condition is set and control is passed
+	  - when invert="yes" and the test fails, the result condition is set and control is passed
+	  - any other combination causes control to pass to the next statement in the algorithm
+
+	Example:
+	<elementpropertyband elementProperty="responseTime" min="0" max="1000" result="OK" reason="End User Response is within expected threashold." />
+	<elementpropertyband elementProperty="responseTime" min="1001" max="2000" result="MINOR" reason="End User Response is within expected threashold." />
+	<elementpropertyband elementProperty="responseTime" min="2001" max="3000" result="MAJOR" reason="End User Response is within expected threashold." />
+	<elementpropertyband elementProperty="responseTime" min="3001" max="4000" result="CRITICAL" reason="End User Response is within expected threashold." />
+	<elementpropertyband elementProperty="responseTime" min="1001" max="2000" result="MINOR" skip="next_algorithm_name" />
+-->
+
+<!ELEMENT elementpropertyband EMPTY>
+<!ATTLIST elementpropertyband
+     elementProperty CDATA #REQUIRED
+     min CDATA #REQUIRED
+     max CDATA #REQUIRED
+     result CDATA #REQUIRED
+     reason CDATA #IMPLIED
+	 skip CDATA #IMPLIED
+	 invert CDATA #IMPLIED
+>
+
+<!--
+    The band element will set condition to result if a specified
+	quantity of the gathered elements are of a specified condition.
+	If not, the conditionState will not be modified.
+
+	Required Attributes:
+	 amount (number): Matching criteria as a number or a percentage.
+	 testCondition (condition): Condition to test using amount attribute.
+	 result (condition): Condition to be set if there is there is a match.
+	Optional Attributes:
+	 reason (text): text reason for why the condition was set. Used for root-cause.
+	 skip (text): name of algorithm to skip to.
+	 invert (boolean)}: set to yes or no. Used with the skip attribute. Default is yes.
+	  If the skip attribute is set to a named algorithm:
+	  - when invert="no" and the test succeeds, the result condition is set and control is passed
+	  - when invert="yes" and the test fails, the result condition is set and control is passed
+	  - any other combination causes control to pass to the next statement in the algorithm
+
+	Format:
+	 <band amount="{number_or_percentage}" testCondition="{condition_value_to_match}" result="{resulting_condition_value}" reason="{text_description}" />
+	Example: 
+	 <band amount="25%" testCondition="MAJOR" result="CRITICAL" reason="CRITICAL due to 25% or more MAJOR" />
+	 <band amount="5" testCondition="INFORMATIONAL" result="MINOR" reason="MINOR due to 5 or more INFORMATIONAL" />
+	 <band amount="6" testCondition="CRITICAL" result="INFO" skip="next_algorithm_name" />
+-->
+
+<!ELEMENT band EMPTY>
+<!ATTLIST band
+     amount CDATA #REQUIRED
+     result CDATA #REQUIRED
+     testCondition CDATA #REQUIRED
+     reason CDATA #IMPLIED
+	 skip CDATA #IMPLIED
+	 invert CDATA #IMPLIED
+>
+
+<!--
+    The count element will attempt to find a condition of a specified
+	quantity within the gathered elements. If it doesn't, the
+	conditionState will not be modified.
+
+	Required Attributes:
+	 amount (number): Matching criteria as a number or a percentage.
+	Optional Attributes:
+	 defaultCondition (condition): Condition to be set if there are no gathered elements.
+	 reason (text): text reason for why the condition was set.
+	Format:
+	 <count amount="{number_or_percentage}" defaultCondition="{condition_value} reason="{text_description}" />
+	Example:
+	 <count amount="25%" />
+	 <count amount="5" />
+-->
+
+<!ELEMENT count EMPTY>
+<!ATTLIST count
+     amount CDATA #REQUIRED
+     defaultCondition CDATA #IMPLIED
+     reason CDATA #IMPLIED
+>
+
+<!--
+    The gather element will add children elements of the subject element
+	of a given relationship type (NAM, ORG) to the conditionState object. The added
+	elements will then be available for use by statements following the
+	gather statement (i.e. average, highest, reduce, etc.).
+
+	Required Attributes:
+	 relationship (kind): Operations Center element relationship kind.
+	Format:
+	 <gather relationship="{relationship_type}" />
+	Example:
+	 <gather relationship="NAM" />
+
+-->
+
+<!ELEMENT gather EMPTY>
+<!ATTLIST gather
+     relationship CDATA #REQUIRED
+>
+
+<!--
+    The highest element will set the condition to the highest (most severe)
+	condition within the gathered elements.
+
+	Optional Attributes:
+	 defaultCondition (condition): Condition to be set if there are no gathered elements.
+	 reason (text): text reason for why the condition was set.
+	Format:
+	 <highest defaultCondition="{condition_value} reason="{text_description}" />
+	 <highest />
+	Example:
+	 <highest defaultCondition="OK" reason="Condition set by 'highest' statement." />
+	 <highest reason="Condition set by 'MyHighestAlgo' algorithm." />
+-->
+
+<!ELEMENT highest EMPTY>
+<!ATTLIST highest
+     defaultCondition CDATA #IMPLIED
+     reason CDATA #IMPLIED
+>
+
+<!--
+    The lowest element will set the condition to the lowest (least severe)
+	condition within the gathered elements.
+
+	Optional Attributes:
+	 defaultCondition (condition): Condition to be set if there are no gathered elements.
+	 reason (text): text reason for why the condition was set.
+
+    Format:
+	 <lowest defaultCondition="{condition_value} reason="{text_description}" />
+	 <lowest />
+	Example: 
+	 <lowest defaultCondition="OK" reason="Condition set by 'lowest' statement." />
+	 <lowest reason="Condition set by 'MyLowestAlgo' algorithm." />
+-->
+
+<!ELEMENT lowest EMPTY>
+<!ATTLIST lowest
+     defaultCondition CDATA #IMPLIED
+     reason CDATA #IMPLIED
+>
+
+<!--
+    The scriptreduce element will remove a passed in element from
+	the gathered elements based on a script return code of type
+	java.lang.Boolean. 'true' to remove an element and 'false'
+	to leave an element in the gathered set. Attribute invert="yes"
+	inverts the meaning so that 'true' will leave an element and
+	'false' will remove it.
+
+	The script will be passed in the following objects:
+           - subject : The Element whose condition is being calculated.
+           - server  : The Operations Center server.
+           - adapter : The adapter the element to be tested came from.
+           - element : The Element to test for removal.
+           - state   : The state object of the current calculation.
+
+	Required Attributes:
+	 script (text): The script to be evaluated.
+	Optional Attributes:
+	 invert (boolean): Invert the return code meaning.
+       resolveScriptParameters (boolean): The script has parameters that need to be
+           resolved. The default is false. Parameters allow substitution of text that
+           can differ per element. Be aware that '{' and '}' in the script may cause
+           conflicts with parameter substitution, since those charcters signify substitution.
+	Format:
+	 <scriptreduce invert="{yes|no}" script="{script_declaration}" />
+	Example:	 
+	 <scriptreduce invert="yes" script="new Packages.java.lang.Boolean(false);" />
+-->
+
+<!ELEMENT scriptreduce EMPTY>
+<!ATTLIST scriptreduce
+     resolveScriptParameters (no|false|yes|true) #IMPLIED
+     invert CDATA #IMPLIED
+     script CDATA #REQUIRED
+>
+
+<!--
+    The matchreduce element will remove an element from	the gathered
+	elements based on a regular expression match to a specified
+	parameter (or value) within the element. A match will remove
+	an element, otherwise the element will remain in the gathered
+	set. Attribute invert="yes" inverts the meaning so that a match
+	will leave an element and a non-match will remove it.
+
+	Required Attributes:
+	 property (property): The property to be matched.
+	 value (text): The regular expression to match against the property. Use an 'i' at the end for case insensitivity.
+	Optional Attributes:
+	 invert (boolean): Invert the return code meaning.
+	 
+	Format:
+	 <matchreduce invert="{yes/no}" property="{property_name}" value="{property_value}" />
+	Example:
+	 <matchreduce invert="yes" property="dname" value="/.*cisco.*/i" />
+-->
+
+<!ELEMENT matchreduce EMPTY>
+<!ATTLIST matchreduce
+     invert CDATA #IMPLIED
+     property CDATA #REQUIRED
+     value CDATA #REQUIRED
+>
+
+<!--
+    The conditionreduce element will remove an element from
+	the gathered elements if it is of the specified condition.
+	Attribute invert="yes" inverts the meaning so that a match
+	will leave an element and a non-match will remove it.
+
+	Required Attributes:
+	 testCondition (condition): The condition to be tested.
+	Optional Attributes:
+	 invert (boolean): Invert the return code meaning.
+	 
+	Format: 
+	 <conditionreduce invert="{yes|no}" testCondition="{condition_value}" />
+	 
+	Example:
+	 <conditionreduce invert="no" testCondition="UNKNOWN" />
+-->
+
+<!ELEMENT conditionreduce EMPTY>
+<!ATTLIST conditionreduce
+     invert CDATA #IMPLIED
+     testCondition CDATA #REQUIRED
+>
+
+<!--
+    The script element will invoke a script passing in the objects below. It
+	is the responsibility of the script to manipulate the conditionState
+	object as needed.
+           - subject : The Element whose condition is being calculated.
+           - server  : The Operations Center server.
+           - adapter : The adapter the element to be tested came from.
+           - conditionState   : The state object of the current calculation.
+           - condition_state  : Another way to refer to conditionState.
+
+	Required Attributes:
+	 script (text): The script to be evaluated.
+      Optional Attributes:
+       resolveScriptParameters (boolean): The script has parameters that need to be
+           resolved. The default is false. Parameters allow substitution of text that
+           can differ per element. Be aware that '{' and '}' in the script may cause
+           conflicts with parameter substitution, since those charcters signify substitution.
+	Examples:
+	 <script script="{script}" />
+	 <script script="conditionState.setResult(Packages.com.mosol.ORB.Formula.ElementCondition.from_int(1),"A reason");conditionState.setState(Packages.com.mosol.Formula.Server.algo.ConditionState.FINISHED);" />
+
+	A script can use parameterization so that behavior or values can be
+	configured differently per element. An example:
+	   <algorithm name="MyScriptAlgo">
+		<parameter name="condition" description="A condition" type="condition" default="CRITICAL" />
+		<parameter name="reason" description="A reason" type="text" default="Set by script" />
+		<script script="conditionState.setResult(Packages.com.mosol.ORB.Formula.ElementCondition.{condition},"{reason}");conditionState.setState(Packages.com.mosol.Formula.Server.algo.ConditionState.FINISHED);" />
+	   </algorithm>
+-->
+
+<!ELEMENT script EMPTY>
+<!ATTLIST script
+     resolveScriptParameters (no|false|yes|true) #IMPLIED
+     script CDATA #IMPLIED
+>
+
+<!--
+    The set element will set the condition to a specified condition.
+
+	Required Attributes:
+	 result (condition): The condition to set the element.
+	Optional Attributes:
+	 reason (text): text reason for why the condition was set.
+	 
+	Format:
+	 <set result="{condition_value}" />
+	Example:
+	 <set result="MINOR" reason="Condition set by 'set' statement" />
+-->
+
+<!ELEMENT set EMPTY>
+<!ATTLIST set
+     result CDATA #REQUIRED
+     reason CDATA #IMPLIED
+>
+

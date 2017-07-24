@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!-- The following formats are allowed as the final event format -->
+<!-- This format can be used directly or as the output of an XSLT transformation -->
+
+<events>
+
+	<event class="rule_1">
+		n1=v1;
+		n2=v2;
+		n3=v3;
+	</event>
+
+	<event>
+		<class name="rule_1"/>
+		<field name="m1">w1</field>
+		<field name="m2">w2</field>
+		<field name="m3">w3</field>
+	</event>
+
+	<event class="rule_1">
+		<field name="zzz1">xxx1</field>
+		<field name="zzz2">xxx2</field>
+		<field name="zzz3">xxx3</field>
+	</event>
+
+
+	<event class="rule_1">
+		source='SENTRY';
+		sub_source='cltdba02.mon.pf.nt.dbnk.contextmgr/sp/chi_r4';
+		severity='CRITICAL';
+		origin='159.184.173.135';
+		sub_origin='dbcltapx56';
+		hostname='dbcltapx56';
+		adapter_host='dbcltapx56';
+		distrib_admin='dbcltapx56';
+		response_level='critical';
+		probe='appInstances';
+		probe_arg='vwnt';
+		tmr='1846656637';
+		dispatcher='768';
+		prev_value='0';
+		value='0';
+		effective_value='0';
+		collection='Universal';
+		info='Application: vwnt';
+		monitor='Application instances';
+		units='';
+		relation='Less than';
+		relation_delta=' ()';
+		msg='Distributed Monitoring cltdba02.mon.pf.nt.dbnk.contextmgr/sp/chi_r4/Application instances on host dbcltapx56 01/16/99 10:02:07 Eastern Standard Time';
+	</event>
+	
+</events>
+

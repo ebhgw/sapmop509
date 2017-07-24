@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields available for Micromuse Netcool(r)/OMNIbus(tm) are:
+
+        Field Name      Value
+        ==========      =====
+        Identifier      Internal hash key/table identifier
+        Serial          Netcool(r)/OMNIbus(tm) serial number item
+        Node            Host or IP Address
+        NodeAlias       Alias for Node
+        Manager         Descriptive name of manager which generated the alert
+        Agent           Descriptive name of sub manager which generated the alert
+        AlertGroup      Descriptive name of group within the manager which generated the alert
+        AlertKey        Descriptive key with reference to the alert
+        Severity        Severity of problem
+        Summary         Summary of alert problem
+        StateChange     Timestamp of last insert/update of alert from any source
+        FirstOccurrence Timestamp when this alert was created
+        LastOccurrence  Time when this alert was last updated at the probe
+        InternalLast    Time when this alert was last updated at the object server
+        Poll            Frequency of polling for this alert (in seconds)
+        Type            Type of alert
+        Tally           Automatically maintained count of the number of inserts/updates of this alert from any source
+        Class           Alert class
+        Grade           Grade of the alert/problem within the set severity
+        Location        Not used
+        OwnerUID        User id of the user assigned to handle this alert
+        OwnerGID        Group identifier of the group assigned to handle this alert
+        Acknowledged    Has user acknowledged the assignment (0 - No, 1 - Yes)
+        Flash           Enables the option to make the event list flash
+        ServerName      Name of the originating server
+        ServerSerial    Serial number of the alert on the originating server
+     
+-->
+
+<hierarchy>
+
+    <group name="Assignment" class="Assignment">
+        <generator field="OwnerGID" class="Group" >
+            <generator field="OwnerUID" class="User" />
+        </generator>
+    </group>
+    
+    <group name="Severities" class="Severities">
+        <generator field="Severity" affected="no" class_from_field="Severity" >
+                <generator field="Node" class="Node" />
+        </generator>
+    </group>
+
+    <group name="Classes" class="Classes">
+        <generator field="Class" class="Class" >
+            <generator field="Node" class="Node" />
+        </generator>
+    </group>
+
+    <group name="Nodes" class="Nodes">
+        <generator field="Node" affected="yes" class="Node" />
+    </group>
+
+</hierarchy>

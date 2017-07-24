@@ -1,0 +1,454 @@
+<?xml version="1.0"?>
+<!--
+ Copyright (c) 2015 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<!-- 
+Attestation Element Classes
+===========================
+The Identity Manager integration includes special purpose element classes designed to facilitate
+access and analysis of data about attestations. Each element class exposes attestation-related
+properties as described below.  Each is designed to "generated" based on a unique alarm field value.
+In many cases the field value on which the element is generated is not display-friendly, so each of
+these element classes supports a "displayNameField" parameter that identifies the alarm field that 
+should be used as the displayName of the generated element. Attestation element classes include:
+ 
+    AttestationProcess: should always be generated based on an attestationId. The element will 
+        contain the same attestation-related properties as the alarm.  The attestationID is not 
+        display friendly so use of a "displayNameField" is encouraged. In the Identity Manager UI, 
+        attestation processes are typically displayed based on "Attester" - this value is found 
+        in the "recipientName" field.
+
+    AttestationRequest: should always be generated based on "confirmationNumber" and the 
+        "displayNameField" should normally identify the "requestName" field. ("requestName" is
+        not unique across requests and should NOT be used as the generator field.)  Attestation
+        Requests correspond to the rows displayed on the "Compliance" page in the Identity Manager
+        UI.  The element will include properties reflecting the details displayed on this page. 
+        This element exposes a "requestStatus" property that reflects that same values displayed
+        on main table of the "Compliance" page of the Identity Manager UI.
+        
+    ProcessStatistics: may be generated off any field and is appropriate for use in group elements.
+        Elements of this class support properties that count the number of processes broken up
+        by the various status values of the attestation alarms it contains.  (For example, number
+        of processes approved, denied, etc.)  
+    
+    
+Attestation Alarms 
+==================
+Each attestation alarm represents an "Attestation Process" in Identity Manager, includes
+the following fields:
+
+    attestationID: unique identifier of an attestation process. Appropriate for generating 
+        "AttestionProcess" elements, but not display-friendly. (Not displayed in the IDM UI.)
+        
+    requestName: non-unique display name of an attestation request.  Useful as a display name but
+        should normally not be used as a generator field.
+        
+    confirmationNumber: unique identifier of an attestation request. Appropriate for generating 
+        "AttestionRequest" elements, but "requestName" is generally a better display name.
+        
+    processStatus: current status of the process.  Corresponds to "Process Status" column in the
+        process details in the IDM UI.  Not to be confused with requestStatus (property of 
+        AttestationRequest element).
+        
+    requestDate: date/time this process was requested.
+    
+    completedDate: date/time process was completed (may be null)
+    
+    attestationResult: Corresponds to "Attestion Result" column in the process details in the IDM UI.
+
+    approvalStatus: Similar to attestationResult but with more detail.  The attestionResult value 
+        "No Action Taken" is divided into a more detailed status values (Processing, Retracted, 
+        Overdue, etc.)
+
+    initiatorName: display name of the requester.  Corresponds to the "Requested By" column in the
+        IDM UI. This value is not unique and should not be used for generators but is appropriate
+        as a "displayNameField".
+          
+    initiatorDName: LDAP-style distinguished name of the requester.  This is the unique identifier
+        for the initiator and is appropriate for use in generators. Not usually displayed in IDM UI.  
+
+    recipientName: Display name of attester. Corresponds to the "Attester" column in the
+        IDM UI. This value is not unique and should not be used for generators but is appropriate
+        as a "displayNameField".
+
+    recipientDName: LDAP-style distinguished name of the attester.  This is the unique identifier
+        for the initiator and is appropriate for use in generators. Not usually displayed in IDM UI.
+ 
+ -->
+
+<!DOCTYPE hierarchy
+  PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN"
+         "http://www.Novell.com/dtds/hierarchy_2.0.dtd">
+<hierarchy>
+	<group name="Compliance" class="Attestations">
+		<filter>
+			<field name="type" operator="equals" value="Attestation"/>
+		</filter>
+       
+		<group name="All Attestation Requests" class="ProcessStatistics">
+			<generator field="confirmationNumber" class="AttestationRequest">
+				<param name="displayNameField" value="requestName" /> 
+				<generator field="attestationID" class="AttestationProcess" affected="yes">
+					<param name="displayNameField" value="recipientName" /> 
+				</generator>
+			</generator>
+		</group>
+		<group name="All Attestation Requests by Requester" class="AttestationFolder">
+			<generator field="initiatorDName" class="ProcessStatistics">
+				<param name="displayNameField" value="initiatorName" /> 
+				<generator field="confirmationNumber" class="AttestationRequest">
+					<param name="displayNameField" value="requestName" /> 
+					<generator field="attestationID" class="AttestationProcess">
+						<param name="displayNameField" value="recipientName" /> 
+					</generator>
+				</generator>
+			</generator>
+		</group>
+		<group name="All Processes by Attester" class="AttestationFolder">
+			<generator field="recipientDName" class="ProcessStatistics">
+				<param name="displayNameField" value="recipientName" /> 
+				<generator field="attestationID" class="AttestationProcess" >
+					<param name="displayNameField" value="requestName" /> 
+				</generator>
+			</generator>
+		</group>
+		<group name="Overdue Processes by Attestor" class="AttestationFolder">
+			<filter>
+				<field name="approvalStatus" operator="equals" value="Overdue"/>
+			</filter>
+			<generator field="recipientDName" class="ProcessStatistics">
+				<param name="displayNameField" value="recipientName" /> 
+				<generator field="attestationID" class="AttestationProcess" >
+					<param name="displayNameField" value="requestName" /> 
+				</generator>
+			</generator>
+		</group>
+
+		
+	</group>
+<!--
+Activity Element Classes
+===========================
+
+The Activity Database query results are split into a number of Activity related classes. The main
+root class is ActivityElementRoot which is under the Activity group.
+
+The following Activity fields are available for filtering:
+1.eventId 		2.eventName				3.timestamp				4.taxonomy            
+5.outcome		6.eventDeviceTime   	7.sentinelProcessTime	8.initUserName        
+9.initIP		10.initServicePortName	11.targetUserName		12.targetUserDomain   
+13.targetIP		14.targetHostDomain		15.targetHostName		16.observerIP          
+17.reporterIP	18.resource				19.subResource			20.filename            
+21.message		22.extendedInfo
+
+The elements under the Activity root are divided into the five main groups : 
+	AllActivities : This group includes all possible activities, including activities that do not 
+	fall under the taxonomy filters of the Account,Session, Service or Workflow activities.
+
+	AccountActivity : This group is filtered on account activity values of the "taxonomy" field e.g.  XDAS_AE_CREATE_ACCOUNT or
+	XDAS_AE_MODIFY_ACCOUNT. Default groupings are the "Help Desk" based on activities such as a "Set Password" and "Self Service"
+	which is based on activities like "Change Password".
+	SessionActivity : This group contains activities including creation,termination, querying and modification of sessions. These
+	are created by matching on the respective taxonomy fields e.g. XDAS_AE_CREATE_SESSION
+	ServiceActivity : All the service related activities are grouped under this element by matching taxonomy field values related to
+	services e.g. XDAS_AE_INSTALL_SERVICE
+	WorkflowActivity: All the Workflow related activities are grouped under this element by matching taxonomy field values related to
+	services e.g. XDAS_AE_WF_CREATE
+
+ -->
+    <group name="Activity" class="ActivityElementRoot">
+    	<filter>
+			<field name="type" operator="equals" value="Activity"/>
+		</filter>
+		<group name="All Activity" class="AllActivities">
+		   <generator field="eventName" class="ActivityElement" affected="yes">
+			  <generator field="outcome" class="ActivityResult">
+			  </generator>
+		   </generator>
+		</group>
+
+		<group name="Account Activity" class="AccountActivity">
+			<group name="Authenticate Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_AUTHENTICATE_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Create Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_CREATE_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Modify Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_MODIFY_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Delete Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_DELETE_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Enable Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_ENABLE_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Disable Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_DISABLE_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Query Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_QUERY_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Set Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_SET_CRED_ACCOUNT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Grant Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_GRANT_ACCOUNT_ACCESS"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Revoke Account" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_REVOKE_ACCOUNT_ACCESS"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+		</group>
+		<group name="Help Desk Activity" class="HelpDeskActivity">
+			<group name="Help Desk" class="ActivityElement">
+				<filter>
+					<field name="eventName" operator="equals" value="Set Password"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Self Service" class="ActivityElement">
+				<filter>
+					<field name="eventName" operator="starts_with" value="Change Password"/>
+				</filter>
+				<group name="Success" class="ActivityResult">
+					<filter>
+						<field name="eventName" operator="equals" value="Change Password Success"/>
+					</filter>
+				</group>
+				<group name="Failure" class="ActivityResult">
+					<filter>
+						<field name="eventName" operator="equals" value="Change Password Success" invert="true"/>
+					</filter>
+				</group>
+			</group>
+		</group>
+		<group name="Session Activity" class="SessionActivity">
+			<group name="Create Session" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_CREATE_SESSION"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Terminate Session" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_TERMINATE_SESSION"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Query Session" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_QUERY_SESSION"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Modify Session" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_MODIFY_SESSION"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+		</group>
+		<group name="Service Activity" class="ServiceActivity">
+			<group name="Install Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_INSTALL_SERVICE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Remove Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_REMOVE_SERVICE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Enable Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_ENABLE_SERVICE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Disable Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_DISABLE_SERVICE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Terminate Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_TERMINATE_SERVICE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Invoke Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_INVOKE_SERVICE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Modify Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_MODIFY_PROCESS_CONTEXT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Query Service" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_QUERY_PROCESS_CONTEXT"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+		</group>
+		<group name="Trust Activity" class="TrustActivity">
+			<group name="Associate Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_ASSOC_TRUST"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Create Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_CREATE_TRUST"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Deassociate Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_DEASSOC_TRUST"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Delete Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_DELETE_TRUST"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Modify Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_MODIFY_TRUST"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Query Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_QUERY_TRUST"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Grant Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_GRANT_TRUST_ACCESS"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Revoke Trust" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_REVOKE_TRUST_ACCESS"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+		</group>
+		<group name="Workflow Activity" class="WorkflowActivity">
+			<group name="Create Workflow" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_WF_CREATE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Invoke Workflow" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_WF_INVOKE"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Assign Workflow" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_WF_ASSIGN"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+			<group name="Finish Workflow" class="ActivityElement">
+				<filter>
+					<field name="taxonomy" operator="equals" value="XDAS_AE_WF_FINISH"/>
+				</filter>
+				<generator field="outcome" class="ActivityResult">
+				</generator>
+			</group>
+		</group>
+	</group>
+</hierarchy>

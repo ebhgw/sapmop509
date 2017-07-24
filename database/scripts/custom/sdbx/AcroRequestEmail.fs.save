@@ -1,0 +1,27 @@
+/*
+
+ Script SendAcroRequestEmail
+
+ Author: Bomitali Evelino
+ Tested with versions: 5.0
+
+ Check Alarms and then send email
+
+ */
+
+var AcroRequestEmail = (function () {
+	load('custom/lib/Mailer.fs');
+	var _logger = Packages.org.apache.log4j.Logger.getLogger("fs.sdbx");
+	
+	var _send = function (acronimo) {
+		_logger.info('Sending email for acronimo ' + acronimo);
+		var subject = 'Richiesta aggiunta acronimo al flusso di SystemTest';
+		var msg = "Si prega di aggiungere l'acronimo " + acronimo + " ai dati del flusso di SystemTest";
+		//Mailer.send('evelino.bomitali@hogwart.it,controllo.servizi.critici@intesasanpaolo.com', subject, msg);
+		Mailer.send('evelino.bomitali@hogwart.it', subject, msg);
+	}
+
+	return {
+		send:_send
+	}
+})()

@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<recipes 
+    xmlns:bind="http://www.managedobjects.com/bind" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:data="http://www.managedobjects.com/data"
+    >
+    
+	<!-- The templates area defines recipes that require
+		a generation pass to take place. When the generation is
+		run, each create tag can contain zero or more other tags.
+		Those tags are located inside the recipe template and 
+		substitution is performed, removing the tag and replacing
+		it with the create tag's contents. -->
+		
+	<templates>
+
+      <!-- 
+         Bind the specific supplied attribute, specified by the recipe parameter 'attrparam', for the selected item to one of the following:
+            1) custom script
+            2) custom element attribute
+            3) predefined bind:value setting   
+      -->
+
+      <recipe id='bindAttributeValue'>
+         <name><type>type</type></name>
+         <recipeparam name="attrparam" ><attrsubst>attrsubst</attrsubst></recipeparam>
+         <recipeparam name="propertyfilterparam" ><propertyfiltersubst>propertyfiltersubst</propertyfiltersubst></recipeparam>
+         <category><categorysubst>cat</categorysubst></category>
+         <matchnodeset><matchsubst>matchSubst</matchsubst></matchnodeset>
+         <extract>
+            <string name='property'>bind:value[@attr='{attrparam}']/@property</string>
+            <string name='customproperty'>bind:value[@attr='{attrparam}']/@customproperty</string>
+            <string name='currentscript'>bind:value[@attr='{attrparam}']/text()</string>
+         </extract>
+         
+         <html>Use the following options to set a custom value for the <b>{attrparam}</b> attribute on the selected object.<br/><br/>
+            <do>
+               <case>           
+                  <!-- missing 'attr' and missing 'property' and missing custom property attribute implies a custom formula script block -->                  
+                  <when where="bind:value[@attr='{attrparam}' and not(@property) and not(@customproperty)]">
+                     <set where="//input[@value='script']" attr='checked' value='true'/>
+                  </when>                 
+                  <!-- missing 'attr' and a supplied 'customproperty' implies a formula bind:value attribute -->
+                  <when where="bind:value[@attr='{attrparam}' and @customproperty]">
+                     <set where="//input[@value='attribute']" attr='checked' value='true'/>
+                  </when>
+                  <!--  default to select the bind property -->
+                  <default>
+                     <set where="//input[@value='bindproperty']" attr='checked' value='true'/>
+                  </default>
+               </case> 
+               <!-- filter out property items that do not match desired category -->
+               <delete where="//optgroup[@label='{propertyfilterparam}']"/>          
+            </do>
+
+            <lookup name='property' target="//option[@value='{property}']" attr="selected" value="true"/>
+            <lookup name='currentscriptval' target="//textarea[@name='scripttext']" attr="text()" value="{currentscript}"/>
+            <lookup name='customproperty' target="//input[@name='attributetext']" attr="value" value="{customproperty}"/>
+            
+            <table border="0">                       
+               <tr>
+                  <td border="0" align="center"><input type="radio" name="bindsource" value="bindproperty" checked="true"><BR/></input></td>
+                  <td>Element Property</td>
+               </tr>
+               <tr>
+                  <td></td>      
+                  <td>           
+                     <select name="bindproperty" id="bindproperty">
+                        <optgroup label="values">
+									<option value="name" >element name1</option>
+									<option value="dname">element dname</option>
+									<option value="childcount">child count</option>
+									<option value="orgchildcount">org child count</option>
+									<option value="conditiontext">condition name</option>
+	                     </optgroup>
+                        <optgroup label="colors">
+                           <option value="condition">condition color</option>
+                           <option value="conditionhighlight">condition highlight color</option>
+                           <option value="conditionbackground">condition background color</option>
+                           <option value="conditionforeground">condition foreground color</option>
+                           <option value="conditiongradient">condition gradient color</option>
+                           <option value="conditiondark">condition color dark</option>
+                           <option value="conditionlight">condition color light</option>
+                        </optgroup>
+	                  </select>
+                  </td>            
+               </tr>              
+               <tr>
+                  <td border="0" align="center"><input type="radio" name="bindsource" value="attribute"><BR/></input></td>
+                  <td>Element Attribute</td>                 
+               </tr>                   
+               <tr>
+                  <td></td>
+                  <td><input type="text" name="attributetext" cols="60" value="default"></input></td>                 
+               </tr>                   
+               <tr>
+                  <td border="0" align="center"><input type="radio" name="bindsource" value="script"><BR/></input></td>
+                  <td>Formula Script</td>                 
+               </tr>                   
+               <tr>
+                  <td></td>
+                  <td><textarea name="scripttext" cols="80" rows="10"></textarea></td>                 
+               </tr>                   
+            </table>           
+         </html>
+         
+         <do>
+            <!-- update or insert the long-hand version of the bind command and attribute target -->
+            <upsert where="bind:value[@attr='{attrparam}']">
+               <bind:value attr="{attrparam}"/>
+            </upsert>
+            <!-- delete any remaining short-hand versions of the bind command and attribute target -->
+            <delete where="bind:{attrparam}"/>
+            <!-- set a temporary DOM variable to use for later lookups -->
+            <set where="bind:value[@attr='{attrparam}']" attr="recipebindsource" value="{bindsource}"/>            
+            <delete where="bind:value[@attr='{attrparam}']" attr="customproperty"/>   
+            <delete where="bind:value[@attr='{attrparam}']" attr="property"/>
+            <case>           
+               <when where="bind:value[@recipebindsource='attribute' and @attr='{attrparam}']">
+                  <!-- bind:value's 'property' should be the attribute name -->
+                  <set attr='customproperty' value='{attributetext}'/>
+                  <set attr='cdata()' value=''/>
+               </when>
+               <when where="bind:value[@recipebindsource='script' and @attr='{attrparam}']">
+                  <!-- bind:value's 'property' should be the attribute name -->
+                  <set attr='cdata()' value='{scripttext}'/>   
+               </when>
+               <when where="bind:value[@recipebindsource='bindproperty' and @attr='{attrparam}']">
+                  <!-- bind:value's 'property' should be the formula property -->
+                  <set attr='property' value='{bindproperty}'/>
+                  <set attr='cdata()' value=''/>
+               </when>
+            </case>           
+            <!--  remove our temporary DOM variable -->
+            <delete where="bind:value[@attr='{attrparam}']" attr="recipebindsource"/>
+         </do>
+      </recipe>
+
+      <!-- 
+         Bind the supplied numeric attribute of the selected item to a custom script
+      -->
+
+      <recipe id='bindAttributeNumeric'>
+         <name><type>type</type></name>
+         <recipeparam name="attrparam" ><attrsubst>attrsubst</attrsubst></recipeparam>
+         <category><categorysubst>cat</categorysubst></category>
+         <matchnodeset><matchsubst>matchSubst</matchsubst></matchnodeset>
+         <extract>
+            <string name='currentscript'><scriptvalsubst>script</scriptvalsubst></string>
+         </extract>
+         
+         <html>Use the following FormulaScript option to set a custom value for the <b>{attrparam}</b> attribute on the selected object.<br/><br/>          
+            <lookup name='currentscriptval' target="//textarea[@name='scripttext']" attr="text()" value="{currentscript}"/>
+            <table border="0">
+               <tr>
+                  <td>FormulaScript:</td>                 
+               </tr>                   
+               <tr>
+                  <td><textarea name="scripttext" cols="80" rows="10"></textarea></td>                 
+               </tr>                   
+            </table>           
+         </html>
+         
+         <do>
+            <upsert where="bind:value[@attr='{attrparam}']">
+               <bind:value attr="{attrparam}"/>
+            </upsert>
+            <set where="bind:value[@attr='{attrparam}']" attr='cdata()' value='{scripttext}'/>
+            <delete where="bind:value[@attr='{attrparam}']" attr="property"/>                        
+         </do>
+      </recipe>
+
+
+
+      <!-- 
+         Bind the VALUE of the selected item to one of the following
+            1) custom script
+            2) custom element attribute
+            3) predefined bind:value setting   
+      -->
+
+	   <recipe id='bindValue'>
+	      <name>VALUE</name>
+	      <category><categorysubst>cat</categorysubst></category>
+	      <matchnodeset><matchsubst>matchSubst</matchsubst></matchnodeset>
+	      <extract>
+	         <string name='property'>bind:value[not(@attr)]/@property</string>
+            <string name='customproperty'>bind:value[not(@attr)]/@customproperty</string>
+	         <string name='currentscript'>bind:value[not(@attr)]/text()</string>
+	      </extract>
+	      
+	      <html>
+	      
+	      
+	      Use the following options to set a custom value on the selected object.<br/><br/>
+		      <do>
+	            <case>           
+                  <!-- missing 'attr' and missing 'property' and missing custom property attribute implies a custom formula script block -->                  
+	               <when where="bind:value[not(@attr) and not(@property) and not(@customproperty)]">
+                     <set where="//input[@value='script']" attr='checked' value='true'/>
+	               </when>	               
+                  <!-- missing 'attr' and a supplied 'customproperty' implies a formula bind:value attribute -->
+                  <when where="bind:value[not(@attr) and @customproperty]">
+                     <set where="//input[@value='attribute']" attr='checked' value='true'/>
+                  </when>
+                  <!--  default to select the bind property -->
+                  <default>
+                     <set where="//input[@value='bindproperty']" attr='checked' value='true'/>
+                  </default>
+	            </case>           
+	         </do>
+
+            <lookup name='property' target="//option[@value='{property}']" attr="selected" value="true"/>
+            <lookup name='currentscriptval' target="//textarea[@name='scripttext']" attr="text()" value="{currentscript}"/>
+            <lookup name='customproperty' target="//input[@name='attributetext']" attr="value" value="{customproperty}"/>
+            
+<table border="0">
+	         	         
+               <tr>
+                  <td border="0" align="center"><input enables="bindproperty" disables="attributetext,scripttextarea" id="bindsource_property"  type="radio" name="bindsource" value="bindproperty" checked="true"><BR/></input></td>
+                  <td>Element Property</td>
+               </tr>
+               <tr>
+                  <td></td>      
+                  <td>           
+			<select name="bindproperty" id="bindproperty" uiid="bindproperty">
+	                   	<option value="name" >element name</option>
+	                    	<option value="dname">element dname</option>
+				<option value="childcount">child count</option>
+				<option value="orgchildcount">org child count</option>
+                       		<option value="conditiontext">condition name</option>
+				<option value="condition">condition color</option>
+				<option value="conditionhighlight">condition highlight color</option>
+	                    	<option value="conditionbackground">condition background color</option>
+	                    	<option value="conditionforeground">condition foreground color</option>
+	                    	<option value="conditiongradient">condition gradient color</option>
+			</select>
+		 </td>            
+               </tr>              
+               <tr>
+                  <td border="0" align="center"><input disables="bindproperty,scripttextarea" enables="attributetext" id="bindsource_attribute"  type="radio" name="bindsource" value="attribute"><BR/></input></td>
+                  <td>Element Attribute</td>                 
+               </tr>                   
+               <tr>
+                  <td></td>
+                  <td><input uiid="attributetext" id="attributetext" type="text" name="attributetext" cols="60" value="default"></input></td>                 
+               </tr>                   
+	            <tr>
+	               <td border="0" align="center"><input enables="scripttextarea" disables="attributetext,bindproperty" id="bindsource_script"  type="radio" name="bindsource" value="script"><BR/></input></td>
+	               <td>FormulaScript</td>                 
+	            </tr>                   
+	            <tr>
+	               <td></td>
+	               <td><textarea uiid="scripttextarea" id="scripttextarea" name="scripttext" cols="80" rows="10"></textarea></td>                 
+	            </tr>                   
+	         </table>  
+	         	         
+	      </html>
+	      
+	      <do>
+	         <upsert where='bind:value[not(@attr)]'>
+	            <bind:value property="{bindsource}"/>
+	         </upsert>
+            <set where='bind:value[not(@attr)]' attr="recipebindsource" value="{bindsource}"/>
+            <delete where="bind:value[not(@attr)]" attr="customproperty"/>   
+            <delete where="bind:value[not(@attr)]" attr="property"/>
+            <case>           
+	            <when where="bind:value[@recipebindsource='attribute' and not(@attr)]">
+	               <!-- bind:value's 'property' should be the attribute name -->
+	               <set attr='customproperty' value='{attributetext}'/>
+	               <set attr='cdata()' value=''/>
+	            </when>
+               <when where="bind:value[@recipebindsource='script' and not(@attr)]">
+                  <!-- bind:value's 'property' should be the attribute name -->
+                  <set attr='cdata()' value='{scripttext}'/>   
+               </when>
+               <when where="bind:value[@recipebindsource='bindproperty' and not(@attr)]">
+                  <!-- bind:value's 'property' should be the formula property -->
+                  <set attr='property' value='{bindproperty}'/>
+                  <set attr='cdata()' value=''/>
+               </when>
+            </case>	         
+	         <delete where="bind:value[not(@attr)]" attr="recipebindsource"/>
+	      </do>
+	   </recipe>
+
+		<recipe id='bindConditionGradient'>
+		   <name><type>type</type> </name>
+         <recipeparam name="attrparam" ><attrsubst>attrsubst</attrsubst></recipeparam>		  
+		   <match><matchsubst>matchSubst</matchsubst></match>
+		   <category><categorysubst>Edit Binding</categorysubst></category>
+		   <extract>
+		      <number name='x1'>bind:{attrparam}/@x1 | bind:value[@attr='{attrparam}']/@x1</number>
+		      <number name='y1'>bind:{attrparam}/@y1 | bind:value[@attr='{attrparam}']/@y1</number>           
+		      <number name='x2'>bind:{attrparam}/@x2 | bind:value[@attr='{attrparam}']/@x2</number>
+		      <number name='y2'>bind:{attrparam}/@y2 | bind:value[@attr='{attrparam}']/@y2</number>                 
+		   </extract>
+         <html>Use the following start and stop selectors to set the direction of gradient condition color <b>{attrparam}</b> on the selected object.<br/><br/>		        
+		  <table border="0" cellspacing="30">
+		     <tr>
+		        <td>
+		           <table border="0" cellspacing="0" cellpadding="0">
+		             <lookup name='x1y1' target="//input[@value='__MULTIPLE__x1={x1}::y1={y1}']" attr="checked" value="true"/>
+		             <tr>
+		                <td border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=-0.25::y1=-0.25"><BR/></input></td>
+		                <td border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=0.5::y1=-0.25"><BR/></input></td>
+		                <td border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=1.25::y1=-0.25"><BR/></input></td>
+		             </tr>
+		             
+		             <tr>
+		                <td border="0"><input type="radio" name="x1y1" value="__MULTIPLE__x1=-0.25::y1=0.5"><BR/></input></td>
+		                <td>
+		                   <table border="3">
+		                      <tr>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=0::y1=0"><BR/></input></td>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=0.5::y1=0"><BR/></input></td>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=1::y1=0"><BR/></input></td>
+		                      </tr>
+		                      <tr>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=0::y1=0.5"><BR/></input></td>
+		                         <td bgcolor="#cccccc" border="0" align="center" width="125" height="100">Gradient  <b>START</b></td>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=1::y1=0.5"><BR/></input></td>
+		                      </tr>
+		                      <tr>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=0::y1=1"><BR/></input></td>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=0.5::y1=1"><BR/></input></td>
+		                         <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=1::y1=1"><BR/></input></td>
+		                      </tr>                   
+		                   </table>
+		                </td>
+		                <td border="0"><input type="radio" name="x1y1" value="__MULTIPLE__x1=1.25::y1=0.5"><BR/></input></td>
+		             </tr>                          
+		             <tr>
+		                <td border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=-0.25::y1=1.25"><BR/></input></td>
+		                <td border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=0.5::y1=1.25"><BR/></input></td>
+		                <td border="0" align="center"><input type="radio" name="x1y1" value="__MULTIPLE__x1=1.25::y1=1.25"><BR/></input></td>
+		             </tr>
+		           </table>
+		        </td>
+		        <td>
+		           <table border="0" cellspacing="0" cellpadding="0">
+		              <lookup name='x2y2' target="//input[@value='__MULTIPLE__x2={x2}::y2={y2}']" attr="checked" value="true"/>
+		              <tr>
+		                 <td border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=-0.25::y2=-0.25"><BR/></input></td>
+		                 <td border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=0.5::y2=-0.25"><BR/></input></td>
+		                 <td border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=1.25::y2=-0.25"><BR/></input></td>
+		              </tr>
+		              
+		              <tr>
+		                 <td border="0"><input type="radio" name="x2y2" value="__MULTIPLE__x2=-0.25::y2=0.5"><BR/></input></td>
+		                 <td>
+		                    <table border="3">
+		                       <tr>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=0::y2=0"><BR/></input></td>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=0.5::y2=0"><BR/></input></td>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=1::y2=0"><BR/></input></td>
+		                       </tr>
+		                       <tr>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=0::y2=0.5"><BR/></input></td>
+		                          <td bgcolor="#cccccc" border="0" align="center" width="125" height="100">Gradient  <b>STOP</b></td>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=1::y2=0.5"><BR/></input></td>
+		                       </tr>
+		                       <tr>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=0::y2=1"><BR/></input></td>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=0.5::y2=1"><BR/></input></td>
+		                          <td bgcolor="#cccccc" border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=1::y2=1"><BR/></input></td>
+		                       </tr>                   
+		                    </table>
+		                 </td>
+		                 <td border="0"><input type="radio" name="x2y2" value="__MULTIPLE__x2=1.25::y2=0.5"><BR/></input></td>
+		              </tr>                          
+		              <tr>
+		                 <td border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=-0.25::y2=1.25"><BR/></input></td>
+		                 <td border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=0.5::y2=1.25"><BR/></input></td>
+		                 <td border="0" align="center"><input type="radio" name="x2y2" value="__MULTIPLE__x2=1.25::y2=1.25"><BR/></input></td>
+		              </tr>
+		           </table>
+		        </td>
+		     </tr>
+		  </table>
+				 
+		  </html>
+		  <do>
+		     <upsert where="bind:value[@attr='{attrparam}']">
+		        <bind:value property="conditiongradient" attr="{attrparam}"/>
+		     </upsert>      
+		     <delete where="bind:{attrparam}"/>
+		     <set where="bind:value[@attr='{attrparam}']" attr='x1' value='{x1}'/>
+		     <set where="bind:value[@attr='{attrparam}']" attr='y1' value='{y1}'/>       
+		     <set where="bind:value[@attr='{attrparam}']" attr='x2' value='{x2}'/>
+		     <set where="bind:value[@attr='{attrparam}']" attr='y2' value='{y2}'/>
+		  </do>
+		</recipe>         
+	</templates>	 
+
+	<generate from='bindAttributeNumeric'>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>height</attrsubst>
+         <type>Height</type>
+         <attr>height</attr>
+         <categorysubst>Add Binding</categorysubst>
+         <propertysubst>bind:value[@attr='height']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='height']/text()</scriptvalsubst>
+         <matchsubst>       
+            self::svg:rect[not(bind:value[@attr='height'])]
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>width</attrsubst>
+         <type>Width</type>
+         <attr>width</attr>
+         <categorysubst>Add Binding</categorysubst>
+         <propertysubst>bind:value[@attr='width']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='width']/text()</scriptvalsubst>
+         <matchsubst>
+            self::svg:rect[not(bind:value[@attr='width'])] 
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>opacity</attrsubst>         
+         <type>Opacity</type>
+         <attr>opacity</attr>
+         <categorysubst>Add Binding</categorysubst>
+         <propertysubst>bind:value[@attr='opacity']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='opacity']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[not(bind:value[@attr='opacity'])]) |
+            (self::svg:circle[not(bind:value[@attr='opacity'])]) |
+            (self::svg:line[not(bind:value[@attr='opacity'])]) |
+            (self::svg:polyline[not(bind:value[@attr='opacity'])]) |
+            (self::svg:polygon[not(bind:value[@attr='opacity'])]) |
+            (self::svg:path[not(bind:value[@attr='opacity'])]) |
+            (self::svg:ellipse[not(bind:value[@attr='opacity'])]) |
+            (self::svg:text[not(bind:value[@attr='opacity'])])
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>stroke-width</attrsubst>   
+         <type>Stroke-Width</type>
+         <attr>stroke-width</attr>
+         <categorysubst>Add Binding</categorysubst>
+         <propertysubst>bind:value[@attr='stroke-width']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='stroke-width']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[not(bind:value[@attr='stroke-width'])]) |
+            (self::svg:circle[not(bind:value[@attr='stroke-width'])]) |
+            (self::svg:line[not(bind:value[@attr='stroke-width'])]) |
+            (self::svg:polyline[not(bind:value[@attr='stroke-width'])]) |
+            (self::svg:polygon[not(bind:value[@attr='stroke-width'])]) |
+            (self::svg:path[not(bind:value[@attr='stroke-width'])]) |
+            (self::svg:ellipse[not(bind:value[@attr='stroke-width'])]) |
+            (self::svg:circle[not(bind:value[@attr='stroke-width'])])
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>transform</attrsubst>
+         <type>Transform</type>
+         <attr>transform</attr>
+         <categorysubst>Add Binding</categorysubst>
+         <propertysubst>bind:value[@attr='transform']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='transform']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[not(bind:value[@attr='transform'])]) |
+            (self::svg:circle[not(bind:value[@attr='transform'])]) |         
+            (self::svg:line[not(bind:value[@attr='transform'])]) |         
+            (self::svg:polyline[not(bind:value[@attr='transform'])]) |         
+            (self::svg:polygon[not(bind:value[@attr='transform'])]) |         
+            (self::svg:path[not(bind:value[@attr='transform'])]) |         
+            (self::svg:ellipse[not(bind:value[@attr='transform'])]) |         
+            (self::svg:g[not(bind:value[@attr='transform']) and not(@lockedgroup)])
+         </matchsubst>
+      </create>
+   </generate>
+
+	<generate from='bindAttributeNumeric'> 
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>height</attrsubst>
+         <type>Height</type>
+         <attr>height</attr>
+         <categorysubst>Edit Binding</categorysubst>
+         <propertysubst>bind:value[@attr='height']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='height']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[bind:value[@attr='height']]) |
+            (self::svg:circle[bind:value[@attr='height']])
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>width</attrsubst>
+         <type>Width</type>
+         <attr>width</attr>
+         <categorysubst>Edit Binding</categorysubst>
+         <propertysubst>bind:value[@attr='width']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='width']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[bind:value[@attr='width']]) |
+            (self::svg:circle[bind:value[@attr='width']])
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>opacity</attrsubst>
+         <type>Opacity</type>
+         <attr>opacity</attr>
+         <categorysubst>Edit Binding</categorysubst>
+         <propertysubst>bind:value[@attr='opacity']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='opacity']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[bind:value[@attr='opacity']]) |
+            (self::svg:circle[bind:value[@attr='opacity']]) |
+            (self::svg:line[bind:value[@attr='opacity']]) |
+            (self::svg:polyline[bind:value[@attr='opacity']]) |
+            (self::svg:polygon[bind:value[@attr='opacity']]) |
+            (self::svg:path[bind:value[@attr='opacity']]) |
+            (self::svg:ellipse[bind:value[@attr='opacity']]) |
+            (self::svg:text[bind:value[@attr='opacity']])
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>stroke-width</attrsubst>
+         <type>Stroke-Width</type>
+         <attr>stroke-width</attr>
+         <categorysubst>Edit Binding</categorysubst>
+         <propertysubst>bind:value[@attr='stroke-width']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='stroke-width']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[bind:value[@attr='stroke-width']]) |
+            (self::svg:circle[bind:value[@attr='stroke-width']]) |
+            (self::svg:line[bind:value[@attr='stroke-width']]) |
+            (self::svg:polyline[bind:value[@attr='stroke-width']]) |
+            (self::svg:polygon[bind:value[@attr='stroke-width']]) |
+            (self::svg:path[bind:value[@attr='stroke-width']]) |
+            (self::svg:ellipse[bind:value[@attr='stroke-width']]) |
+            (self::svg:text[bind:value[@attr='stroke-width']])
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>transform</attrsubst>         
+         <type>Transform</type>
+         <attr>transform</attr>
+         <categorysubst>Edit Binding</categorysubst>
+         <propertysubst>bind:value[@attr='transform']/@property</propertysubst>
+         <scriptvalsubst>bind:value[@attr='transform']/text()</scriptvalsubst>
+         <matchsubst>
+            (self::svg:rect[bind:value[@attr='transform']]) |
+            (self::svg:circle[bind:value[@attr='transform']]) |
+            (self::svg:line[bind:value[@attr='transform']]) |
+            (self::svg:polyline[bind:value[@attr='transform']]) |
+            (self::svg:polygon[bind:value[@attr='transform']]) |
+            (self::svg:path[bind:value[@attr='transform']]) |
+            (self::svg:ellipse[bind:value[@attr='transform']]) |
+            (self::svg:text[bind:value[@attr='transform']]) |
+            (self::svg:g[bind:value[@attr='transform'] and not(@lockedgroup)])            
+         </matchsubst>
+      </create>
+     
+   </generate>
+
+   <generate from='bindValue'>
+      <create>      
+         <bindtype>Add</bindtype>
+         <categorysubst>Add Binding</categorysubst>
+         <matchsubst> 
+            self::svg:text[not(bind:value) and not(bind:value[not(@attr)])]                          
+         </matchsubst>
+      </create>
+   </generate>
+
+   <generate from='bindValue'>
+      <create>
+         <bindtype>Edit</bindtype>
+         <categorysubst>Edit Binding</categorysubst>
+         <matchsubst> 
+            self::svg:text[bind:value[not(@attr)]]                          
+         </matchsubst>
+      </create>
+   </generate>
+
+   <generate from='bindAttributeValue'>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>fill</attrsubst>         
+         <propertyfiltersubst>values</propertyfiltersubst>         
+         <type>Fill</type>
+         <categorysubst>Add Binding</categorysubst>
+         <matchsubst> 
+            self::svg:rect[not(bind:fill) and not(bind:value[@attr='fill'])] |
+            self::svg:circle[not(bind:fill) and not(bind:value[@attr='fill'])] |
+            self::svg:line[not(bind:fill) and not(bind:value[@attr='fill'])] |
+            self::svg:polyline[not(bind:fill) and not(bind:value[@attr='fill'])] |
+            self::svg:polygon[not(bind:fill) and not(bind:value[@attr='fill'])] |
+            self::svg:path[not(bind:fill) and not(bind:value[@attr='fill'])] |
+            self::svg:ellipse[not(bind:fill) and not(bind:value[@attr='fill'])] |
+            self::svg:text[not(bind:fill) and not(bind:value[@attr='fill'])]                                       
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>stroke</attrsubst>         
+         <propertyfiltersubst>values</propertyfiltersubst>         
+         <type>Stroke</type>
+         <categorysubst>Add Binding</categorysubst>
+         <matchsubst> 
+            self::svg:rect[not(bind:stroke) and not(bind:value[@attr='stroke'])] |                          
+            self::svg:circle[not(bind:stroke) and not(bind:value[@attr='stroke'])] |                          
+            self::svg:line[not(bind:stroke) and not(bind:value[@attr='stroke'])] |                          
+            self::svg:polyline[not(bind:stroke) and not(bind:value[@attr='stroke'])] |                          
+            self::svg:polygon[not(bind:stroke) and not(bind:value[@attr='stroke'])] |                          
+            self::svg:path[not(bind:stroke) and not(bind:value[@attr='stroke'])] |                          
+            self::svg:ellipse[not(bind:stroke) and not(bind:value[@attr='stroke'])] |                          
+            self::svg:text[not(bind:stroke) and not(bind:value[@attr='stroke'])]                          
+         </matchsubst>
+      </create>
+   </generate>
+
+   <generate from='bindAttributeValue'>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>fill</attrsubst>         
+         <propertyfiltersubst>values</propertyfiltersubst>         
+         <type>Fill</type>
+         <categorysubst>Edit Binding</categorysubst>
+         <matchsubst> 
+            self::svg:rect[bind:fill | bind:value[@attr='fill']] |                          
+            self::svg:circle[bind:fill | bind:value[@attr='fill']] |                          
+            self::svg:line[bind:fill | bind:value[@attr='fill']] |                          
+            self::svg:polyline[bind:fill | bind:value[@attr='fill']] |                          
+            self::svg:polygon[bind:fill | bind:value[@attr='fill']] |                          
+            self::svg:path[bind:fill | bind:value[@attr='fill']] |                          
+            self::svg:ellipse[bind:fill | bind:value[@attr='fill']] |                          
+            self::svg:text[bind:fill | bind:value[@attr='fill']]                          
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>stroke</attrsubst>         
+         <propertyfiltersubst>values</propertyfiltersubst>         
+         <type>Stroke</type>
+         <categorysubst>Edit Binding</categorysubst>
+         <matchsubst> 
+            self::svg:rect[bind:stroke | bind:value[@attr='stroke']] |                          
+            self::svg:circle[bind:stroke | bind:value[@attr='stroke']] |                          
+            self::svg:line[bind:stroke | bind:value[@attr='stroke']] |                          
+            self::svg:polyline[bind:stroke | bind:value[@attr='stroke']] |                          
+            self::svg:polygon[bind:stroke | bind:value[@attr='stroke']] |                          
+            self::svg:path[bind:stroke | bind:value[@attr='stroke']] |                          
+            self::svg:ellipse[bind:stroke | bind:value[@attr='stroke']] |                          
+            self::svg:text[bind:stroke | bind:value[@attr='stroke']]                          
+         </matchsubst>
+      </create>
+   </generate>
+
+   <generate from='bindConditionGradient'>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>fill</attrsubst>         
+         <type>Fill</type>
+         <categorysubst>Add Binding|Condition Gradient</categorysubst>
+         <matchsubst> 
+              ./self::svg:rect[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])] |
+              ./self::svg:circle[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])] |
+              ./self::svg:line[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])] |
+              ./self::svg:polyline[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])] |
+              ./self::svg:polygon[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])] |
+              ./self::svg:path[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])] |
+              ./self::svg:ellipse[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])] |
+              ./self::svg:text[not(bind:fill[@property='conditiongradient']) and not(bind:value[@attr='fill' and @property='conditiongradient'])]
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Add</bindtype>
+         <attrsubst>stroke</attrsubst>         
+         <type>Stroke</type>
+         <categorysubst>Add Binding|Condition Gradient</categorysubst>
+         <matchsubst> 
+              ./self::svg:rect[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])] |
+              ./self::svg:circle[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])] |
+              ./self::svg:line[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])] |
+              ./self::svg:polyline[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])] |
+              ./self::svg:polygon[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])] |
+              ./self::svg:path[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])] |
+              ./self::svg:ellipse[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])] |
+              ./self::svg:text[not(bind:stroke[@property='conditiongradient']) and not(bind:value[@attr='stroke' and @property='conditiongradient'])]
+         </matchsubst>
+      </create>
+   </generate>
+
+   <generate from='bindConditionGradient'>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>fill</attrsubst>         
+         <type>Fill</type>
+         <categorysubst>Edit Binding|Condition Gradient</categorysubst>
+         <matchsubst> 
+              ./self::svg:rect[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']] |
+              ./self::svg:circle[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']] |
+              ./self::svg:line[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']] |
+              ./self::svg:polyline[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']] |
+              ./self::svg:polygon[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']] |
+              ./self::svg:path[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']] |
+              ./self::svg:ellipse[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']] |
+              ./self::svg:text[bind:fill[@property='conditiongradient'] | bind:value[@attr='fill' and @property='conditiongradient']]
+         </matchsubst>
+      </create>
+      <create>
+         <bindtype>Edit</bindtype>
+         <attrsubst>stroke</attrsubst>         
+         <type>Stroke</type>
+         <categorysubst>Edit Binding|Condition Gradient</categorysubst>
+         <matchsubst> 
+              ./self::svg:rect[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']] |
+              ./self::svg:circle[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']] |
+              ./self::svg:line[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']] |
+              ./self::svg:polyline[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']] |
+              ./self::svg:polygon[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']] |
+              ./self::svg:path[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']] |
+              ./self::svg:ellipse[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']] |
+              ./self::svg:text[bind:stroke[@property='conditiongradient'] | bind:value[@attr='stroke' and @property='conditiongradient']]
+         </matchsubst>
+      </create>
+   </generate>
+</recipes>

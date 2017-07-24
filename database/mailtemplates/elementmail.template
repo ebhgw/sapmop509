@@ -1,0 +1,9 @@
+
+This is an automation message response from NetIQ Operations Center(r).
+
+Dear ~recipient~,
+
+The element named "~element.name~" has failed for some reason.
+The current condition value is ~element.Condition~.
+
+Please respond!

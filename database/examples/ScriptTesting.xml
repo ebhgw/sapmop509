@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields available for the Script adapter are:
+
+     Field Name     Value
+     ==========     =====
+     id             alarm ID (internal to Formula)
+     
+     Also, any slot name can be used as an alarm field value.
+     
+-->
+
+<hierarchy>
+
+    <!--
+    Default:
+
+        The Default container contains the default XML definition used
+        by the script adapter.
+    -->
+
+    <group name="Default" class="default">
+        <group name="Sources" class="Sources">
+            <generator field="source" affected="yes">
+                <generator field="sub_source" affected="yes" />
+            </generator>
+        </group>
+        <group name="Groups" class="Groups">
+            <group name="Performance" class="perf48">
+                <filter operator="or">
+                    <field name="source" value="LOGFILE" />
+                    <field name="source" value="OS2" />
+                    <field name="source" value="NT" />
+                </filter>
+            </group>
+            <group name="Security" class="secrty48">
+                <filter operator="or">
+                    <field name="source" value="LOGFILE" />
+                    <field name="source" value="OS2" />
+                    <field name="source" value="NT" />
+                </filter>
+            </group>
+            <group name="System" class="mults48">
+                <filter operator="or">
+                    <field name="source" value="AS400_MSGQ" />
+                    <field name="source" value="LOGFILE" />
+                    <field name="source" value="OS2" />
+                    <field name="source" value="NT" />
+                </filter>
+            </group>
+            <group name="MS Exchange" class="grpeml48">
+                <filter operator="and">
+                    <filter operator="or">
+                        <field name="source" value="Exchange" />
+                        <field name="source" value="MSEXCHANGE" />
+                        <field name="source" value="SENTRY" />
+                    </filter>
+                    <filter operator="or">
+                        <field name="sub_source" value="Microsoft;Exchange;4.0" />
+                        <field name="sub_source" value="Microsoft;Exchange;5.0" />
+                        <field name="sub_source" value="Microsoft;Exchange;5.5" />
+                    </filter>
+                </filter>
+            </group>
+            <group name="Software Distribution" class="genapp48">
+                <filter>
+                    <field name="sub_source" value="courier" />
+                </filter>
+            </group>
+        </group>
+        <group name="Hosts" class="Hosts">
+            <generator field="hostname" />
+        </group>
+        <group name="Severities" class="barIndet">
+            <group name="Critical/Fatal" class="barCritical">
+                <filter>
+                    <field name="severity" value="CRITICAL" />
+                </filter>
+            </group>
+            <group name="Harmless" class="barHarmless">
+                <filter>
+                    <field name="severity" value="INFORMATIONAL" />
+                </filter>
+            </group>
+            <group name="Minor" class="barMinor">
+                <filter>
+                    <field name="severity" value="MINOR" />
+                </filter>
+            </group>
+            <group name="OK" class="barOK">
+                <filter>
+                    <field name="severity" value="OK" />
+                </filter>
+            </group>
+            <group name="Warning" class="barWarning">
+                <filter>
+                    <field name="severity" value="MAJOR" />
+                </filter>
+            </group>
+        </group>
+    </group>
+
+    <!--
+    Samples:
+
+        Contains some sample generators and filters to operate
+        on TEC slots to extract interesting information.
+    -->
+
+    <group name="Samples" class="samples">
+
+        <!--
+        Probes:
+
+            Contains elements broken out by probe/arg.
+        -->
+
+        <group name="Probes" class="probes">
+            <generator field="probe">
+                <generator field="probe_arg" />
+            </generator>
+        </group>
+
+        <!--
+        Origins:
+
+            Contains elements broken out by origin/sub_origin/adapter_host.
+        -->
+
+        <group name="Origins" class="origins">
+            <generator field="origin">
+                <generator field="sub_origin">
+                    <generator field="adapter_host" />
+                </generator>
+            </generator>
+        </group>
+
+        <!--
+        NetView:
+
+            Contains elements with the nvObject slot.
+        -->
+
+        <group name="Netview" class="netview">
+            <generator field="nvObject" />
+        </group>
+
+        <!--
+        CORBA:
+
+            Contains elements that have CORBA in their class name.
+        -->
+
+        <group name="CORBA Objects" class="corba">
+            <filter>
+                <field name="class" operator="contains" value="CORBA" />
+            </filter>
+            <generator field="sub_source" />
+        </group>
+
+        <!--
+        Shifts:
+
+            Contains elements broken into 3-shift groupings according to
+            the time the event was generated.
+        -->
+
+        <group name="Shifts" class="shifts">
+
+            <group name="Morning" class="amshift">
+                <filter operator="and">
+                    <field name="date" operator="greater" value="8:00 AM" />
+                    <field name="date" operator="less_or_equals" value="5:00 PM" />
+                </filter>
+            </group>
+
+            <group name="Evening" class="pmshift">
+                <filter operator="and">
+                    <field name="date" operator="greater" value="5:00 PM" />
+                    <field name="date" operator="less_or_equals" value="11:59:59 PM" />
+                </filter>
+            </group>
+
+            <group name="Graveyard" class="graveshift">
+                <filter operator="and">
+                    <field name="date" operator="greater" value="12:00 AM" />
+                    <field name="date" operator="less_or_equals" value="8:00 AM" />
+                </filter>
+            </group>
+
+        </group>
+
+    </group>
+
+</hierarchy>
+
+

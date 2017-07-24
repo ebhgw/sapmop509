@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<hierarchy>
+
+ <group name="Inventory" class="gen_folder">
+  <param name="AlarmColumns" value="-ID,Type=internalAlarmType,Name"/>
+
+  <group name="Nodes By Status" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Name,Status,Discovery State,Management Mode,Device Category Short,Device Description,Device Model,Device Family Short,Device Vendor Short,Uuid,Notes,Created,Modified"/>
+    <filter>
+       <field name="internalAlarmType" operator="equals" value="node"/>
+    </filter>
+    <generator field="status" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Name,Status,Discovery State,Management Mode,Device Category Short,Device Description,Device Model,Device Family Short,Device Vendor Short,Uuid,Notes,Created,Modified"/>
+    </generator>
+  </group>
+
+  <group name="Node Groups By Status" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Name,Status,Uuid,Created,Modified"/>
+    <filter>
+       <field name="internalAlarmType" operator="equals" value="nodegroup"/>
+    </filter>
+    <generator field="status" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Name,Status,Uuid,Created,Modified"/>
+    </generator>
+  </group>
+
+  <group name="Interfaces By Status" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Name,Status,Uuid,Created,Modified"/>
+    <filter>
+       <field name="internalAlarmType" operator="equals" value="interface"/>
+    </filter>
+    <generator field="status" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Name,Status,Uuid,Created,Modified"/>
+    </generator>
+  </group>
+
+  <group name="IPSubnets" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Name,Prefix,Prefix Length,Notes,Created,Modified"/>
+    <filter>
+       <field name="internalAlarmType" operator="equals" value="ipsubnet"/>
+    </filter>
+  </group>
+
+  <group name="IPAddresses By Management Mode" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,IP Value,Management Mode,Notes,Created,Modified"/>
+    <filter>
+       <field name="internalAlarmType" operator="equals" value="ipaddress"/>
+    </filter>
+    <generator field="managementMode" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,IP Value,Management Mode,Notes,Created,Modified"/>
+    </generator>
+  </group>
+
+  <group name="L2Connections By Status" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Name,Status,Notes,Created,Modified"/>
+    <filter>
+       <field name="internalAlarmType" operator="equals" value="l2connection"/>
+    </filter>
+    <generator field="status" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Name,Status,Notes,Created,Modified"/>
+    </generator>
+  </group>
+
+ </group>
+
+ <group name="Incidents" class="gen_folder">
+  <filter>
+     <field name="internalAlarmType" operator="equals" value="incident"/>
+  </filter>
+
+  <group name="Incidents By Severity" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    <generator field="severity" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    </generator>
+  </group>
+
+  <group name="Incidents By Category" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    <generator field="categoryShort" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    </generator>
+  </group>
+
+  <group name="Incidents By Priority" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    <generator field="priorityShort" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    </generator>
+  </group>
+
+  <group name="Incidents By Lifecycle State" class="gen_folder">
+    <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    <generator field="lifecycleStateShort" class="gen_folder" affected="no">
+       <param name="AlarmColumns" value="-ID,Message,Lifecycle State Short,Priority Short,Source Node Name,Assigned To,Category Short,Family Short,Nature,Origin,Origin Occurrence Time,First Occurrence Time,Last Occurrence Time,Duplicate Count,Uuid,Notes,Created,Modified"/>
+    </generator>
+  </group>
+
+ </group>
+
+</hierarchy>

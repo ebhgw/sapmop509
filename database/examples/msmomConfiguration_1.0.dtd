@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+The XML file must contain a "msmomconfig" root element that
+contains one or more "version" elements.
+-->
+
+<!ELEMENT msmomconfig (version+)>
+
+<!--
+The version element groups properties by a verson specifier.
+
+The "name" value must match the Configuration Version Adapter Property
+for the properties to be loaded.
+-->
+
+<!ELEMENT version (property+)>
+<!ATTLIST version
+     name    CDATA #REQUIRED
+>
+
+<!--
+The property element assigns a value to a named property.
+
+The "name" attribute is the property name.
+The "enable" attribute determines if the property should be loaded.
+-->
+
+<!ELEMENT property (#PCDATA)>
+<!ATTLIST property
+     name    CDATA #REQUIRED
+     enable  CDATA #IMPLIED
+>

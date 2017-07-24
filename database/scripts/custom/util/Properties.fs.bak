@@ -1,0 +1,17 @@
+// Read from formula.home + config directory a file with the given name and loads into a Properties object.
+// The file is a java properties file, key = value
+// Values can be read with props.get(key)
+
+function Properties(aModuleName) {
+}
+
+Properties.load = function (mn) {
+	var path = Packages.java.lang.System.getProperty( "formula.home") + '/' + 'config' + '/' + mn + '.properties';
+	var props = new Packages.java.util.Properties();
+	var fis = new Packages.java.io.FileInputStream(path)
+	props.load(fis);
+	fis.close();
+	return props;
+}
+
+	

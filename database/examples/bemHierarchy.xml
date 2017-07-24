@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<!--
+
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+
+     
+     The fields available for 'break-out' for the Business Experience Manager are:
+
+     Alarm Types are classified by the following codes for the purpose
+     of this documentation so that users can read it easily.  These 
+     codes are not used in the BEM integration, only the Field Names specified
+     in the second chart should be used in this xml file.  
+
+     All 'Field Names' (Properties) are case sensitive and are 'aliased' when 
+     visualized in the column header of the Alarms view in Formula.
+
+     NOTE:  * means the data is not sent when an event is forwarded by the BEM
+              monitor.
+
+
+  Alarm Type		Description
+ ===============================================================================
+     1			Standard Property For All Alarms
+     2			Properties only associated to J2EE performance monitoring Alarms
+     3			Properties only associated to End-User Response Time Alarms
+     4			Properties associated to any synthetic test Alarm
+     5			Properties only associated to Mail synthetic tests
+     6			Properties only associated to FTP synthetic tests
+     7			Properties only associated to HTTP synthetic tests
+     8			Properties only associated to HTTPS synthetic tests
+     9			Properties only associated to LDAP synthetic tests
+     10			Properties only associated to PING (ICMP) synthetic tests
+     11			Properties only associated to NSLOOKUP Synthetic tests
+     12			Properties only associated to TRACERT Synthetic tests
+     13			Properties only associated to SQL synthetic tests
+     14			Properties only associated to DHCP synthetic tests
+     15			Properties only associated to 3rd Party plugin synthetic tests
+     16			Properties only associated to Native Windows synthetic tests
+
+
+ Alarm Type	Field Name				Value
+ ==========	===========				=======================================   
+     1	eventID				Unique id identifying the Alarm in the database (apm_events_tab)
+     1 	alarmSeverity			Severity associated to alarm
+     1 	lastAlarmUpdate*			Date/Timestamp of last update of the Alarm
+     1 	createDate				Date/Timestamp of the creation date of the Alarm
+     1 	eventClass				Originating class of the Alarm.  This can be one of the following:
+							- apmSuperAlarm		-> Any Alarm
+							- apmAlarm			-> J2EE Performance Monitoring Alarm	
+							- endUserAlarm		-> End User Response Time Alarm
+							- synMailAlarm		-> Mail synthetic test Alarm
+							- synFtpAlarm		-> FTP synthetic test Alarm
+							- synHttpAlarm		-> HTTP synthetic test Alarm
+							- synHttpsAlarm		-> HTTPS synthetic test Alarm
+							- synLdapAlarm		-> LDAP synthetic test Alarm
+							- synTracertAlarm		-> Tracert synthetic test Alarm
+							- synIcmpAlarm		-> ICMP (Ping) synthetic test Alarm
+							- synNSLookupAlarm	-> NSLookup synthetic test Alarm
+							- synSqlAlarm		-> SQL synthetic test Alarm
+							- synDhcpAlarm		-> DHCP plugin synthetic test Alarm
+							- synThirdPartyAlarm	-> 3rd Party plugin synthetic test Alarm
+							- synNativeWindowsAlarm	-> Native Windows Synthetic test Alarm
+							- eventCorderAlarm	-> Native Windows EventCorder Alarm
+							- scenarioRollupAlarm	-> Aggregate rollup synthetic scenario Alarm
+							- synRollupAlarm		-> Aggregate rollup synthetic test Alarm
+     1 	eventType				Text name of the protocol of the test.  This can be one of the following:
+							- User Input from Injector	-> J2EE Performance Monitoring Alarm	
+							- END_USER_RESPONSE		-> End User Response Time Alarm
+							- MAIL				-> Mail synthetic test Alarm
+							- FTP					-> FTP synthetic test Alarm
+							- HTTP				-> HTTP synthetic test Alarm							- HTTP				-> HTTP synthetic test Alarm
+							- HTTPS				-> HTTPS synthetic test Alarm
+							- LDAP				-> LDAP synthetic test Alarm
+							- TRACERT				-> Tracert synthetic test Alarm
+							- ICMP				-> ICMP (Ping) synthetic test Alarm
+							- NSLOOKUP				-> NSLookup synthetic test Alarm
+							- SQL					-> SQL synthetic test Alarm
+							- DHCP				-> DHCP plugin synthetic test Alarm
+							- THIRDPARTY			-> 3rd Party plugin synthetic test Alarm
+							- WINDOWS				-> Native Windows Synthetic test Alarm
+							- WINDOWS				-> Native Windows EventCorder Alarm
+							- SCNEARIO_ROLLUP			-> Aggregate rollup synthetic scenario Alarm
+							- ROLLUP				-> Aggregate rollup synthetic test Alarm
+
+     1 	eventOccurences*			Count of instances the Alarm has been updated
+     1 	description				Description of the error When a critical Alarm is received 
+     1 	status*				Alarm status (Open, Acknowledged, Assigned)
+     1 	appName				Text name of the 'application'  
+                                        
+							- Synthetic Test Alarms use this property to hold the 'Test Name' as defined in 
+							  the synthetic test editor. 
+ 
+							- End-User Response Time Alarms use this property for the 'application name' 
+							  as defined in the 'Export End User Javascript' Operation when instrumenting 
+							  a web-based application.
+ 
+							- J2EE Application Monitoring Alarms use this property for the 'application name' 
+							  as defined in the BEM Injector Toolkit.
+
+     1 	hostName				Text name of the monitor name (as defined when the monitor was added in BEM) where
+							the collection is happening for these Alarms
+     1 	hostPort				Text name of the monitor port number (as defined when the monitor was added in BEM) where
+							the collection is happening for these Alarms
+     1 	responseTime			Numerical response time in milliseconds for a given alarm
+     1 	responseTimeAvg*			Numerical response time average
+     1 	responseTimeLow*			Numerical low water-mark of response time since the creation of a given Alarm
+     1 	responseTimeHigh*			Numerical high water-mark of response time since the creation of a given Alarm
+     1 	ackDate*				Date/Timestamp of the time when an Alarm was last acknowledged
+     1 	ackUser*				Text name of the username of the user that acknowledged an Alarm
+     1 	assignedBy*				Text name of the username of the user that Assigned an Alarm
+     1 	assignedTo*				Text name of the username of the user that an Alarm is Assigned to
+
+     2	apmMetric				Classification of alarm sub-type (standard | responseTime) based on Injection
+     2	totalMemAvail			Numerical value of total available memory for given injection point (in bytes)
+     2	freeMem				Numerical value of free memory for a given injection point (in bytes)
+     2	className				Text name of class injected
+     2	methodName				Text name of method injected 
+     2	instanceHashCode			Numerical value of the instance hash code within JVM for injection point
+
+     3	urlReferrer				Text name of the url that pointed the browser to the page currently being viewed by a user (browser referrer property)
+     3	urlDocTitle				Text name of the document title (title on the top of the browser window)
+     3	urlLocation				Text name of the url that was downloaded
+     3	brAppName				Text name of the browser type that accessed the page
+     3	brAppCodeName			Text Code Name of the browser type that accessed the page
+     3	brAppVersion			Text version number of the browser that accessed the page
+     3	brClientIP				Text IP address of the actual end users browser (public IP address) if the MyAddress.class tag is used
+							in the End-User Response Time instrumentation provided with BEM.  If the MyAddress.class is not
+							used, this value is the value of the brClientIP.
+     3	brClientHost			Text hostname (if it can be resolved) of the brClientIP property
+     3	httpClientIP			Text IP address of the end user that access the page.  If the client is behind a firewall, proxy
+							or NAT proxy server, this IP address will be of the server used as the proxy
+     3	httpClientHost			Text hostname (if it can be resolved) of the httpClientIP property
+     3	brAppPlatform			Text name of the workstation platform that the end user is using when accessing the page
+     3	appScreenHeight			Numerical value of the screen height used by the end user that is accessing the page
+     3	appScreenWidth			Numerical value of the screen width used by the end user that is accessing the page
+     3	appAvailHeight			Numerical value of the available screen height used by the end user that is accessing the page
+     3	appAvailWidth			Numerical value of the available screen width used by the end user that is accessing the page
+     3	appJavaEnabled			Text value defining the availability of a Java Virtual Machine on the client browser (yes | no | undefined)
+     3	downloadTime			Numerical value of the total download time of an end-user web page (ms)
+     3	uploadTransTime			Numerical value of the total upload and execution time of an end-user web page (ms)
+
+     4	testName				Text name of test as defined in the synthetic test editor
+     4	seqId*				Numerical sequence of execution for a given synthetic test scenario within a given synthetic test
+     4	scenarioName			Text name of scenario as defined in the synthetic test editor
+
+     5	mailSynSmtp				Text name of the out-bound SMTP server as defined in the synthetic test editor
+     5	mailSynAddr				Text name of the email address used as defined in the synthetic test editor
+     5	mailSynType				Text name of the type of inbox server (POP3|IMAP) as defined in the synthetic test editor
+     5	mailSynInbox			Text name of the inbox retrieval server as defined in the synthetic test editor
+
+     6	ftpSynHost				Text name of the ftp server used as defined in the synthetic test editor
+     6	ftpSynFile				Text name of the file to be ftp'd as defined in the synthetic test editor
+     6	ftpSynMeth				Text name of the ftp method used as defined in the synthetic test editor (get | put)
+     6	ftpSynType				Text name of the ftp type used as defined in the synthetic test editor (binary | ascii)
+     6	ftpSynBytes				Numerical value of the total bytes trasmitted in the FTP test
+
+     7	httpSynHost				Text name of the web server host tested as defined in the synthetic test editor
+     7	httpSynPort				Text name of the web server port tested as defined in the synthetic test editor
+     7	httpSynFile				Text name of the file accessed as defined in the synthetic test editor
+     7	httpSynUrl				Text name of the fully qualified url tested ([protocol][host]:[port][file])
+     7	httpSynCode				Text name of the response code returned when url was tested
+     7	httpSynBytes			Numerical value of the number of bytes transmitted in the http test
+     7	httpSynTransTime			Numerical value of the total transaction time of an http test MINUS the time it takes 
+							to prepare an http request
+     7	httpSynDnsTime			Numerical value of the total time to resolve dns to a target URL (ms)
+     7	httpSynConnTime			Numerical value of the total time to connect to a target URL (ms)
+     7	httpSynDownTime			Numerical value of the total time to download content after connecting to a target URL (ms)
+     7	httpSynFailedAssets		Comma-delimited list of assets that had errors
+
+     8	httpsSynHost			Text name of the web server host tested as defined in the synthetic test editor
+     8	httpsSynPort			Text name of the web server port tested as defined in the synthetic test editor
+     8	httpsSynFile			Text name of the file accessed as defined in the synthetic test editor
+     8	httpsSynUrl				Text name of the fully qualified url tested ([protocol][host]:[port][file])
+     8	httpsSynCode			Text name of the response code returned when url was tested
+     8	httpsSynBytes			Numerical value of the number of bytes transmitted in the http test
+     8	httpsSynTransTime			Numerical value of the total transaction time of an http test MINUS the time it takes 
+							to prepare an http request
+     8	httpsSynDnsTime			Numerical value of the total time to resolve dns to a target URL (ms)
+     8	httpsSynConnTime			Numerical value of the total time to connect to a target URL (ms)
+     8	httpsSynDownTime			Numerical value of the total time to download content after connecting to a target URL (ms)
+     8	httpsSynSslTime			Numerical value of the total time to complete SSL handshake with target
+     8	httpsSynFailedAssets		Comma-delimited list of assets that had errors
+
+     9	ldapSynUrl  	            Text name of the URL used as defined in the synthetic test editor
+     9	ldapSynBaseDN			Text name of the baseDN used as defined in the synthetic test editor
+     9	ldapSynOrgRDN			Text name of the orgDN used as defined in the synthetic test editor
+     9	ldapSynInitialContext		Text name of the Initial Context used as defined inthe synthetic test editor
+     9	ldapSynAuthentication		Text name of the authentication used as defined in the synthetic test editor
+     9	ldapSynCredentials		Text name of the credentials
+     9	ldapSynPrincipal			Text name of the pricinpal used (username) as defined in the synthetic test editor
+     9	ldapSynSecurityProtocol		Text name of the security protocol used as defined in the synthetic test editor
+     9	ldapSynUserAttr			Text name of the user attribute used as defined in the synthetic test editor
+
+     10	icmpSynHost       	      Text name of the host to PING used as defined in the synthetic test editor
+     10	icmpSynMaxCount			Text name of the max count used to PING as defined in the synthetic test editor
+
+     11	nslookupSynHost			Text name of the host to lookup via DNS as defined in the synthetic test editor
+     11	nslookupSynPort			Text name of the nslookup port used as defined in the synthetic test editor
+     11	nslookupSynNameServer		Text name of the name server used as defined in the synthetic test editor
+     11	nslookupSynTransport		Text name of the transport protocol used as defined in the synthetic test editor
+     11	nslookupSynReverseLookup	Boolean value to indicate if a reverse lookup should be performed
+     11	nslookupSynRecursion		Boolean value to indicate if a recursion should be performed
+
+     12	tracertSynHost			Text name of the target host to tracert used as defined in the synthetic test editor
+     12	tracertSynMaxCount		Text name of the maximum hops to traverse before failing as defined in the synthetic test editor
+
+     13	sqlSynQuery				Text name of the SQL query used as defined in the synthetic test editor
+     13	sqlSynHost				Text name of the db host used as defined in the synthetic test editor
+     13	sqlSynDbType			Text name of the db type used as defined in the synthetic test editor (oracle | mssql | db2 | sybase)
+     13	sqlSynDbName			Text name of the db instance name as defined in the synthetic test editor
+     13	sqlSynDbPort			Text name of the db port used as defined in the synthetic test editor
+
+     14	dhcpSynHost				Text name of the DHCP server host name
+     14	dhcpSynPort				Text name of the DHCP server port
+     14	dhcpSynMacAddress			Text name of the MAC Address used for the DHCP test
+     14	dhcpSynBindAddress		Text name of the binded IP Address resulting from the DHCP test
+
+     15	thirdPartySynClassName		Text name of the fully qualified class used to execute 3rd party plugin code for the test engine
+
+     16	nativeWindowsClickViewDelay	
+     16	nativeWindowsWndTitle		Text name of the window in focus
+     16	nativeWindowsWndClass		Text name of the window's class in focus
+     16	nativeWindowsBatFile		Text file location and name for the monitor to execute
+     16	nativeWindowsEcfFile		Text file location of the .eg script file
+
+-->
+<hierarchy>
+  <group class="applications" name="Application Experience" rollup="highest">
+    <!-- Application Management -->
+    <filter>
+      <field name="eventClass" operator="contains" value="apmAlarm"/>
+    </filter>
+    <generator affected="no" class="application" field="appName"
+      hold="no" rollup="highest">
+      <generator affected="no" class="gen_class" field="eventType"
+        hold="no" rollup="highest">
+        <generator affected="no" class="gen_file" field="className"
+          hold="no" rollup="highest">
+          <generator affected="yes" class="gen_log" field="methodName" hold="no">
+          </generator>
+        </generator>
+      </generator>
+    </generator>
+  </group>
+  <group class="admin_analyzer" name="End User Experience" rollup="highest">
+    <group class="mgmt_source" name="Protocol Synthetic Tests" rollup="highest">
+      <!-- PROTOCOL - SYNTHETIC TESTS -->
+      <filter operator="or">
+        <field name="eventClass" operator="equals" value="synMailAlarm"/>
+        <field name="eventClass" operator="equals" value="synFtpAlarm"/>
+        <field name="eventClass" operator="equals" value="synHttpAlarm"/>
+        <field name="eventClass" operator="equals" value="synHttpsAlarm"/>
+        <field name="eventClass" operator="equals" value="synLdapAlarm"/>
+        <field name="eventClass" operator="equals" value="synTracertAlarm"/>
+        <field name="eventClass" operator="equals" value="synIcmpAlarm"/>
+        <field name="eventClass" operator="equals" value="synNSLookupAlarm"/>
+        <field name="eventClass" operator="equals" value="synSqlAlarm"/>
+        <field name="eventClass" operator="equals" value="synDhcpAlarm"/>
+        <field name="eventClass" operator="equals" value="synNativeWindowsAlarm"/>
+        <field name="eventClass" operator="equals" value="synThirdPartyAlarm"/>
+        <field name="eventClass" operator="equals" value="synScenarioRollupAlarm"/>
+        <field name="eventClass" operator="equals" value="synRollupAlarm"/>
+      </filter>
+      <generator affected="no" class="server_file" field="appName"
+        hold="no" rollup="highest">
+        <!-- Test Name -->
+        <generator affected="yes" class_from_field="eventType"
+          field="scenarioName" hold="no">
+        </generator>
+      </generator>
+    </group>
+    <group class="mgmt_eventgroup" name="Plugin Synthetic Tests" rollup="highest">
+      <!-- PLUGIN - SYNTHETIC TESTS -->
+      <filter>
+        <field name="eventClass" operator="equals" value="synThirdPartyAlarm"/>
+      </filter>
+      <generator affected="no" class="server_file" field="appName"
+        hold="no" rollup="highest">
+        <!-- Test Name -->
+        <generator affected="yes" class_from_field="eventType"
+          field="scenarioName" hold="no">
+        </generator>
+      </generator>
+    </group>
+    <group class="computer_workstation" name="Windows Synthetic Tests" rollup="highest">
+      <!-- NATIVE WINDOWS - SYNTHETIC TESTS -->
+      <filter>
+        <field name="eventClass" operator="equals" value="eventCorderAlarm"/>
+      </filter>
+      <generator affected="no" class="application" field="appName"
+        hold="no" rollup="highest">
+        <!--  Window's Event Name -->
+        <generator affected="yes" class="mgmt_service"
+          field="scenarioName" hold="no">
+        </generator>
+      </generator>
+    </group>
+    <group class="application_webhosting"
+      name="End User Response Metrics" rollup="highest">
+      <!-- REAL END-USER DATA -->
+      <filter invert="false" operator="and">
+        <field invert="false" name="eventClass" operator="contains" value="endUserAlarm"/>
+      </filter>
+      <generator affected="no" class="server_file" field="appName"
+        hold="no" rollup="highest">
+        <!-- WebServer Location -->
+        <properties name="Rollup Statistics">
+          <page name="Rollup Statistics">
+            <property field="responseTime" function="AVG" name="Average Response Time" computeOnGet="true"/>
+            <property field="responseTime" function="MIN" name="Minimum Response Time" computeOnGet="true"/>
+            <property field="responseTime" function="MAX" name="Maximum Response Time" computeOnGet="true"/>
+          </page>
+        </properties>
+        <group affected="no" class="Applications" name="Client IP" rollup="highest">
+          <generator class="server_file" field="brClientIP" rollup="highest">
+            <!-- Client IP Address -->
+            <generator affected="no" class="admin_automation_scripts"
+              field="urlLocation" hold="no" rollup="bemEndUserBand">
+              <!-- URL Page -->
+              <properties name="Response Time">
+                <page name="Response Time">
+                  <property field="responseTime" function="LAST" name="Response Time"/>
+                </page>
+              </properties>
+            </generator>
+          </generator>
+        </group>
+        <group affected="no" class="Applications" name="Web Pages" rollup="highest">
+          <generator affected="no" class="admin_automation_scripts"
+            field="urlLocation" hold="no" rollup="highest">
+            <!-- URL Page -->
+            <generator affected="yes" class="server_file"
+              field="brClientIP" hold="no" rollup="bemEndUserBand">
+              <!-- Client IP Address -->
+              <properties name="Response Time">
+                <page name="Response Time">
+                  <property field="responseTime" function="LAST" name="Response Time"/>
+                </page>
+              </properties>
+            </generator>
+          </generator>
+        </group>
+      </generator>
+    </group>
+  </group>
+  <group class="computer_minicomputer" name="Monitor Distribution" rollup="highest">
+    <!-- MONITOR DIST. OF TESTS -->
+    <generator class="server_host" field="hostName" rollup="highest">
+      <generator class="device_port" field="hostPort" rollup="highest">
+        <generator class_from_field="eventType" field="eventType">
+          <generator affected="no" class="server_file" field="appName"
+            hold="no" rollup="highest">
+            <generator affected="no" class_from_field="eventType"
+              field="scenarioName" hold="no">
+            </generator>
+          </generator>
+        </generator>
+      </generator>
+    </generator>
+  </group>
+</hierarchy>
+
+
+
+
+
+

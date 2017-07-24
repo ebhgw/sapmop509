@@ -1,0 +1,42 @@
+/*
+
+	Hogwart srl
+	Copyright (C) 2013
+
+	Check the message field to define if a tlc device is active or standby
+	
+*/
+
+var logger = Packages.org.apache.log4j.Logger.getLogger("fs");
+
+var myAlarm = alarm;
+var message = myAlarm.Message
+var pattStandby = /stato standby$/i
+var pattActive = /stato active$/i
+var res = false
+
+formula.log.debug('Processing alarm ' + alarm.ID);
+// assume a default status 'active'
+try {
+	res = pattStandby.test(message)
+	formula.log.debug('Field message >' + message + '<')
+	formula.log.debug('Pattern matched ' + res);
+	if (res) {
+		alarm.tlcStatus = 'standby'
+	} else {
+		res = pattActive.test(message)
+		if (res) {
+			alarm.tlcStatus = 'active'
+		}
+	}
+} catch (excp) {
+	formula.log.error('processTlcAlarm error ' + excp);
+	logger.error('processTlcAlarm error ' + excp);
+}
+
+delete myAlarm;
+if (!res) {
+	true;
+} else {
+	false;
+}

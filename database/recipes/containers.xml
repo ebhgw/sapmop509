@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<recipes 
+    xmlns:bind="http://www.managedobjects.com/bind" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:data="http://www.managedobjects.com/data"
+    >
+    
+	<!-- The templates area defines recipes that require
+		a generation pass to take place. When the generation is
+		run, each create tag can contain zero or more other tags.
+		Those tags are located inside the recipe template and 
+		substitution is performed, removing the tag and replacing
+		it with the create tag's contents. -->
+		
+	<templates>
+	   <recipe id="adjustGridLayout" name='Adjust Grid Layout'>      
+	      <name><namesubst>namesubst</namesubst></name>
+	      <category><categorysubst>categorysubst</categorysubst></category>
+	      <matchnodeset><matchsubst>matchsubst</matchsubst></matchnodeset>
+	      
+	      <extract>
+	         <string name='currentAlign'>bind:layout/@align</string>
+	         <number name='currentColumns'>bind:layout/@columns</number>
+	         <number name='currentGap'>bind:layout/@gap</number>
+	         <string name='currentColumnWidth'>bind:layout/@columnWidth</string>
+	         <string name='currentRowHeight'>bind:layout/@rowHeight</string>
+	      </extract>
+	      <html>
+	         <lookup name='columnwidth' target="//input[@name='columnwidthtext']" attr="value" value="{currentColumnWidth}"/>
+	         <lookup name='rowheight' target="//input[@name='rowheighttext']" attr="value" value="{currentRowHeight}"/>
+	      
+	         <p>Each cell in the grid can be aligned horizontally to the left,
+	         center, or right. The current alignment is <lookup name='currentAlign'/>.</p>
+	         <p>You can also adjust the number of columns, and the padding between
+	         the cells.</p>
+	         <table>
+	            <tr>
+	               <td align="right">Columns:</td>
+	               <td>
+	                  <choice current='currentColumns' result='newColumns'>
+	                     <item value='1'>1</item>
+	                     <item value='2'>2</item>
+	                     <item value='3'>3</item>
+	                     <item value='4'>4</item>
+	                     <item value='5'>5</item>
+	                     <item value='6'>6</item>
+	                  </choice>
+	               </td>
+	            </tr>
+	            <tr>
+	               <td align="right">Alignments:</td>
+	               <td>
+	                  <choice current='currentAlign' result='newAlign'>
+	                     <item value='left'>Left</item>
+	                     <item value='center'>Center</item>
+	                     <item value='right'>Right</item>
+	                  </choice>
+	               </td>
+	            </tr>
+	            <tr>
+	               <td align="right">Gap:</td>
+	               <td>
+	                  <choice current='currentGap' result='newGap'>
+	                     <item value='0'>0</item>
+	                     <item value='5'>5</item>
+	                     <item value='10'>10</item>
+	                     <item value='15'>15</item>
+	                     <item value='20'>20</item>
+	                     <item value='25'>25</item>
+	                  </choice>
+	               </td>
+	            </tr>
+	            <tr>
+	               <td align="right">Column Width:</td>
+	               <td><input type="text" name="columnwidthtext" cols="20" value=""></input></td>                 
+	            </tr>                   
+	            <tr>
+	               <td align="right">Row Height:</td>
+	               <td><input type="text" name="rowheighttext" cols="20" value=""></input></td>                 
+	            </tr>                   
+	         </table>
+	      </html>
+	      <do>
+	         <set where="bind:layout" attr="align" value='{newAlign}'/>
+	         <set where="bind:layout" attr="columns" value='{newColumns}'/>
+	         <set where="bind:layout" attr="gap" value='{newGap}'/>
+	         <set where="bind:layout" attr="columnWidth" value='{columnwidthtext}'/>
+	         <set where="bind:layout" attr="rowHeight" value='{rowheighttext}'/>
+	      </do>
+	   </recipe>
+
+	   <recipe id="adjustFlowLayout" name='Adjust Flow Layout'>      
+         <name><namesubst>namesubst</namesubst></name>
+         <category><categorysubst>categorysubst</categorysubst></category>
+         <matchnodeset><matchsubst>matchsubst</matchsubst></matchnodeset>
+<!-- 
+	      <name>Adjust Flow Layout</name>
+	      <category>Layout</category>
+	      <matchnodeset>self::svg:g/bind:layout[@name='flow'] | self::svg:g/bind:children/bind:layout[@name='flow']</matchnodeset>
+-->	      
+	      <extract>
+	         <string name='currentAlign'>@align</string>
+	         <number name='currentVGap'>@vgap</number>
+	         <number name='currentHGap'>@hgap</number>
+	         <string name='currentWidth'>@width</string>
+	      </extract>
+	      <html>
+	         <lookup name='width' target="//input[@name='widthtext']" attr="value" value="{currentWidth}"/>
+	         <lookup name='hgap' target="//input[@name='hgaptext']" attr="value" value="{currentHGap}"/>
+	         <lookup name='vgap' target="//input[@name='vgaptext']" attr="value" value="{currentVGap}"/>
+	      
+	         <p>Each cell in the flow layout can be aligned horizontally to the left,
+	         center, or right. The current alignment is <lookup name='currentAlign'/>.</p>
+	         <p>You can also adjust the horizontal and vertical padding between
+	         the cells.</p>
+	         <table>
+	            <tr>
+	               <td align="right">Alignment:</td>
+	               <td>
+	                  <choice current='currentAlign' result='newAlign'>
+	                     <item value='left'>Left</item>
+	                     <item value='center'>Center</item>
+	                     <item value='right'>Right</item>
+	                  </choice>
+	               </td>
+	            </tr>
+	            <tr>
+	               <td align="right">HGap:</td>
+	               <td><input type="text" name="hgaptext" cols="20" value=""></input></td>                 
+	            </tr>                   
+	            <tr>
+	               <td align="right">VGap:</td>
+	               <td><input type="text" name="vgaptext" cols="20" value=""></input></td>                 
+	            </tr>                   
+	            <tr>
+	               <td align="right">Width:</td>
+	               <td><input type="text" name="widthtext" cols="20" value=""></input></td>                 
+	            </tr>                   
+	         </table>
+	      </html>
+	      <do>
+	         <set attr="align" value='{newAlign}'/>
+	         <set attr="width" value='{widthtext}'/>
+	         <set attr="hgap" value='{hgaptext}'/>
+	         <set attr="vgap" value='{vgaptext}'/>
+	      </do>
+	   </recipe>
+           
+	</templates>	 
+
+   <generate from='adjustGridLayout'>
+      <create>
+         <namesubst>Adjust Grid Layout</namesubst>
+         <categorysubst>Container|Layout</categorysubst>
+         <matchsubst>       
+            self::svg:g[not(@lockedgroup) and bind:layout[@name='grid']]
+         </matchsubst>
+      </create>
+      <create>
+         <namesubst>Adjust Grid Layout</namesubst>
+         <categorysubst>Child Container|Layout</categorysubst>
+         <matchsubst>       
+            self::svg:g[not(@lockedgroup)]/bind:children[bind:layout[@name='grid'] and count(bind:layout[@name='grid']) = 1]
+         </matchsubst>
+      </create>
+   </generate>
+        
+   <generate from='adjustFlowLayout'>
+      <create>
+         <namesubst>Adjust Flow Layout</namesubst>
+         <categorysubst>Container|Layout</categorysubst>
+         <matchsubst>       
+            self::svg:g[not(@lockedgroup)]/bind:layout[@name='flow']
+         </matchsubst>
+      </create>
+      <create>
+         <namesubst>Adjust Flow Layout</namesubst>
+         <categorysubst>Child Container|Layout</categorysubst>
+         <matchsubst>       
+            self::svg:g[not(@lockedgroup)]/bind:children/bind:layout[@name='flow']
+         </matchsubst>
+      </create>
+   </generate>
+      
+   <recipe name='Insert Children Container'>
+      <name>Children Container</name>
+      <category>Container|Add</category>      
+      <match>self::svg:g[not(@lockedgroup)]|self::svg:svg</match>
+      <description>Inserts a container that can hold children and other
+      objects, and can lay out those objects in an orderly way.</description>
+      <do>
+         <insert where="append">
+            <svg:g transform="translate({MouseClickX},{MouseClickY})">
+               <bind:layout name="wrap" pad="10"/>
+               <svg:rect stroke='black' stroke-width='1.5' rx='4' ry='4' fill="lightgray" width='500' height='5' bind:container='true'/>
+               <bind:children self='false'>
+                  <bind:layout align="center" gap='10' name='grid' columns="3"/>
+               </bind:children>
+            </svg:g>
+         </insert>            
+      </do>
+   </recipe>
+
+   <recipe name='Insert Stack Layout Container'>
+      <name>Stack Layout Container</name>
+      <category>Container|Add</category>      
+      <match>self::svg:g[not(@lockedgroup)]|self::svg:svg</match>
+      <description>Inserts a container that can hold children and other
+      objects, and can lay out those objects in a single stack.</description>
+      <do>
+         <insert where="append">
+			   <svg:g transform="translate({MouseClickX},{MouseClickY})">
+			      <bind:layout align="center" minWrapWidth="30" minWrapHeight="30" wrap="true" pad="15" name="stack" gap="10" columns="1">
+			         <bind:value ignoregenerated="true" default="stack" property="condition" set="stack" default.edit="grid" attr="name" set.edit="grid" when="Unknown,Critical,Major,Minor,Info,OK,Unmanaged"/>
+			      </bind:layout>
+			      <svg:rect x="0" y="0" fill="rgb(255,64,64)" width="1" undofill="lightgray" rx="4" bind:container="true" height="1" ry="4" opacity="1" stroke="black" stroke-width="1.5">
+			         <bind:fill property="condition" default="" set="" when=""/>
+			      </svg:rect>  
+               <svg:rect x="0" stroke-linecap="butt" y="0" fill="#c0c0c0" width="45" stroke-linejoin="miter" filter="none" stroke-dasharray="none" height="43" opacity="1" stroke="#000000" stroke-width="3"/>
+               <svg:circle fill="#c0c0c0" filter="none" stroke-dasharray="none" r="16.5" cx="0" cy="0" opacity="1"  stroke="#000000" stroke-width="3"/>			       
+			   </svg:g>
+         </insert>            
+      </do>
+   </recipe>
+
+   <recipe name='Insert Stack Children Layout Container'>
+      <name>Stack Children Layout Container</name>
+      <category>Container|Add</category>      
+      <match>self::svg:g[not(@lockedgroup)]|self::svg:svg</match>
+      <description>Inserts a container that can hold children and other
+         objects, and can lay out those objects in a single stack.</description>
+      <do>
+         <insert where="append">
+            <svg:g transform="translate({MouseClickX},{MouseClickY})">
+               <bind:layout name="wrap" pad="10"/>
+               <svg:rect x="0" y="0" fill="lightgray" width="100" rx="4" bind:container="true" height="100" ry="4" stroke="black" stroke-width="1.5"/>
+               <bind:children self="false">
+                  <bind:layout gap="10" columns="3" name="grid" align="center">
+                     <bind:value default="stack" property="condition" set="stack" default.edit="grid" attr="name" ignoregenerated="true" set.edit="grid" when="Unknown,Critical,Major,Minor,Info,OK,Unmanaged"/>
+                  </bind:layout>
+               </bind:children>            
+            </svg:g>
+         </insert>            
+      </do>
+   </recipe>
+   
+    <recipe name='Set children layout'>
+     <name>Set Children Layout</name>
+     <category>Child Container|Layout</category>
+      <match>self::svg:g[not(@lockedgroup)]/bind:children/bind:layout</match>
+      <extract>
+         <element name='layout'>self::svg:g/bind:children/bind:layout</element>
+         <string name='current'>self::svg:g/bind:children/bind:layout/@name</string>
+         <string name='currentself'>self::svg:g/bind:children/@self</string>
+      </extract>
+      <html>
+         <p>Select one of the available layout algorithms:<br/><br/>
+         
+         <lookup name='layout' target="//option[@value='{current}']" attr="selected" value="true"/>
+         <do>
+            <case>           
+               <!-- check for missing 'self' attribute which indicates TRUE -->                  
+               <when where="self::svg:g/bind:children[not(@self)]">
+                  <set where="//input[@name='self']" attr='checked' value='true'/>
+               </when>
+               <!-- check explicit 'self' of 'true' and set checked to TRUE -->                                
+               <when where="self::svg:g/bind:children[@self='true']">
+                  <set where="//input[@name='self']" attr='checked' value='true'/>
+               </when>
+            </case> 
+         </do>
+               
+         <select name="layouttype" id="layouttype">
+            <option value='balloon'>Balloon</option>
+            <option value='circle'>Circular</option>
+            <option value='cluster'>Cluster</option>
+            <option value='clusterbox'>Cluster Box</option>
+            <option value='compact circle'>Compact Circle</option>
+            <option value='compact rectangle'>Compact Rectangle</option>
+            <option value='cycle'>Cycle</option>
+            <option value='directed'>Directed</option>
+            <option value='flow'>Flow</option>
+<!--             <option value='global'>Global</option> -->
+            <option value='grid'>Grid</option>
+            <option value='grip'>GRIP</option>
+				<option value='hier'>Hierarchical</option>
+				<option value='horizontal'>Horizontal</option>
+            <option value='html'>HTML</option>
+				<option value='organic'>Organic</option>
+            <option value='ortho'>Orthogonal/Diagram</option>
+				<option value='packed circle'>Packed Circle</option>
+				<option value='packed rectangle'>Packed Rectangle</option>
+				<option value='rows'>Rows</option>
+				<option value='single column'>Single Column</option>
+				<option value='single row'>Single Row</option>
+            <option value='stack'>Stack</option>
+            <option value='tree'>Tree</option>
+<!--             <option value='treemap'>Heat Map</option> -->
+            <option value='wrap'>Wrap</option>
+         </select>         
+         </p>
+         <br/>
+         <input type="checkbox" name="self" unchecked="true"/>Include "self" in layout
+      </html>
+      <do>
+         <upsert where="self::svg:g/bind:children/bind:layout">
+            <bind:layout name='{layouttype}'/>
+         </upsert>
+
+         <!-- set a temporary DOM variable to use for later lookups -->
+         <set where="self::svg:g/bind:children" attr="selftemp" value="{self}"/>            
+         <case>
+            <when where="self::svg:g/bind:children[@selftemp='on']">
+               <set attr='self' value='true'/>
+            </when>
+            <default>
+               <set where="self::svg:g/bind:children" attr='self' value='false'/>
+            </default>
+         </case>
+
+         <!--  remove our temporary DOM variable -->
+         <delete where='self::svg:g/bind:children' attr="selftemp"/>       
+      </do>
+   </recipe>
+
+    <recipe name="WrapInContainer" batch='true'>
+        <name>Wrap in Container</name>
+        <category>Container</category>
+        <!-- Match against at least one selected element. -->
+        <match>not(self::svg:svg)</match>
+        <!-- We have no HTML section, so this is a simple recipe (acts as action). -->
+        <do>
+            <nest>
+                <svg:g>
+                    <bind:layout name="grid" columns="1" wrap="true" pad="10" gap="10"/>
+                    <svg:rect stroke='black' stroke-width='1.5' rx='4' ry='4' fill="lightgray" width='500' height='5' bind:container='true'/>
+                </svg:g>
+            </nest>    
+        </do>    
+    </recipe>
+
+    <recipe name='Set Container Layout'>
+      <!--
+       Set Layout
+       -->
+      <name>Set Layout</name>
+      <category>Container|Layout</category>
+      <!-- match any group, but do not match a group that appears to be a child container -->
+      <matchnodeset>self::svg:g[not(@lockedgroup) and not(bind:children/bind:layout)]</matchnodeset>
+      <extract>
+         <string name='current'>bind:layout/@name</string>
+         <string name='currentself'>@self</string>
+      </extract>
+      <html>
+         <p>Select one of the available layout algorithms:<br/><br/>
+         
+         <lookup name='layout' target="//option[@value='{current}']" attr="selected" value="true"/>
+               
+         <select name="layouttype" id="layouttype">
+            <option value='cluster'>Cluster</option>
+            <option value='clusterbox'>Cluster Box</option>
+            <option value='flow'>Flow</option>
+            <option value='grid'>Grid</option>
+            <option value='horizontal'>Horizontal</option>
+            <option value='html'>HTML</option>
+            <option value='stack'>Stack</option>
+            <option value='wrap'>Wrap</option>
+         </select>         
+         </p>
+      </html>
+      <do>
+         <upsert>
+            <bind:layout name='{layouttype}'/>
+         </upsert>
+      </do>
+   </recipe>
+
+
+   <recipe name="Hide Wrap">
+	   <name>Hide Wrapping Rectangle</name>
+	   <category>Container|Wrapping</category>
+	   <!-- Match if we have a group with a wrapping layout and the bind:container rect exists and is visible -->
+	   <matchnodeset>self::svg:g[ not(@lockedgroup) and (bind:layout[@wrap='true'] or bind:layout[@name='wrap']) and svg:rect[@bind:container='true'] and (svg:rect[@display='inline'] or not(svg:rect[@display])) ]</matchnodeset>	
+	   <do>
+	     <set where="svg:rect[@bind:container='true']" attr="display" value='none'/>
+	   </do>
+   </recipe>
+
+   <recipe name="Show Wrap">
+      <name>Show Wrapping Rectangle</name>
+      <category>Container|Wrapping</category>
+      <!-- Match if we have a group with a wrapping layout and the bind:container rect has display set to none -->
+      <matchnodeset>self::svg:g[ not(@lockedgroup) and (bind:layout[@wrap='true'] or bind:layout[@name='wrap']) and svg:rect[@bind:container='true'] and (svg:rect[@display='none']) ]</matchnodeset>   
+      <do>
+        <set where="svg:rect[@bind:container='true']" attr="display" value='inline'/>
+      </do>
+   </recipe>
+
+   <recipe name="Adjust Wrap Settings">
+      <name>Adjust Wrap Settings</name>
+      <category>Container|Wrapping</category>
+      <matchnodeset>(self::svg:g[not(@lockedgroup)]/bind:layout[@wrap='true'] | self::svg:g[not(@lockedgroup)]/bind:layout[@name='wrap'])</matchnodeset>
+      <extract>
+         <string name='pad'>@pad</string>
+         <number name='currentMinWrapWidth'>@minWrapWidth</number>
+         <number name='currentMinWrapHeight'>@minWrapHeight</number>
+      </extract>
+      <html>      
+         <lookup name='minwrapwidth' target="//input[@name='minwrapwidthtext']" attr="value" value="{currentMinWrapWidth}"/>
+         <lookup name='minwrapheight' target="//input[@name='minwrapheighttext']" attr="value" value="{currentMinWrapHeight}"/>
+         <p>Each layout can have custom wrapping settings.</p>  
+         <p>You can adjust the padding as well as the minimum width and height of the wrap.</p>
+         <br/>      
+         <table border="0">                       
+            <tr>
+               <td align="right">Pad:</td>
+               <td>
+                  <choice current='pad' result='newpad'>
+	                  <item value='0'/>
+	                  <item value='5'/>
+	                  <item value='10'/>
+                     <item value='15'/>
+	                  <item value='25'/>
+	                  <item value='50'/>
+                  </choice>
+               </td>                 
+            </tr>                   
+            <tr>
+               <td align="right">Minimum Width:</td>
+               <td><input type="text" name="minwrapwidthtext" cols="20" value=""></input></td>                 
+            </tr>                   
+            <tr>
+               <td align="right">Minimum Height:</td>
+               <td><input type="text" name="minwrapheighttext" cols="20" value=""></input></td>                 
+            </tr>                   
+         </table>                
+      </html>
+      <do>
+          <set attr="pad" value='{newpad}'/>
+          <set attr='minWrapWidth' value='{minwrapwidthtext}'/>          
+          <set attr='minWrapHeight' value='{minwrapheighttext}'/>          
+      </do>
+   </recipe>
+   
+   <recipe name='Add Caption'>
+      <name>Add Caption</name>
+      <match>self::svg:g[not(@lockedgroup)]|self::svg:svg</match>
+      <do>
+         <insert where="append">
+            <svg:g captiongroup="true" transform="translate({MouseClickX},{MouseClickY})">
+               <svg:rect x="-21.090658" y="52.940918" fill="white" text-anchor="middle" width="92.163414" rx="3" bind:container="true" height="19.476074" stroke="gray"/>
+               <bind:layout name="wrap" ypad="3" xpad="5"/>
+               <svg:text x="0" font-size="11px" y="0" fill="black" text-anchor="middle" font-family="helvetica" stroke="none" xml:space="default">ArrowDown_ALL<bind:value property="name"/></svg:text>
+               <bind:value property="graphicproperty" default="inline" attr="display" graphicattr="CONTEXT_CAPTIONS_FLAG"/>
+            </svg:g>           
+         </insert>            
+      </do>
+   </recipe>
+      
+   <recipe name="Adjust Child Container Filtering">
+      <name>Adjust Filtering</name>
+      <category>Child Container|Filtering</category>
+      <matchnodeset>self::svg:g[not(@lockedgroup)]/bind:children[bind:layout]</matchnodeset>
+      <extract>
+         <string name='currentConditionFilter'>@conditionFilter</string>
+         <string name='currentNameFilter'>@nameFilter</string>
+         <string name='currentDNameFilter'>@dnameFilter</string>
+         <string name='currentClassFilter'>@classFilter</string>
+         <string name='currentScriptFilter'>@scriptFilter</string>
+         <string name='currentself'>@self</string>
+      </extract>
+      <html>
+         <lookup name='currentNameFilter' target="//input[@name='namefiltertext']" attr="value" value="{currentNameFilter}"/>
+         <lookup name='currentDNameFilter' target="//input[@name='dnamefiltertext']" attr="value" value="{currentDNameFilter}"/>
+         <lookup name='currentClassFilter' target="//input[@name='classnamefiltertext']" attr="value" value="{currentClassFilter}"/>
+         <lookup name='currentScriptFilter' target="//textarea[@name='scriptfiltertext']" attr="text()" value="{currentScriptFilter}"/>
+         
+         <lookup valuedelimiter="," valuevariable="{currentConditionFilter}" valuematch="OK" name='filterOK' target="//input[@name='filter_OK']" attr="checked" value="true"/>
+         <lookup valuedelimiter="," valuevariable="{currentConditionFilter}" valuematch="INFO" name='filterINFO' target="//input[@name='filter_INFO']" attr="checked" value="true"/>
+         <lookup valuedelimiter="," valuevariable="{currentConditionFilter}" valuematch="MINOR" name='filterMINOR' target="//input[@name='filter_MINOR']" attr="checked" value="true"/>
+         <lookup valuedelimiter="," valuevariable="{currentConditionFilter}" valuematch="UNKNOWN" name='filterUNKNOWN' target="//input[@name='filter_UNKNOWN']" attr="checked" value="true"/>
+         <lookup valuedelimiter="," valuevariable="{currentConditionFilter}" valuematch="MAJOR" name='filterMAJOR' target="//input[@name='filter_MAJOR']" attr="checked" value="true"/>
+         <lookup valuedelimiter="," valuevariable="{currentConditionFilter}" valuematch="CRITICAL" name='filterCRITICAL' target="//input[@name='filter_CRITICAL']" attr="checked" value="true"/>
+         <lookup valuedelimiter="," valuevariable="{currentConditionFilter}" valuematch="UNMANAGED" name='filterUNMANAGED' target="//input[@name='filter_UNMANAGED']" attr="checked" value="true"/>
+
+         <do>
+            <case>
+               <!-- check for missing 'self' attribute which indicates TRUE -->
+               <when where="../bind:children[not(@self)]">
+                  <set where="//input[@name='self']" attr='checked' value='true'/>
+               </when>
+               <!-- check explicit 'self' of 'true' and set checked to TRUE -->
+               <when where="../bind:children[@self='true']">
+                  <set where="//input[@name='self']" attr='checked' value='true'/>
+               </when>
+            </case> 
+         </do>
+         
+         <do>
+            <case>
+               <!-- check explicit 'isDeepFilter' of 'true' and set checked -->
+               <when where="self::node()[@isDeepFilter='true']">
+                  <set where="//input[@name='isDeepFilter']" attr='checked' value='true'/>
+               </when>
+            </case> 
+         </do>
+         
+         <p>Each Child Container can have custom filtering properties.</p>
+         <p>You can adjust the filtering based on Name, DName, Class Name, Condition or a custom formula script.</p>
+         <br/>
+               
+         <table border="0">
+            <tr>
+               <td><input type="checkbox" name="self" unchecked="true"/>Include "self" in layout</td>
+            </tr>
+            
+            <tr>
+               <td><input type="checkbox" name="isDeepFilter"/>Check children under non-matching elements</td>
+            </tr>
+            
+            <tr>
+               <td>Name Filter: (regex)</td>
+            </tr>
+            <tr>
+               <td><input type="text" name="namefiltertext" size="80" value=""></input></td>
+            </tr>
+
+            <tr>
+               <td>DName Filter: (regex)</td>
+            </tr>
+            <tr>
+               <td><input type="text" name="dnamefiltertext" size="80" value=""></input></td>
+            </tr>
+            
+            <tr>
+               <td>Class Name Filter: (regex)</td>
+            </tr>
+            <tr>
+               <td><input type="text" name="classnamefiltertext" size="80" value=""></input></td>
+            </tr>
+            
+            <tr>
+               <td>Condition Filter: (inclusive)</td>
+            </tr>
+            <tr>
+               <table>
+                  <tr>
+                     <td><input type="checkbox" name="filter_OK" />OK</td>
+                     <td><input type="checkbox" name="filter_INFO" />INFO</td>
+                     <td><input type="checkbox" name="filter_MINOR" />MINOR</td>
+                     <td><input type="checkbox" name="filter_MAJOR" />MAJOR</td>
+                     <td><input type="checkbox" name="filter_CRITICAL" />CRITICAL</td>
+                     <td><input type="checkbox" name="filter_UNKNOWN" />UNKNOWN</td>
+                     <td><input type="checkbox" name="filter_UNMANAGED" />UNMANAGED</td>
+                  </tr>
+               </table>
+            </tr>
+            
+            <tr>
+               <td>Script Filter:</td>
+            </tr>
+            <tr>
+               <td><textarea name="scriptfiltertext" cols="80" rows="5"></textarea></td>
+            </tr>
+            
+         </table>
+         
+      </html>
+      <do>
+          <set attr='conditionFilter' 
+               valuedelimiter=',' 
+               valuematch='on' 
+               valuevariable='filter_OK,filter_INFO,filter_MINOR,filter_MAJOR,filter_CRITICAL,filter_UNKNOWN,filter_UNMANAGED'
+               valuesetdata='OK,INFO,MINOR,MAJOR,CRITICAL,UNKNOWN,UNMANAGED'/>
+          <set attr="nameFilter" value='{namefiltertext}'/>
+          <set attr="dnameFilter" value='{dnamefiltertext}'/>
+          <set attr="classFilter" value='{classnamefiltertext}'/>
+          <set attr="scriptFilter" value='{scriptfiltertext}'/>
+         
+         <!-- self -->
+         <!-- set a temporary DOM variable to use for later lookups -->
+         <set attr="selftemp" value="{self}"/>
+         <case>
+            <when where="../bind:children[@selftemp='on']">
+               <set attr='self' value='true'/>
+            </when>
+            <default>
+               <set attr='self' value='false'/>
+            </default>
+         </case>
+         <!--  remove our temporary DOM variable -->
+         <delete attr="selftemp"/>
+         
+         <!-- isDeepFilter -->
+         <!-- set a temporary DOM variable to use for later lookups -->
+         <set attr="isDeepFilterTemp" value="{isDeepFilter}"/>
+         <case>
+            <when where="../bind:children[@isDeepFilterTemp='on']">
+               <set attr='isDeepFilter' value='true'/>
+            </when>
+            <default>
+               <set attr='isDeepFilter' value='false'/>
+            </default>
+         </case>
+         <!--  remove our temporary DOM variable -->
+         <delete attr="isDeepFilterTemp"/>
+          
+      </do>
+   </recipe>
+
+   <recipe name='Bind Children Depth'>
+		<!--
+		  Bind Children Depth
+		  -->
+		<name>Adjust Depth</name>
+      <!-- This matches any element that has a bind:children
+         child element. -->
+      <category>Child Container|Depth</category>
+      <matchnodeset>self::svg:g[not(@lockedgroup)]/bind:children</matchnodeset>        
+      <extract>
+         <string name='currentDepth' default="1">@depth</string>
+         <string name='currentMax'>@maxChildren</string>
+      </extract>
+      <html>
+         <lookup name='maxchildren' target="//input[@name='maxchildrentext']" attr="value" value="{currentMax}"/>
+         <p>Alters the depth of the binding of children as well as the maximum children depth.<br/><br/>
+            The current depth is <lookup name="currentDepth"/>.
+         </p>
+         <br/>
+         <table>
+            <tr>
+               <td align="right">Depth:</td>
+               <td>
+                  <choice current="currentDepth" result='depth'>
+                     <item value='1'/>
+                     <item value='2'/>
+                     <item value='3'/>
+                     <item value='4'/>
+                     <item value='5'/>
+                  </choice>
+               </td>
+            </tr>
+            <tr>
+               <td align="right">Max Children:</td>
+               <td><input type="text" name="maxchildrentext" size="10" value=""></input></td>                 
+            </tr>              
+         </table>
+      </html>
+      <do>
+         <set attr="depth" value="{depth}"/>
+         <set attr="maxChildren" value="{maxchildrentext}"/>
+      </do>
+   </recipe>
+
+   <recipe name='Child Container Sorting'>
+      <name>Adjust Sorting</name>
+      <!-- This matches any element that has a bind:children with a bind:layout
+         child element. -->
+      <category>Child Container|Sorting</category>
+      <matchnodeset>self::svg:g[not(@lockedgroup)]/bind:children[bind:layout]</matchnodeset>        
+      <extract>
+         <string name='currentSort'>bind:layout/@sort</string>
+         <string name='currentSortAscend'>bind:layout/@sortascend</string>
+         <string name='currentSortDescend'>bind:layout/@sortdescend</string>
+      </extract>
+      
+      <html>
+      
+         <do>
+            <!-- The sorting precedence is as follows:  sortdescend, sortascend, sort.
+            Search for the attributes using the above precedence and retrieve the current
+            sorting attribute based on that precendence. -->
+            <case>           
+               <when where="bind:layout[@sort]">
+                  <set where="//input[@value='ascending']" attr='checked' value='true'/>
+                  <set where="//input[@value='{currentSort}']" attr='checked' value='true'/>
+               </when>
+               <when where="bind:layout[@sortascend]">
+                  <set where="//input[@value='ascending']" attr='checked' value='true'/>
+                  <set where="//input[@value='{currentSortAscend}']" attr='checked' value='true'/>
+               </when>
+               <when where="bind:layout[@sortdescend]">
+                  <set where="//input[@value='descending']" attr='checked' value='true'/>
+                  <set where="//input[@value='{currentSortDescend}']" attr='checked' value='true'/>
+               </when>
+               <default>
+                  <set where="//input[@value='none']" attr='checked' value='true'/>
+               </default>
+            </case> 
+         </do>
+      
+         <p>Alters the sorting algorithm for the binding of children.<br/>
+         </p>
+         <br/>
+         <table>
+            <tr>
+               <td align="right">Sort Direction:</td>
+               <td>
+                  <table border="0" cellpadding="0">
+                     <tr>
+                        <td><input type="radio" name="sorttype" value="none"></input></td>
+                        <td>None</td>                 
+                        <td><input type="radio" name="sorttype" value="ascending"></input></td>
+                        <td>Ascending</td>                 
+                        <td><input type="radio" name="sorttype" value="descending"></input></td>
+                        <td>Descending</td>
+                     </tr>
+                  </table>
+               </td>                 
+            </tr>            
+            <tr>
+               <td align="right">Sort By:</td>
+               <td>
+                  <table border="0" cellpadding="0">
+                     <tr>
+                        <td><input type="radio" name="sortby" value="condition"></input></td>
+                        <td>Condition</td>                 
+                        <td><input type="radio" name="sortby" value="name"></input></td>
+                        <td>Name</td>                 
+                        <td><input type="radio" name="sortby" value="dname"></input></td>
+                        <td>DName</td>
+                        <td><input type="radio" name="sortby" value="class"></input></td>
+                        <td>Class</td>
+                     </tr>
+                  </table>
+               </td>                 
+            </tr>            
+         </table>
+      </html>
+           
+      <do>
+	      <!-- set a temporary DOM variable to use for later lookups -->
+	      <set where="bind:layout" attr="recipesorttype" value="{sorttype}"/>            
+	      <delete where="bind:layout" attr="sort"/>   
+          <delete where="bind:layout" attr="sortascend"/>   
+          <delete where="bind:layout" attr="sortdescend"/>   
+          <delete where="bind:layout/.." attr="sort"/>   
+          <delete where="bind:layout/.." attr="sortascend"/>   
+          <delete where="bind:layout/.." attr="sortdescend"/>   
+	      <case>           	        
+	         <when where="bind:layout[@recipesorttype='ascending']">
+	            <set where=".." attr='sortascend' value='{sortby}'/>
+	            <set attr='sortascend' value='{sortby}'/>
+	         </when>
+            <when where="bind:layout[@recipesorttype='descending']">
+               <set where=".." attr='sortdescend' value='{sortby}'/>
+               <set attr='sortdescend' value='{sortby}'/>
+            </when>
+	      </case>           
+	      <!--  remove our temporary DOM variable -->
+	      <delete where="bind:layout" attr="recipesorttype"/>
+      </do>
+      
+   </recipe>
+
+</recipes>

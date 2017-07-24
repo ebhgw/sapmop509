@@ -1,0 +1,79 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+<hierarchy case="yes">
+
+    <generator affected="no" class_from_field="structure.parent.parent.parent.objectClass" field="structure.parent.parent.parent.name">
+        <generator affected="no" class_from_field="structure.parent.parent.objectClass" field="structure.parent.parent.name">
+            <generator affected="no" class_from_field="structure.parent.objectClass" field="structure.parent.name">
+                <generator affected="yes" class_from_field="structure.objectClass" field="structure.name">
+
+                    <!-- Parameters (params) for generating match criteria.
+
+                            match.n.type:
+
+                                FIXED, REGEXP, LDAP, CLASS 
+
+                            match.n.expr:
+
+                                Used to create the variable portion of the match expression or static
+                                dname using template expansion.  If no source elements are provided, 
+                                this expression uses the element generated as the element for template
+                                expansion.
+
+                            match.n.root:
+
+                                If no source elements are provided, the root element is used for generating
+                                the location of expression root in the resulting matcher, or for the fixed
+                                portion of the static match generated.  
+
+                                As an example, if the root is specified for a REGEXP matcher, the resulting 
+                                final match expression concatenates the expr value with the root value.
+                    -->
+                    <group name="Networking" class="net_lan" >
+                        <group name="Switch" class="telcom_switch">
+                            <param name="match.0.type" value="FIXED" />
+                            <param name="match.0.expr" value="gen_device=${formula.util.encodeURL($parent.parent.name)}" />
+                            <param name="match.0.root" value="gen_container=Switches/demo=SNMP+Manager/root=Elements" />
+                        </group>
+                        <group name="Router" class="device_router">
+                            <generator field="#set($s=${structure.id}%32)$s" class="gen_port">
+                                <param name="match.0.type" value="FIXED" />
+                                <param name="match.0.expr" value="port=${name}/server=${formula.util.encodeURL($parent.parent.parent.name)}" />
+                                <param name="match.0.root" value="gen_container=Routers/demo=SNMP+Manager/root=Elements" />
+                                <param name="script" value="element.DisplaySourceElements=true" />
+                            </generator>
+                        </group>
+                    </group>
+                    <group name="Performance" class="gen_container" >
+                        <param name="match.0.type" value="REGEXP" />
+                        <param name="match.0.expr" value="[^\x2f]*/${parent.objectClass}=${formula.util.encodeURL(${formula.util.escapeRegExp($parent.name)})}" />
+                        <param name="match.0.root" value="Hosts=Hosts/tec=Tivoli+T%2FEC/root=Elements" />
+                        <param name="match.1.type" value="LDAP" />
+                        <param name="match.1.expr" value="(cn=${parent.name})" />
+                        <param name="match.1.root" value="gen_container=Hosts/script=Sitescope/root=Elements" />
+                    </group>
+                    <group name="Tickets" class="gen_action" >
+                        <param name="match.0.type" value="CLASS" />
+                        <param name="match.0.expr" value="(&amp;(cn=${parent.name})(objectClass=*))" />
+                        <param name="match.0.root" value="remedy=ARS+Help+Desk/root=Elements" />
+                    </group>
+                </generator>
+            </generator>
+        </generator>
+    </generator>
+    
+</hierarchy>

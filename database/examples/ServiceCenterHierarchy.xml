@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+     
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+     
+     The fields normalized from a Peregrine ServiceCenter Module and available as an
+     alarm field value are:
+
+     Field Name          Config XML Element    Value
+     ==========          ==================    =====
+     _SC_RECORD_KEY      <key>                 The record id.
+     _SC_LAST_UPDATE     <lastUpdate>          The time the record was last updated.
+     _SC_MODULE_NAME     N/A                   The Module name. Will be "Incident" for the configuration file example below.
+     _SC_DESCRIPTION     <description>         The record description.
+     _SC_ASSIGNED_TO     <assignedTo>          "Person" assigned to the record.
+     _SC_SEVERITY_NAME   N/A                   Derived by Formula based on the <status> field and the <severities> mappings
+                                               in the configuration file.
+     _SC_STATUS          <status>              The current status of the record. I.e. open, reopened, resolved, etc.
+     
+     The above fields are identified in the configuration file by the given Config XML elements for each
+     Module. For example,
+          <module name="Incident" enable="true">
+                ....
+                <properties>
+                     <formula>
+                          <fields>
+                               <status>status</status>
+                               <lastUpdate>update.time</lastUpdate>
+                               <key>number</key>
+                               <description>brief.description</description>
+                               <assignedTo>assignee.name</assignedTo>
+                          </fields>
+                ....
+
+     Also, any ServiceCenter Module field returned by ServiceCenter can be used as an alarm field value.
+     An example may be the 'header.number' field from the Change Management Module. You can determine the
+     fields returned by ServiceCenter by right-clicking on a desired Formula Alarm and selecting the
+     "Properties" menu item. Then select the "All Fields" property page.
+
+-->
+
+<hierarchy>
+    <group name="Modules" class="applications">
+        <generator field="_SC_MODULE_NAME" class="application" affected="yes">
+           <group name="Severities" class="barIndet">
+               <group name="Critical/Fatal" class="barCritical">
+                   <filter>
+                       <field name="_SC_SEVERITY_NAME" value="Critical" />
+                   </filter>
+               </group>
+               <group name="Info" class="barHarmless">
+                   <filter>
+                       <field name="_SC_SEVERITY_NAME" value="Info" />
+                   </filter>
+               </group>
+               <group name="Minor" class="barMinor">
+                   <filter>
+                       <field name="_SC_SEVERITY_NAME" value="Minor" />
+                   </filter>
+               </group>
+               <group name="Ok" class="barOK">
+                   <filter>
+                       <field name="_SC_SEVERITY_NAME" value="Ok" />
+                   </filter>
+               </group>
+               <group name="Major" class="barWarning">
+                   <filter>
+                       <field name="_SC_SEVERITY_NAME" value="Major" />
+                   </filter>
+               </group>
+           </group>
+           <group name="Assigned To" class="admin_users">
+               <generator field="_SC_ASSIGNED_TO" class="admin_user" affected="yes"/>
+           </group>
+           <group name="Status" class="gen_folder">
+               <generator field="_SC_STATUS" class="gen_alert"/>
+           </group>
+        </generator>
+    </group>
+
+</hierarchy>

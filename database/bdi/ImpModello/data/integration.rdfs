@@ -1,0 +1,3079 @@
+<?xml version='1.0' encoding='WINDOWS-1252'?>
+<rdf:RDF
+    xmlns:core='http://www.ManagedObjects.com/formulacore/'
+    xmlns:iapi='http://www.ManagedObjects.com/formulaiapi/'
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+    xmlns:dt='http://www.ManagedObjects.com/formuladt/'
+    xmlns:gui='http://www.ManagedObjects.com/formulagui/'
+    xmlns:ide='http://www.ManagedObjects.com/formulaide/'
+    xmlns:sql='http://www.ManagedObjects.com/formulasql/'
+    xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'
+    xmlns:bdi='http://www.ManagedObjects.com/formulabdi/'>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/adapterRuntimeInfoMaxAlarms'
+         core:defaultValue='50'>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/adapterRuntimeInfoMaxAlarms'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID32_ChiaveQuery'
+         rdfs:label='ChiaveQuery'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID32_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID18_Servizio'
+         rdfs:label='Servizio'
+         ide:isDependentField='true'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID18_LivelloServizio'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID20_LivelloAcronimo'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID18_LivelloServizio'/>
+        </ide:dependencySetBy>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/alarmColumns'
+         core:defaultValue='Description'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmColumns'/>
+    </core:Property>
+    <core:Property rdf:about='_ID27_Ambiente'
+         rdfs:label='Ambiente'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/hierarchyFile'
+         core:defaultValue='ImpModelloHierarchy.xml'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/hierarchyFile'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID27_Descrizione'
+         rdfs:label='Descrizione'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_NomeComponenteInfra'
+         ide:isDependentField='true'
+         rdfs:label='NomeComponenteInfra'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_LivelloCompInfra'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID7_LivelloCompInfra'/>
+        </ide:dependencySetBy>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/elementsTimeout'
+         core:defaultValue='0'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementsTimeout'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_ClasseComponenteInfra'
+         ide:isDependentField='true'
+         rdfs:label='ClasseComponenteInfra'>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID9_LivelloClasseCompInfra'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_LivelloClasseCompInfra'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID30_Servizio'
+         ide:isDependentField='true'
+         rdfs:label='Servizio'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID30_LivelloServizio'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID30_LivelloServizio'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID32_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID2_Ambiente'
+         rdfs:label='Ambiente'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID2_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID32_Ambiente'
+         rdfs:label='Ambiente'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID32_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID38_Ambiente'
+         rdfs:label='Ambiente'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID38_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID15_Ambiente'
+         rdfs:label='Ambiente'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/useMacroExpressions'
+         core:defaultValue='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/useMacroExpressions'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID38_ChiaveQuery'
+         ide:isDependentField='true'
+         rdfs:label='ChiaveQuery'
+         bdi:onDemandProperty='false'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID38_LivelloAcronimo'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID38_LivelloAcronimo'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain rdf:resource='_ID38_LivelloRisorsa'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID27_ChiaveQuery'
+         ide:isDependentField='true'
+         rdfs:label='ChiaveQuery'
+         bdi:onDemandProperty='false'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID35_Servizio'
+         rdfs:label='Servizio'
+         ide:isDependentField='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID36_LivelloSSA'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID35_LivelloServizioECM'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID37_LivelloAcronimo'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID35_LivelloServizioECM'/>
+        </ide:dependencySetBy>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID24_Ambiente'
+         rdfs:label='Ambiente'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID24_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID15_Descrizione'
+         rdfs:label='Descrizione'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/removeElementsNotInQuery'
+         core:defaultValue='true'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeElementsNotInQuery'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID37_Acronimo'
+         rdfs:label='Acronimo'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID37_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID21_Acronimo'
+         rdfs:label='Acronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID21_LivelloAcronimo'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID21_Description'
+         rdfs:label='Description'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID21_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID32_Acronimo'
+         rdfs:label='Acronimo'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID32_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID19_SSA'
+         rdfs:label='SSA'
+         ide:isDependentField='true'>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID19_LivelloSSA'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID19_LivelloSSA'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID20_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnStartup'
+         core:defaultValue=''>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnStartup'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID25_ClasseComponenteInfra'
+         rdfs:label='ClasseComponenteInfra'
+         ide:isDependentField='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID25_LivelloClasseCompInfra'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID25_LivelloClasseCompInfra'/>
+        </ide:dependencySetBy>
+    </core:Property>
+    <core:Property rdf:about='_ID20_ChiaveQuery'
+         rdfs:label='ChiaveQuery'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID20_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID14_SSA'
+         rdfs:label='SSA'
+         ide:isDependentField='true'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID21_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID14_LivelloSSA'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID14_LivelloSSA'/>
+        </ide:dependencySetBy>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID5_Ambiente'
+         rdfs:label='Ambiente'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID5_LivelloAcronimo'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID27_Risorsa'
+         bdi:onDemandProperty='false'
+         rdfs:label='Risorsa'
+         ide:isDependentField='false'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/macroExpressionProperty01'
+         core:defaultValue=''>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/macroExpressionProperty01'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnShutdown'
+         core:defaultValue=''>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnShutdown'/>
+    </core:Property>
+    <core:Property rdf:about='_ID24_Acronimo'
+         ide:isDependentField='true'
+         bdi:onDemandProperty='false'
+         rdfs:label='Acronimo'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID24_LivelloAcronimo'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID24_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID20_Acronimo'
+         rdfs:label='Acronimo'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID20_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID8_Server'
+         rdfs:label='Server'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID20_Ambiente'
+         rdfs:label='Ambiente'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID20_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnInit'
+         core:defaultValue=''>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnInit'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID8_Ambiente'
+         rdfs:label='Ambiente'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID2_Description'
+         rdfs:label='Description'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID2_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID15_Citta'
+         rdfs:label='Citta'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID21_ChiaveQuery'
+         rdfs:label='ChiaveQuery'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID21_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID26_NomeComponenteInfra'
+         ide:isDependentField='true'
+         rdfs:label='NomeComponenteInfra'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID26_LivelloCompInfra'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID26_LivelloCompInfra'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID21_Ambiente'
+         rdfs:label='Ambiente'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID21_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID5_Description'
+         rdfs:label='Description'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID5_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID24_Description'
+         rdfs:label='Description'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID24_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID15_Risorsa'
+         rdfs:label='Risorsa'
+         ide:isDependentField='false'
+         bdi:onDemandProperty='false'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID31_SSA'
+         ide:isDependentField='true'
+         rdfs:label='SSA'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID31_LivelloSSA'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID31_LivelloSSA'/>
+        </ide:dependencySetBy>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID32_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID13_Servizio'
+         rdfs:label='Servizio'
+         ide:isDependentField='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID13_LivelloServizio'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID13_LivelloServizio'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID21_LivelloAcronimo'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID15_ChiaveQuery'
+         rdfs:label='ChiaveQuery'
+         bdi:onDemandProperty='false'
+         ide:isDependentField='true'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </ide:dependencySetBy>
+        <ide:dependencySetBy rdf:resource='_ID15_Livello'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/schedulingTimezone'
+         core:defaultValue='Europe/Berlin'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/schedulingTimezone'/>
+    </core:Property>
+    <core:Property rdf:about='_ID20_Description'
+         rdfs:label='Description'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID20_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID8_Citta'
+         rdfs:label='Citta'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID15_Server'
+         rdfs:label='Server'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbPassword'
+         core:defaultValue='X-TEAV:BC73E9A5E1EFEF12E7253C8E86F377A4'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPassword'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID6_ClasseComponenteInfra'
+         rdfs:label='ClasseComponenteInfra'
+         ide:isDependentField='true'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID6_LivelloClasseCompInfra'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID6_LivelloClasseCompInfra'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID27_Server'
+         rdfs:label='Server'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID2_Acronimo'
+         rdfs:label='Acronimo'
+         bdi:onDemandProperty='false'
+         ide:isDependentField='true'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID2_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID2_LivelloAcronimo'/>
+        </ide:dependencySetBy>
+    </core:Property>
+    <core:Property rdf:about='_ID37_Description'
+         rdfs:label='Description'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID37_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/removeAlarmsNotInQuery'
+         core:defaultValue=''>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeAlarmsNotInQuery'/>
+    </core:Property>
+    <core:Property rdf:about='_ID10_NomeComponenteInfra'
+         rdfs:label='NomeComponenteInfra'
+         ide:isDependentField='true'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID15_LivelloRisorsa'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID10_LivelloCompInfra'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID10_LivelloCompInfra'/>
+        </ide:dependencySetBy>
+    </core:Property>
+    <core:Property rdf:about='_ID8_ChiaveQuery'
+         rdfs:label='ChiaveQuery'
+         bdi:onDemandProperty='false'
+         ide:isDependentField='true'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </ide:dependencySetBy>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbWindowsDomain'
+         core:defaultValue=''>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbWindowsDomain'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbHost'
+         core:defaultValue='PDBCBP001.sede.corp.sanpaoloimi.com'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbHost'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID37_Ambiente'
+         rdfs:label='Ambiente'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID37_LivelloAcronimo'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID8_Descrizione'
+         rdfs:label='Descrizione'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbPort'
+         core:defaultValue='1579'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPort'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID8_Risorsa'
+         bdi:onDemandProperty='false'
+         rdfs:label='Risorsa'
+         ide:isDependentField='false'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnError'
+         core:defaultValue=''>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnError'/>
+    </core:Property>
+    <core:Property rdf:about='_ID29_ServizioGlobalView'
+         ide:isDependentField='true'
+         rdfs:label='ServizioGlobalView'>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID29_LivelloServizioGlobalView'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID29_LivelloServizioGlobalView'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID32_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID27_Citta'
+         rdfs:label='Citta'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID27_LivelloRisorsa'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID17_ServizioGlobalView'
+         rdfs:label='ServizioGlobalView'
+         ide:isDependentField='true'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID17_LivelloServizioGlobalView'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID17_LivelloServizioGlobalView'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID20_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbUser'
+         core:defaultValue='noc00_app'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbUser'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID38_Descrizione'
+         rdfs:label='Descrizione'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID38_LivelloAcronimo'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbDatabase'
+         core:defaultValue='DATIECM'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbDatabase'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID37_ChiaveQuery'
+         rdfs:label='ChiaveQuery'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID37_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID5_Acronimo'
+         rdfs:label='Acronimo'
+         bdi:onDemandProperty='false'
+         ide:isDependentField='true'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID5_LivelloAcronimo'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID5_LivelloAcronimo'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID8_LivelloRisorsa'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID12_ServizioGlobalView'
+         rdfs:label='ServizioGlobalView'
+         ide:isDependentField='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID21_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID12_LivelloServizioGlobalView'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID12_LivelloServizioGlobalView'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID36_SSA'
+         ide:isDependentField='true'
+         rdfs:label='SSA'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID36_LivelloSSA'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID36_LivelloSSA'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID37_LivelloAcronimo'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID32_Description'
+         rdfs:label='Description'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID32_LivelloAcronimo'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <rdfs:Class rdf:about='_ID33_ModelloBaseline'
+         rdfs:label='ModelloBaseline'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID9_LivelloClasseCompInfra'
+         rdfs:label='LivelloClasseCompInfra'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID21_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID5_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID12_LivelloServizioGlobalView'
+         rdfs:label='LivelloServizioGlobalView'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID22_ProduzioneSystemTest'
+         rdfs:label='ProduzioneSystemTest'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID29_LivelloServizioGlobalView'
+         rdfs:label='LivelloServizioGlobalView'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID16_Servizi'
+         rdfs:label='Servizi'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID0_Produzione'
+         rdfs:label='Produzione'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID28_Servizi'
+         rdfs:label='Servizi'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID6_LivelloClasseCompInfra'
+         rdfs:label='LivelloClasseCompInfra'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID32_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID30_LivelloServizio'
+         rdfs:label='LivelloServizio'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID3_SystemTest'
+         rdfs:label='SystemTest'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID11_Servizi'
+         rdfs:label='Servizi'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID7_LivelloCompInfra'
+         rdfs:label='LivelloCompInfra'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID23_Acronimi'
+         rdfs:label='Acronimi'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID37_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID31_LivelloSSA'
+         rdfs:label='LivelloSSA'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID26_LivelloCompInfra'
+         rdfs:label='LivelloCompInfra'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID19_LivelloSSA'
+         rdfs:label='LivelloSSA'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID35_LivelloServizioECM'
+         rdfs:label='LivelloServizioECM'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID25_LivelloClasseCompInfra'
+         rdfs:label='LivelloClasseCompInfra'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID13_LivelloServizio'
+         rdfs:label='LivelloServizio'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID14_LivelloSSA'
+         rdfs:label='LivelloSSA'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID17_LivelloServizioGlobalView'
+         rdfs:label='LivelloServizioGlobalView'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID27_LivelloRisorsa'
+         rdfs:label='LivelloRisorsa'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID20_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID4_Acronimi'
+         rdfs:label='Acronimi'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID2_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID15_LivelloRisorsa'
+         rdfs:label='LivelloRisorsa'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID8_LivelloRisorsa'
+         rdfs:label='LivelloRisorsa'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID34_ModelloServizi'
+         rdfs:label='ModelloServizi'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID38_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID36_LivelloSSA'
+         rdfs:label='LivelloSSA'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID24_LivelloAcronimo'
+         rdfs:label='LivelloAcronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID18_LivelloServizio'
+         rdfs:label='LivelloServizio'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID10_LivelloCompInfra'
+         rdfs:label='LivelloCompInfra'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'
+         iapi:vendor='q'
+         iapi:version='q'
+         iapi:copyrightNotice='q'
+         rdfs:label='ImpModello'>
+        <iapi:productName>Allarmi Out</iapi:productName>
+        <core:classname>com.mosol.integration.bdi.BDIIntegration</core:classname>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Integration'/>
+        <iapi:product>Allarmi Out</iapi:product>
+        <rdfs:comment>Read alarms</rdfs:comment>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID1_Acronimi'
+         rdfs:label='Acronimi'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <ide:HierarchyBinding>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 rdfs:label='LivelloRisorsa'
+                 ide:internalId='8'>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_acronimi&quot;'>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID5_Acronimo'/>
+                                <rdf:li rdf:resource='_ID8_Ambiente'/>
+                                <rdf:li rdf:resource='_ID8_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID6_ClasseComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID8_Descrizione'/>
+                                <rdf:li rdf:resource='_ID7_NomeComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID8_Risorsa'/>
+                                <rdf:li rdf:resource='_ID8_Server'/>
+                                <rdf:li rdf:resource='_ID8_Citta'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:selectClause>&quot;Risorsa&quot; as &quot;elementName&quot;, &quot;Acronimo&quot; as &quot;_ID5_Acronimo&quot;, &quot;Ambiente&quot; as &quot;_ID8_Ambiente&quot;, &quot;Acronimo&quot;+&quot;NomeCompInfra&quot;+&quot;Risorsa&quot; as &quot;_ID8_ChiaveQuery&quot;, upper(&quot;ClasseComponente&quot;) as &quot;_ID6_ClasseComponenteInfra&quot;, &quot;DescAcronimo&quot; as &quot;_ID8_Descrizione&quot;, &quot;NomeCompInfra&quot; as &quot;_ID7_NomeComponenteInfra&quot;, &quot;Risorsa&quot; as &quot;_ID8_Risorsa&quot;, &quot;Server&quot; as &quot;_ID8_Server&quot;, &quot;Citta&quot; as &quot;_ID8_Citta&quot;</sql:selectClause>
+                        <sql:whereClause>1=1&#xA;and Ambiente=&apos;SystemTest&apos;</sql:whereClause>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_7='&quot;NomeCompInfra&quot;'
+                             rdf:_2='&quot;Acronimo&quot;'
+                             rdf:_4='&quot;Acronimo&quot;+&quot;NomeCompInfra&quot;+&quot;Risorsa&quot;'
+                             rdf:_10='&quot;Citta&quot;'
+                             rdf:_1='&quot;Risorsa&quot;'
+                             rdf:_8='&quot;Risorsa&quot;'
+                             rdf:_6='&quot;DescAcronimo&quot;'
+                             rdf:_5='upper(&quot;ClasseComponente&quot;)'
+                             rdf:_9='&quot;Server&quot;'
+                             rdf:_3='&quot;Ambiente&quot;'/>
+                        <sql:querySchedule>
+                            <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'
+                                 dt:hasOnEventSchedule='true'
+                                 dt:hasOnStartSchedule='false'
+                                 dt:hasRoutineSchedule='false'
+                                 dt:hasMacroExpressionSchedule='false'
+                                 dt:scheduleDisabled='false'
+                                 dt:hasExplicitTimesSchedule='false'
+                                 rdfs:label='RunOnce'
+                                 dt:timesAreUTC='false'>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                            </dt:GeneralSchedule>
+                        </sql:querySchedule>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID8_LivelloRisorsaKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID8_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:defines rdf:resource='_ID8_LivelloRisorsa'/>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         rdfs:label='LivelloCompInfra'
+                         ide:internalId='7'>
+                        <ide:generatorField rdf:resource='_ID7_NomeComponenteInfra'/>
+                        <ide:defines rdf:resource='_ID7_LivelloCompInfra'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;CompInfra&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Ambiente&quot; function=&quot;LAST&quot; name=&quot;Ambiente&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Acronimo&quot; function=&quot;LAST&quot; name=&quot;Acronimo&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;ClasseComponenteInfra&quot; function=&quot;LAST&quot; name=&quot;ClasseComponenteInfra&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Citta&quot; function=&quot;LAST&quot; name=&quot;Citta&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <ide:parentBinding>
+                                    <ide:HierarchyBinding>
+                                        <ide:boundObject>
+                                            <ide:GroupDefinition
+                                                 rdfs:label='Acronimi'
+                                                 ide:internalId='4'>
+                                                <ide:defines rdf:resource='_ID4_Acronimi'/>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                            </ide:GroupDefinition>
+                                        </ide:boundObject>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:parentBinding>
+                                            <ide:HierarchyBinding rdf:ID='RDFAnon3'>
+                                                <ide:parentBinding>
+                                                    <ide:HierarchyBinding rdf:ID='RDFAnon1'>
+                                                        <ide:parentBinding rdf:resource='http://www.ManagedObjects.com/formulaide/NullBinding'/>
+                                                        <ide:boundObject>
+                                                            <bdi:AdapterDefinition
+                                                                 rdfs:label='ImpModello'>
+                                                                <ide:defines rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+                                                            </bdi:AdapterDefinition>
+                                                        </ide:boundObject>
+                                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                                    </ide:HierarchyBinding>
+                                                </ide:parentBinding>
+                                                <ide:boundObject>
+                                                    <ide:GroupDefinition
+                                                         ide:internalId='3'
+                                                         rdfs:label='SystemTest'>
+                                                        <ide:defines rdf:resource='_ID3_SystemTest'/>
+                                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                                    </ide:GroupDefinition>
+                                                </ide:boundObject>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                            </ide:HierarchyBinding>
+                                        </ide:parentBinding>
+                                    </ide:HierarchyBinding>
+                                </ide:parentBinding>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:boundObject>
+                                    <ide:DBElementDefinition
+                                         ide:internalId='5'
+                                         rdfs:label='LivelloAcronimo'>
+                                        <bdi:query>
+                                            <sql:QueryDefinition
+                                                 sql:queryScheduled='true'
+                                                 sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_servizi&quot;'>
+                                                <sql:selectClause>&quot;Acronimo&quot; as &quot;_ID5_Acronimo&quot;, isnull(&quot;DescAcronimo&quot;,&apos;&apos;) as &quot;_ID5_Description&quot;, &quot;Ambiente&quot; as &quot;_ID5_Ambiente&quot;</sql:selectClause>
+                                                <sql:selectProperties>
+                                                    <rdf:Seq>
+                                                        <rdf:li rdf:resource='_ID5_Acronimo'/>
+                                                        <rdf:li rdf:resource='_ID5_Description'/>
+                                                        <rdf:li rdf:resource='_ID5_Ambiente'/>
+                                                    </rdf:Seq>
+                                                </sql:selectProperties>
+                                                <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                                                <sql:whereClause>acronimo is not null&#xA;and Ambiente=&apos;SystemTest&apos;</sql:whereClause>
+                                                <sql:selectColumns
+                                                     rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                                                     rdf:_1='&quot;Acronimo&quot;'
+                                                     rdf:_2='isnull(&quot;DescAcronimo&quot;,&apos;&apos;)'
+                                                     rdf:_3='&quot;Ambiente&quot;'/>
+                                            </sql:QueryDefinition>
+                                        </bdi:query>
+                                        <ide:defines rdf:resource='_ID5_LivelloAcronimo'/>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:objectKeyField>
+                                            <rdf:Description rdf:about='_ID5_LivelloAcronimoKey'
+                                                 rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                                                <rdf:_1 rdf:resource='_ID5_Acronimo'/>
+                                            </rdf:Description>
+                                        </ide:objectKeyField>
+                                    </ide:DBElementDefinition>
+                                </ide:boundObject>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 rdfs:label='LivelloClasseCompInfra'
+                                 ide:internalId='6'>
+                                <ide:generatorField rdf:resource='_ID6_ClasseComponenteInfra'/>
+                                <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;ClasseCompInfra&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Acronimo&quot; function=&quot;LAST&quot; name=&quot;Acronimo&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:defines rdf:resource='_ID6_LivelloClasseCompInfra'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </ide:HierarchyBinding>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_Bihourly'
+         dt:startTime='1327662044012'
+         dt:hasOnStartSchedule='true'
+         dt:stopTime='1327662044012'
+         dt:timesAreUTC='false'
+         rdfs:label='Bihourly'
+         dt:hasRoutineSchedule='true'
+         dt:hasMacroExpressionSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:hasExplicitTimesSchedule='false'
+         dt:interval='7200'
+         dt:hasOnEventSchedule='false'>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Wednesday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Monday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Friday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Saturday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Sunday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Thursday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Tuesday'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <ide:HierarchyBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <ide:parentBinding rdf:resource='#RDFAnon1'/>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:boundObject>
+                    <ide:GroupDefinition
+                         rdfs:label='ModelloBaseline'
+                         ide:internalId='33'>
+                        <ide:defines rdf:resource='_ID33_ModelloBaseline'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </ide:GroupDefinition>
+                </ide:boundObject>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 rdfs:label='LivelloAcronimo'
+                 ide:internalId='38'>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID38_LivelloRisorsaKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID38_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+                <ide:defines rdf:resource='_ID38_LivelloAcronimo'/>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:fromClause='&quot;dbo&quot;.&quot;ModelloBaseline&quot;'
+                         sql:queryScheduled='true'>
+                        <sql:whereClause>1=1&#xA;and ambiente = &apos;Produzione&apos;</sql:whereClause>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_1='&quot;Ambiente&quot;+&apos;_&apos;+&quot;Acronimo&quot;'
+                             rdf:_2='&quot;Ambiente&quot;'
+                             rdf:_4='&quot;DescAcronimo&quot;'
+                             rdf:_3='&quot;Ambiente&quot;+&quot;Acronimo&quot;'/>
+                        <sql:selectClause>&quot;Ambiente&quot;+&apos;_&apos;+&quot;Acronimo&quot; as &quot;elementName&quot;, &quot;Ambiente&quot; as &quot;_ID38_Ambiente&quot;, &quot;Ambiente&quot;+&quot;Acronimo&quot; as &quot;_ID38_ChiaveQuery&quot;, &quot;DescAcronimo&quot; as &quot;_ID38_Descrizione&quot;</sql:selectClause>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID38_Ambiente'/>
+                                <rdf:li rdf:resource='_ID38_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID38_Descrizione'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                    </sql:QueryDefinition>
+                </bdi:query>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+    </ide:HierarchyBinding>
+    <gui:Portal>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID20_LivelloAcronimo'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Info'>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <rdfs:domain rdf:resource='_ID20_LivelloAcronimo'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID17_ServizioGlobalView'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID18_Servizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID19_SSA'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID20_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID20_Description'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID20_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+    </gui:Portal>
+    <gui:Portal>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Risorsa'>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID14_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID38_ClasseComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID38_NomeComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID38_Risorsa'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:domain rdf:resource='_ID38_LivelloAcronimo'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:domain rdf:resource='_ID38_LivelloAcronimo'/>
+    </gui:Portal>
+    <ide:HierarchyBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 rdfs:label='LivelloRisorsa'
+                 ide:internalId='27'>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_acronimi&quot;'
+                         sql:queryScheduled='true'>
+                        <sql:whereClause>1=1&#xA;and lower(ambiente) = &apos;produzione/systemtest&apos;</sql:whereClause>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID24_Acronimo'/>
+                                <rdf:li rdf:resource='_ID27_Ambiente'/>
+                                <rdf:li rdf:resource='_ID27_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID25_ClasseComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID27_Descrizione'/>
+                                <rdf:li rdf:resource='_ID26_NomeComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID27_Risorsa'/>
+                                <rdf:li rdf:resource='_ID27_Server'/>
+                                <rdf:li rdf:resource='_ID27_Citta'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:selectClause>&quot;Risorsa&quot; as &quot;elementName&quot;, &quot;Acronimo&quot; as &quot;_ID24_Acronimo&quot;, &quot;Ambiente&quot; as &quot;_ID27_Ambiente&quot;, &quot;Acronimo&quot;+&quot;NomeCompInfra&quot;+&quot;Risorsa&quot; as &quot;_ID27_ChiaveQuery&quot;, upper(&quot;ClasseComponente&quot;) as &quot;_ID25_ClasseComponenteInfra&quot;, &quot;DescAcronimo&quot; as &quot;_ID27_Descrizione&quot;, &quot;NomeCompInfra&quot; as &quot;_ID26_NomeComponenteInfra&quot;, &quot;Risorsa&quot; as &quot;_ID27_Risorsa&quot;, &quot;Server&quot; as &quot;_ID27_Server&quot;, &quot;Citta&quot; as &quot;_ID27_Citta&quot;</sql:selectClause>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_5='upper(&quot;ClasseComponente&quot;)'
+                             rdf:_9='&quot;Server&quot;'
+                             rdf:_6='&quot;DescAcronimo&quot;'
+                             rdf:_3='&quot;Ambiente&quot;'
+                             rdf:_1='&quot;Risorsa&quot;'
+                             rdf:_8='&quot;Risorsa&quot;'
+                             rdf:_4='&quot;Acronimo&quot;+&quot;NomeCompInfra&quot;+&quot;Risorsa&quot;'
+                             rdf:_10='&quot;Citta&quot;'
+                             rdf:_7='&quot;NomeCompInfra&quot;'
+                             rdf:_2='&quot;Acronimo&quot;'/>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:defines rdf:resource='_ID27_LivelloRisorsa'/>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID27_LivelloRisorsaKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID27_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:parentBinding>
+                                    <ide:HierarchyBinding>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:parentBinding>
+                                            <ide:HierarchyBinding rdf:ID='RDFAnon4'>
+                                                <ide:boundObject>
+                                                    <ide:GroupDefinition
+                                                         ide:internalId='22'
+                                                         rdfs:label='ProduzioneSystemTest'>
+                                                        <ide:defines rdf:resource='_ID22_ProduzioneSystemTest'/>
+                                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                                    </ide:GroupDefinition>
+                                                </ide:boundObject>
+                                                <ide:parentBinding rdf:resource='#RDFAnon1'/>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                            </ide:HierarchyBinding>
+                                        </ide:parentBinding>
+                                        <ide:boundObject>
+                                            <ide:GroupDefinition
+                                                 ide:internalId='23'
+                                                 rdfs:label='Acronimi'>
+                                                <ide:defines rdf:resource='_ID23_Acronimi'/>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                            </ide:GroupDefinition>
+                                        </ide:boundObject>
+                                    </ide:HierarchyBinding>
+                                </ide:parentBinding>
+                                <ide:boundObject>
+                                    <ide:DBElementDefinition
+                                         ide:internalId='24'
+                                         rdfs:label='LivelloAcronimo'>
+                                        <bdi:query>
+                                            <sql:QueryDefinition
+                                                 sql:queryScheduled='true'
+                                                 sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_servizi&quot;'>
+                                                <sql:selectClause>&quot;Acronimo&quot; as &quot;_ID24_Acronimo&quot;, &quot;Ambiente&quot; as &quot;_ID24_Ambiente&quot;, isnull(&quot;DescAcronimo&quot;,&apos;&apos;) as &quot;_ID24_Description&quot;</sql:selectClause>
+                                                <sql:selectProperties>
+                                                    <rdf:Seq>
+                                                        <rdf:li rdf:resource='_ID24_Acronimo'/>
+                                                        <rdf:li rdf:resource='_ID24_Ambiente'/>
+                                                        <rdf:li rdf:resource='_ID24_Description'/>
+                                                    </rdf:Seq>
+                                                </sql:selectProperties>
+                                                <sql:whereClause>acronimo is not null&#xA;and lower(ambiente) = &apos;produzione/systemtest&apos;</sql:whereClause>
+                                                <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                                                <sql:selectColumns
+                                                     rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                                                     rdf:_1='&quot;Acronimo&quot;'
+                                                     rdf:_3='isnull(&quot;DescAcronimo&quot;,&apos;&apos;)'
+                                                     rdf:_2='&quot;Ambiente&quot;'/>
+                                            </sql:QueryDefinition>
+                                        </bdi:query>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:objectKeyField>
+                                            <rdf:Description rdf:about='_ID24_LivelloAcronimoKey'
+                                                 rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                                                <rdf:_1 rdf:resource='_ID24_Acronimo'/>
+                                            </rdf:Description>
+                                        </ide:objectKeyField>
+                                        <ide:defines rdf:resource='_ID24_LivelloAcronimo'/>
+                                    </ide:DBElementDefinition>
+                                </ide:boundObject>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 rdfs:label='LivelloClasseCompInfra'
+                                 ide:internalId='25'>
+                                <ide:generatorField rdf:resource='_ID25_ClasseComponenteInfra'/>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;ClasseCompInfra&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Acronimo&quot; function=&quot;LAST&quot; name=&quot;Acronimo&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                                <ide:defines rdf:resource='_ID25_LivelloClasseCompInfra'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         rdfs:label='LivelloCompInfra'
+                         ide:internalId='26'>
+                        <ide:generatorField rdf:resource='_ID26_NomeComponenteInfra'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:defines rdf:resource='_ID26_LivelloCompInfra'/>
+                        <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;CompInfra&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Ambiente&quot; function=&quot;LAST&quot; name=&quot;Ambiente&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Acronimo&quot; function=&quot;LAST&quot; name=&quot;Acronimo&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;ClasseComponenteInfra&quot; function=&quot;LAST&quot; name=&quot;ClasseComponenteInfra&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Citta&quot; function=&quot;LAST&quot; name=&quot;Citta&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+    </ide:HierarchyBinding>
+    <ide:HierarchyBinding>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:parentBinding>
+                                    <ide:HierarchyBinding>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:parentBinding rdf:resource='#RDFAnon4'/>
+                                        <ide:boundObject>
+                                            <ide:GroupDefinition
+                                                 rdfs:label='Servizi'
+                                                 ide:internalId='28'>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                                <ide:defines rdf:resource='_ID28_Servizi'/>
+                                            </ide:GroupDefinition>
+                                        </ide:boundObject>
+                                    </ide:HierarchyBinding>
+                                </ide:parentBinding>
+                                <ide:boundObject>
+                                    <ide:GeneratedElementDefinition
+                                         rdfs:label='LivelloServizioGlobalView'
+                                         ide:internalId='29'>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:generatorField rdf:resource='_ID29_ServizioGlobalView'/>
+                                        <ide:defines rdf:resource='_ID29_LivelloServizioGlobalView'/>
+                                    </ide:GeneratedElementDefinition>
+                                </ide:boundObject>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 rdfs:label='LivelloServizio'
+                                 ide:internalId='30'>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:hierarchyXML>&lt;properties&gt; &#xA;&lt;page&gt; &#xA;&lt;property field=&quot;ServizioNomeNoc&quot; function=&quot;FIRST&quot; name=&quot;ServizioNomeNoc&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;property field=&quot;Servizio&quot; function=&quot;FIRST&quot; name=&quot;ServizioNomeEcm&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;property field=&quot;Ambiente&quot; function=&quot;FIRST&quot; name=&quot;Ambiente&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;/page&gt; &#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                                <ide:defines rdf:resource='_ID30_LivelloServizio'/>
+                                <ide:generatorField rdf:resource='_ID30_Servizio'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         ide:internalId='31'
+                         rdfs:label='LivelloSSA'>
+                        <ide:defines rdf:resource='_ID31_LivelloSSA'/>
+                        <ide:generatorField rdf:resource='_ID31_SSA'/>
+                        <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;SSA&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Servizio&quot; function=&quot;LAST&quot; name=&quot;Servizio&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 ide:internalId='32'
+                 rdfs:label='LivelloAcronimo'>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_servizi&quot;'>
+                        <sql:selectClause>&quot;Acronimo&quot; as &quot;elementName&quot;, &quot;Acronimo&quot; as &quot;_ID32_Acronimo&quot;, &quot;Ambiente&quot; as &quot;_ID32_Ambiente&quot;, &quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot; as &quot;_ID32_ChiaveQuery&quot;, isnull(&quot;DescAcronimo&quot;,&apos;&apos;) as &quot;_ID32_Description&quot;, upper(&quot;SSA&quot;) as &quot;_ID31_SSA&quot;, &quot;ServizioNomeNoc&quot; as &quot;_ID30_Servizio&quot;, &quot;ServizioGlobalView&quot; as &quot;_ID29_ServizioGlobalView&quot;</sql:selectClause>
+                        <sql:whereClause>acronimo is not null&#xA;and ambiente = &apos;PRODUZIONE/SYSTEMTEST&apos;</sql:whereClause>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_5='isnull(&quot;DescAcronimo&quot;,&apos;&apos;)'
+                             rdf:_2='&quot;Acronimo&quot;'
+                             rdf:_1='&quot;Acronimo&quot;'
+                             rdf:_4='&quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot;'
+                             rdf:_7='&quot;ServizioNomeNoc&quot;'
+                             rdf:_8='&quot;ServizioGlobalView&quot;'
+                             rdf:_6='upper(&quot;SSA&quot;)'
+                             rdf:_3='&quot;Ambiente&quot;'/>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID32_Acronimo'/>
+                                <rdf:li rdf:resource='_ID32_Ambiente'/>
+                                <rdf:li rdf:resource='_ID32_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID32_Description'/>
+                                <rdf:li rdf:resource='_ID31_SSA'/>
+                                <rdf:li rdf:resource='_ID30_Servizio'/>
+                                <rdf:li rdf:resource='_ID29_ServizioGlobalView'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID32_LivelloAcronimoKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID32_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:defines rdf:resource='_ID32_LivelloAcronimo'/>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+    </ide:HierarchyBinding>
+    <gui:Portal>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <rdfs:domain rdf:resource='_ID21_LivelloAcronimo'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Info'>
+                        <rdfs:domain rdf:resource='_ID21_LivelloAcronimo'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID12_ServizioGlobalView'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID13_Servizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID14_SSA'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID21_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID21_Description'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID21_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+    </gui:Portal>
+    <dt:RoutineSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_DEFAULT_SCHEDULE'
+         dt:interval='300'
+         dt:stopTime='1070989255934'
+         rdfs:label='DEFAULT_SCHEDULE'
+         dt:startTime='1070989255934'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:RoutineSchedule>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_20_Seconds'
+         dt:startTime='1330599621424'
+         dt:hasRoutineSchedule='true'
+         dt:timesAreUTC='false'
+         rdfs:label='20_Seconds'
+         dt:interval='20'
+         dt:hasOnStartSchedule='true'
+         dt:stopTime='1330599621424'
+         dt:hasOnEventSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:hasMacroExpressionSchedule='false'
+         dt:hasExplicitTimesSchedule='false'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <gui:Portal>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Info'>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID2_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID2_Description'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID2_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <rdfs:domain rdf:resource='_ID2_LivelloAcronimo'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:domain rdf:resource='_ID2_LivelloAcronimo'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </gui:Portal>
+    <gui:Portal>
+        <rdfs:domain rdf:resource='_ID27_LivelloRisorsa'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Risorsa'>
+                        <rdfs:domain rdf:resource='_ID27_LivelloRisorsa'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID27_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID24_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID25_ClasseComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID26_NomeComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID27_Risorsa'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID27_Citta'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+    </gui:Portal>
+    <core:Icon rdf:about='icon9'
+         rdfs:label='icon9'
+         core:iconname='Acronimo'>
+        <rdfs:domain rdf:resource='_ID2_LivelloAcronimo'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon8'
+         core:iconname='Risorsa'
+         rdfs:label='icon8'>
+        <rdfs:domain rdf:resource='_ID8_LivelloRisorsa'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon7'
+         rdfs:label='icon7'
+         core:iconname='CompInfra'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID7_LivelloCompInfra'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon6'
+         core:iconname='ClasseCompInfra'
+         rdfs:label='icon6'>
+        <rdfs:domain rdf:resource='_ID6_LivelloClasseCompInfra'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon5'
+         rdfs:label='icon5'
+         core:iconname='Acronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID5_LivelloAcronimo'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon4'
+         rdfs:label='icon4'
+         core:iconname='gen_folder'>
+        <rdfs:domain rdf:resource='_ID4_Acronimi'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon3'
+         rdfs:label='icon3'
+         core:iconname='gen_folder'>
+        <rdfs:domain rdf:resource='_ID3_SystemTest'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon2'
+         rdfs:label='icon2'
+         core:iconname='gen_folder'>
+        <rdfs:domain rdf:resource='_ID1_Acronimi'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon1'
+         rdfs:label='icon1'
+         core:iconname='gen_folder'>
+        <rdfs:domain rdf:resource='_ID0_Produzione'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon0'
+         rdfs:label='icon0'
+         core:iconname='admin_adapter'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+    </core:Icon>
+    <gui:Portal>
+        <rdfs:domain rdf:resource='_ID32_LivelloAcronimo'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Info'>
+                        <rdfs:domain rdf:resource='_ID32_LivelloAcronimo'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID29_ServizioGlobalView'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID30_Servizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID31_SSA'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID32_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID32_Description'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID32_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+    </gui:Portal>
+    <core:Icon rdf:about='icon24'
+         core:iconname='gen_folder'
+         rdfs:label='icon24'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID23_Acronimi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon23'
+         core:iconname='gen_folder'
+         rdfs:label='icon23'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID22_ProduzioneSystemTest'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon22'
+         core:iconname='Acronimo'
+         rdfs:label='icon22'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID21_LivelloAcronimo'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon21'
+         core:iconname='Acronimo'
+         rdfs:label='icon21'>
+        <rdfs:domain rdf:resource='_ID20_LivelloAcronimo'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon28'
+         core:iconname='Risorsa'
+         rdfs:label='icon28'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID27_LivelloRisorsa'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon27'
+         rdfs:label='icon27'
+         core:iconname='CompInfra'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID26_LivelloCompInfra'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon26'
+         core:iconname='ClasseCompInfra'
+         rdfs:label='icon26'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID25_LivelloClasseCompInfra'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon25'
+         core:iconname='Acronimo'
+         rdfs:label='icon25'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID24_LivelloAcronimo'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon20'
+         core:iconname='SSA'
+         rdfs:label='icon20'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID19_LivelloSSA'/>
+    </core:Icon>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_10_minutes'
+         dt:scheduleDisabled='false'
+         dt:hasMacroExpressionSchedule='false'
+         dt:hasExplicitTimesSchedule='false'
+         dt:stopTime='1367488800890'
+         dt:hasOnEventSchedule='false'
+         dt:interval='600'
+         dt:hasOnStartSchedule='true'
+         dt:timesAreUTC='false'
+         dt:hasRoutineSchedule='true'
+         rdfs:label='10_minutes'
+         dt:startTime='1367488800890'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <core:Icon rdf:about='icon18'
+         core:iconname='ServizioGlobalView'
+         rdfs:label='icon18'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID17_LivelloServizioGlobalView'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon19'
+         core:iconname='Servizio'
+         rdfs:label='icon19'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID18_LivelloServizio'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon11'
+         rdfs:label='icon11'
+         core:iconname='CompInfra'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID10_LivelloCompInfra'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon10'
+         core:iconname='ClasseCompInfra'
+         rdfs:label='icon10'>
+        <rdfs:domain rdf:resource='_ID9_LivelloClasseCompInfra'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon13'
+         core:iconname='ServizioGlobalView'
+         rdfs:label='icon13'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID12_LivelloServizioGlobalView'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon12'
+         core:iconname='gen_folder'
+         rdfs:label='icon12'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID11_Servizi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon15'
+         core:iconname='SSA'
+         rdfs:label='icon15'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID14_LivelloSSA'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon14'
+         core:iconname='Servizio'
+         rdfs:label='icon14'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID13_LivelloServizio'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon17'
+         core:iconname='gen_folder'
+         rdfs:label='icon17'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID16_Servizi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon16'
+         core:iconname='Risorsa'
+         rdfs:label='icon16'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID15_LivelloRisorsa'/>
+    </core:Icon>
+    <ide:HierarchyBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:parentBinding>
+                                    <ide:HierarchyBinding>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:boundObject>
+                                            <ide:GroupDefinition
+                                                 rdfs:label='Acronimi'
+                                                 ide:internalId='1'>
+                                                <ide:defines rdf:resource='_ID1_Acronimi'/>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                            </ide:GroupDefinition>
+                                        </ide:boundObject>
+                                        <ide:parentBinding>
+                                            <ide:HierarchyBinding rdf:ID='RDFAnon2'>
+                                                <ide:parentBinding rdf:resource='#RDFAnon1'/>
+                                                <ide:boundObject>
+                                                    <ide:GroupDefinition
+                                                         ide:internalId='0'
+                                                         rdfs:label='Produzione'>
+                                                        <ide:defines rdf:resource='_ID0_Produzione'/>
+                                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                                    </ide:GroupDefinition>
+                                                </ide:boundObject>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                            </ide:HierarchyBinding>
+                                        </ide:parentBinding>
+                                    </ide:HierarchyBinding>
+                                </ide:parentBinding>
+                                <ide:boundObject>
+                                    <ide:DBElementDefinition
+                                         ide:internalId='2'
+                                         rdfs:label='LivelloAcronimo'>
+                                        <bdi:query>
+                                            <sql:QueryDefinition
+                                                 sql:queryScheduled='true'
+                                                 sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_servizi&quot;'>
+                                                <sql:selectClause>&quot;Acronimo&quot; as &quot;_ID2_Acronimo&quot;, isnull(&quot;DescAcronimo&quot;,&apos;&apos;) as &quot;_ID2_Description&quot;, &quot;Ambiente&quot; as &quot;_ID2_Ambiente&quot;</sql:selectClause>
+                                                <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                                                <sql:selectProperties>
+                                                    <rdf:Seq>
+                                                        <rdf:li rdf:resource='_ID2_Acronimo'/>
+                                                        <rdf:li rdf:resource='_ID2_Description'/>
+                                                        <rdf:li rdf:resource='_ID2_Ambiente'/>
+                                                    </rdf:Seq>
+                                                </sql:selectProperties>
+                                                <sql:whereClause>acronimo is not null&#xA;and Ambiente=&apos;Produzione&apos;</sql:whereClause>
+                                                <sql:selectColumns
+                                                     rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                                                     rdf:_1='&quot;Acronimo&quot;'
+                                                     rdf:_2='isnull(&quot;DescAcronimo&quot;,&apos;&apos;)'
+                                                     rdf:_3='&quot;Ambiente&quot;'/>
+                                            </sql:QueryDefinition>
+                                        </bdi:query>
+                                        <ide:objectKeyField>
+                                            <rdf:Description rdf:about='_ID2_LivelloAcronimoKey'
+                                                 rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                                                <rdf:_1 rdf:resource='_ID2_Acronimo'/>
+                                            </rdf:Description>
+                                        </ide:objectKeyField>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:defines rdf:resource='_ID2_LivelloAcronimo'/>
+                                    </ide:DBElementDefinition>
+                                </ide:boundObject>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 ide:internalId='9'
+                                 rdfs:label='LivelloClasseCompInfra'>
+                                <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;ClasseCompInfra&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Acronimo&quot; function=&quot;LAST&quot; name=&quot;Acronimo&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:generatorField rdf:resource='_ID9_ClasseComponenteInfra'/>
+                                <ide:defines rdf:resource='_ID9_LivelloClasseCompInfra'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         ide:internalId='10'
+                         rdfs:label='LivelloCompInfra'>
+                        <ide:generatorField rdf:resource='_ID10_NomeComponenteInfra'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:defines rdf:resource='_ID10_LivelloCompInfra'/>
+                        <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;CompInfra&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Ambiente&quot; function=&quot;LAST&quot; name=&quot;Ambiente&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Acronimo&quot; function=&quot;LAST&quot; name=&quot;Acronimo&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;ClasseComponenteInfra&quot; function=&quot;LAST&quot; name=&quot;ClasseComponenteInfra&quot;/&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Citta&quot; function=&quot;LAST&quot; name=&quot;Citta&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 ide:internalId='15'
+                 rdfs:label='LivelloRisorsa'>
+                <ide:defines rdf:resource='_ID15_LivelloRisorsa'/>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_acronimi&quot;'>
+                        <sql:whereClause>1=1&#xA;and ambiente = &apos;Produzione&apos;</sql:whereClause>
+                        <sql:selectClause>&quot;Risorsa&quot; as &quot;elementName&quot;, &quot;Acronimo&quot; as &quot;_ID2_Acronimo&quot;, &quot;Ambiente&quot; as &quot;_ID15_Ambiente&quot;, &quot;Acronimo&quot;+&quot;NomeCompInfra&quot;+&quot;Risorsa&quot; as &quot;_ID15_ChiaveQuery&quot;, upper(&quot;ClasseComponente&quot;) as &quot;_ID9_ClasseComponenteInfra&quot;, &quot;DescAcronimo&quot; as &quot;_ID15_Descrizione&quot;, &quot;NomeCompInfra&quot; as &quot;_ID10_NomeComponenteInfra&quot;, &quot;Risorsa&quot; as &quot;_ID15_Risorsa&quot;, &quot;Server&quot; as &quot;_ID15_Server&quot;, &quot;Citta&quot; as &quot;_ID15_Citta&quot;</sql:selectClause>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID2_Acronimo'/>
+                                <rdf:li rdf:resource='_ID15_Ambiente'/>
+                                <rdf:li rdf:resource='_ID15_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID9_ClasseComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID15_Descrizione'/>
+                                <rdf:li rdf:resource='_ID10_NomeComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID15_Risorsa'/>
+                                <rdf:li rdf:resource='_ID15_Server'/>
+                                <rdf:li rdf:resource='_ID15_Citta'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_7='&quot;NomeCompInfra&quot;'
+                             rdf:_2='&quot;Acronimo&quot;'
+                             rdf:_4='&quot;Acronimo&quot;+&quot;NomeCompInfra&quot;+&quot;Risorsa&quot;'
+                             rdf:_10='&quot;Citta&quot;'
+                             rdf:_1='&quot;Risorsa&quot;'
+                             rdf:_8='&quot;Risorsa&quot;'
+                             rdf:_3='&quot;Ambiente&quot;'
+                             rdf:_6='&quot;DescAcronimo&quot;'
+                             rdf:_5='upper(&quot;ClasseComponente&quot;)'
+                             rdf:_9='&quot;Server&quot;'/>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID15_LivelloRisorsaKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID15_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+    </ide:HierarchyBinding>
+    <gui:Portal>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Info'>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID5_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID5_Description'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID5_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <rdfs:domain rdf:resource='_ID5_LivelloAcronimo'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <rdfs:domain rdf:resource='_ID5_LivelloAcronimo'/>
+    </gui:Portal>
+    <core:Icon rdf:about='icon30'
+         core:iconname='ServizioGlobalView'
+         rdfs:label='icon30'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID29_LivelloServizioGlobalView'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon31'
+         core:iconname='Servizio'
+         rdfs:label='icon31'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID30_LivelloServizio'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon36'
+         core:iconname='Servizio'
+         rdfs:label='icon36'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID35_LivelloServizioECM'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon37'
+         core:iconname='SSA'
+         rdfs:label='icon37'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID36_LivelloSSA'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon38'
+         core:iconname='Acronimo'
+         rdfs:label='icon38'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID37_LivelloAcronimo'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon39'
+         core:iconname='Risorsa'
+         rdfs:label='icon39'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID38_LivelloAcronimo'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon32'
+         core:iconname='SSA'
+         rdfs:label='icon32'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID31_LivelloSSA'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon33'
+         core:iconname='Acronimo'
+         rdfs:label='icon33'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID32_LivelloAcronimo'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon34'
+         core:iconname='gen_folder'
+         rdfs:label='icon34'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID33_ModelloBaseline'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon35'
+         core:iconname='gen_folder'
+         rdfs:label='icon35'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID34_ModelloServizi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon29'
+         core:iconname='gen_folder'
+         rdfs:label='icon29'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID28_Servizi'/>
+    </core:Icon>
+    <iapi:Integration rdf:about='http://www.ManagedObjects.com/formulaiapi/DefaultIntegration'
+         iapi:dbType='mssql'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </iapi:Integration>
+    <ide:HierarchyBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 ide:internalId='20'
+                 rdfs:label='LivelloAcronimo'>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_servizi&quot;'>
+                        <sql:selectClause>&quot;Acronimo&quot; as &quot;elementName&quot;, &quot;Acronimo&quot; as &quot;_ID20_Acronimo&quot;, &quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot; as &quot;_ID20_ChiaveQuery&quot;, isnull(&quot;DescAcronimo&quot;,&apos;&apos;) as &quot;_ID20_Description&quot;, upper(&quot;SSA&quot;) as &quot;_ID19_SSA&quot;, &quot;ServizioNomeNoc&quot; as &quot;_ID18_Servizio&quot;, &quot;ServizioGlobalView&quot; as &quot;_ID17_ServizioGlobalView&quot;, &quot;Ambiente&quot; as &quot;_ID20_Ambiente&quot;</sql:selectClause>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                        <sql:whereClause>acronimo is not null&#xA;and ambiente = &apos;Produzione&apos;</sql:whereClause>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID20_Acronimo'/>
+                                <rdf:li rdf:resource='_ID20_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID20_Description'/>
+                                <rdf:li rdf:resource='_ID19_SSA'/>
+                                <rdf:li rdf:resource='_ID18_Servizio'/>
+                                <rdf:li rdf:resource='_ID17_ServizioGlobalView'/>
+                                <rdf:li rdf:resource='_ID20_Ambiente'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_4='isnull(&quot;DescAcronimo&quot;,&apos;&apos;)'
+                             rdf:_2='&quot;Acronimo&quot;'
+                             rdf:_1='&quot;Acronimo&quot;'
+                             rdf:_3='&quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot;'
+                             rdf:_5='upper(&quot;SSA&quot;)'
+                             rdf:_7='&quot;ServizioGlobalView&quot;'
+                             rdf:_6='&quot;ServizioNomeNoc&quot;'
+                             rdf:_8='&quot;Ambiente&quot;'/>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID20_LivelloAcronimoKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID20_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+                <ide:defines rdf:resource='_ID20_LivelloAcronimo'/>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         ide:internalId='19'
+                         rdfs:label='LivelloSSA'>
+                        <ide:generatorField rdf:resource='_ID19_SSA'/>
+                        <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;SSA&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Servizio&quot; function=&quot;LAST&quot; name=&quot;Servizio&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                        <ide:defines rdf:resource='_ID19_LivelloSSA'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 ide:internalId='18'
+                                 rdfs:label='LivelloServizio'>
+                                <ide:generatorField rdf:resource='_ID18_Servizio'/>
+                                <ide:hierarchyXML>&lt;properties&gt; &#xA;&lt;page&gt; &#xA;&lt;property field=&quot;ServizioNomeNoc&quot; function=&quot;FIRST&quot; name=&quot;ServizioNomeNoc&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;property field=&quot;Servizio&quot; function=&quot;FIRST&quot; name=&quot;ServizioNomeEcm&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;property field=&quot;Ambiente&quot; function=&quot;FIRST&quot; name=&quot;Ambiente&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;/page&gt; &#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                                <ide:defines rdf:resource='_ID18_LivelloServizio'/>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:boundObject>
+                                    <ide:GeneratedElementDefinition
+                                         ide:internalId='17'
+                                         rdfs:label='LivelloServizioGlobalView'>
+                                        <ide:generatorField rdf:resource='_ID17_ServizioGlobalView'/>
+                                        <ide:defines rdf:resource='_ID17_LivelloServizioGlobalView'/>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                    </ide:GeneratedElementDefinition>
+                                </ide:boundObject>
+                                <ide:parentBinding>
+                                    <ide:HierarchyBinding>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:parentBinding rdf:resource='#RDFAnon2'/>
+                                        <ide:boundObject>
+                                            <ide:GroupDefinition
+                                                 ide:internalId='16'
+                                                 rdfs:label='Servizi'>
+                                                <ide:defines rdf:resource='_ID16_Servizi'/>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                            </ide:GroupDefinition>
+                                        </ide:boundObject>
+                                    </ide:HierarchyBinding>
+                                </ide:parentBinding>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+    </ide:HierarchyBinding>
+    <gui:Portal>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <rdfs:domain rdf:resource='_ID37_LivelloAcronimo'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Info'>
+                        <rdfs:domain rdf:resource='_ID37_LivelloAcronimo'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID37_ServizioGlobalView'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID37_Servizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID36_SSA'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID37_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID37_Description'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID37_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </gui:Portal>
+    <gui:Portal>
+        <rdfs:domain rdf:resource='_ID24_LivelloAcronimo'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Info'>
+                        <rdfs:domain rdf:resource='_ID24_LivelloAcronimo'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID24_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID24_Description'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID24_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+    </gui:Portal>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_1_minute'
+         dt:startTime='1331118036869'
+         dt:hasMacroExpressionSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:hasExplicitTimesSchedule='false'
+         dt:hasOnEventSchedule='false'
+         dt:hasOnStartSchedule='true'
+         dt:interval='60'
+         dt:stopTime='1331118036869'
+         rdfs:label='1_minute'
+         dt:timesAreUTC='false'
+         dt:hasRoutineSchedule='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <gui:Portal>
+        <rdfs:domain rdf:resource='_ID15_LivelloRisorsa'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Risorsa'>
+                        <rdfs:domain rdf:resource='_ID15_LivelloRisorsa'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID15_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID2_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID9_ClasseComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID10_NomeComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID15_Risorsa'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID15_Citta'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </gui:Portal>
+    <gui:Portal>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Risorsa'>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID8_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID5_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID6_ClasseComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID7_NomeComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID8_Risorsa'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID8_Citta'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:domain rdf:resource='_ID8_LivelloRisorsa'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID8_LivelloRisorsa'/>
+    </gui:Portal>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_10_Seconds'
+         dt:hasExplicitTimesSchedule='false'
+         dt:hasMacroExpressionSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:startTime='1330945226273'
+         dt:hasOnEventSchedule='false'
+         dt:interval='10'
+         dt:hasOnStartSchedule='true'
+         dt:hasRoutineSchedule='true'
+         dt:timesAreUTC='false'
+         rdfs:label='10_Seconds'
+         dt:stopTime='1330945226273'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <gui:PropertyPage>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/configAdapterProperties'/>
+        <rdfs:domain rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfp7mo_u5w0c'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmColumns'/>
+                        <rdfs:label>Alarm Columns</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Hierarchy File</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/hierarchyFile'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onInitialized'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnInit'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onStarted'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnStartup'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onStopped'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnShutdown'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onError'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnError'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Hostname'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbHost'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Port'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPort'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Database'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbDatabase'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>User Name</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbUser'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Password'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPassword'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeAlarmsNotInQuery'/>
+                        <rdfs:label>Remove Alarms Not In Query</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/schedulingTimezone'/>
+                        <rdfs:label>Scheduling Timezone</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/useMacroExpressions'/>
+                        <rdfs:label>Use Macro Expressions</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='LatestIDReceivedAlarm'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/macroExpressionProperty01'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementsTimeout'/>
+                        <rdfs:label>Elements Timeout</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeElementsNotInQuery'/>
+                        <rdfs:label>Remove Elements Not In Query</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Max Runtime Info Alarms</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/adapterRuntimeInfoMaxAlarms'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbWindowsDomain'/>
+                        <rdfs:label>Windows Domain</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </gui:PropertyPage>
+    <ide:HierarchyBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 ide:internalId='37'
+                 rdfs:label='LivelloAcronimo'>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;ModelloServizi&quot;'>
+                        <sql:whereClause>acronimo is not null</sql:whereClause>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID37_Acronimo'/>
+                                <rdf:li rdf:resource='_ID37_Ambiente'/>
+                                <rdf:li rdf:resource='_ID37_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID37_Description'/>
+                                <rdf:li rdf:resource='_ID36_SSA'/>
+                                <rdf:li rdf:resource='_ID35_Servizio'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:selectClause>&quot;Acronimo&quot; as &quot;elementName&quot;, &quot;Acronimo&quot; as &quot;_ID37_Acronimo&quot;, &quot;Ambiente&quot; as &quot;_ID37_Ambiente&quot;, &quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot; as &quot;_ID37_ChiaveQuery&quot;, isnull(&quot;DescAcronimo&quot;,&apos;&apos;) as &quot;_ID37_Description&quot;, upper(&quot;SSA&quot;) as &quot;_ID36_SSA&quot;, Servizio as &quot;_ID35_Servizio&quot;</sql:selectClause>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_6='upper(&quot;SSA&quot;)'
+                             rdf:_2='&quot;Acronimo&quot;'
+                             rdf:_1='&quot;Acronimo&quot;'
+                             rdf:_4='&quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot;'
+                             rdf:_5='isnull(&quot;DescAcronimo&quot;,&apos;&apos;)'
+                             rdf:_7='Servizio'
+                             rdf:_3='&quot;Ambiente&quot;'/>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:defines rdf:resource='_ID37_LivelloAcronimo'/>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID37_LivelloAcronimoKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID37_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:parentBinding rdf:resource='#RDFAnon1'/>
+                                <ide:boundObject>
+                                    <ide:GroupDefinition
+                                         ide:internalId='34'
+                                         rdfs:label='ModelloServizi'>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:defines rdf:resource='_ID34_ModelloServizi'/>
+                                    </ide:GroupDefinition>
+                                </ide:boundObject>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 rdfs:label='LivelloServizioECM'
+                                 ide:internalId='35'>
+                                <ide:defines rdf:resource='_ID35_LivelloServizioECM'/>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:hierarchyXML>&lt;properties&gt; &#xA;&lt;page&gt; &#xA;&lt;property field=&quot;Ambiente&quot; function=&quot;FIRST&quot; name=&quot;Ambiente&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;/page&gt; &#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                                <ide:generatorField rdf:resource='_ID35_Servizio'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         rdfs:label='LivelloSSA'
+                         ide:internalId='36'>
+                        <ide:defines rdf:resource='_ID36_LivelloSSA'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:generatorField rdf:resource='_ID36_SSA'/>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+    </ide:HierarchyBinding>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_Hourly'
+         dt:hasRoutineSchedule='true'
+         dt:timesAreUTC='false'
+         dt:hasOnStartSchedule='true'
+         dt:hasOnEventSchedule='false'
+         dt:hasMacroExpressionSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:startTime='1330945259203'
+         dt:stopTime='1330945259203'
+         dt:interval='3600'
+         rdfs:label='Hourly'
+         dt:hasExplicitTimesSchedule='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <ide:HierarchyBinding>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 rdfs:label='LivelloServizio'
+                                 ide:internalId='13'>
+                                <ide:hierarchyXML>&lt;properties&gt; &#xA;&lt;page&gt; &#xA;&lt;property field=&quot;ServizioNomeNoc&quot; function=&quot;FIRST&quot; name=&quot;ServizioNomeNoc&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;property field=&quot;Servizio&quot; function=&quot;FIRST&quot; name=&quot;ServizioNomeEcm&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;property field=&quot;Ambiente&quot; function=&quot;FIRST&quot; name=&quot;Ambiente&quot; computeOnGet=&quot;false&quot; /&gt; &#xA;&lt;/page&gt; &#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:generatorField rdf:resource='_ID13_Servizio'/>
+                                <ide:defines rdf:resource='_ID13_LivelloServizio'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:parentBinding>
+                                    <ide:HierarchyBinding>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:parentBinding rdf:resource='#RDFAnon3'/>
+                                        <ide:boundObject>
+                                            <ide:GroupDefinition
+                                                 rdfs:label='Servizi'
+                                                 ide:internalId='11'>
+                                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                                <ide:defines rdf:resource='_ID11_Servizi'/>
+                                            </ide:GroupDefinition>
+                                        </ide:boundObject>
+                                    </ide:HierarchyBinding>
+                                </ide:parentBinding>
+                                <ide:boundObject>
+                                    <ide:GeneratedElementDefinition
+                                         rdfs:label='LivelloServizioGlobalView'
+                                         ide:internalId='12'>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:generatorField rdf:resource='_ID12_ServizioGlobalView'/>
+                                        <ide:defines rdf:resource='_ID12_LivelloServizioGlobalView'/>
+                                    </ide:GeneratedElementDefinition>
+                                </ide:boundObject>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         rdfs:label='LivelloSSA'
+                         ide:internalId='14'>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:hierarchyXML>&lt;properties&gt;&#xA;&lt;page name=&quot;SSA&quot;&gt;&#xA;&lt;property computeOnGet=&quot;false&quot; field=&quot;Servizio&quot; function=&quot;LAST&quot; name=&quot;Servizio&quot;/&gt;&#xA;&lt;/page&gt;&#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                        <ide:defines rdf:resource='_ID14_LivelloSSA'/>
+                        <ide:generatorField rdf:resource='_ID14_SSA'/>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 ide:internalId='21'
+                 rdfs:label='LivelloAcronimo'>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;noc_ref_servizi&quot;'>
+                        <sql:selectClause>&quot;Acronimo&quot; as &quot;elementName&quot;, &quot;Acronimo&quot; as &quot;_ID21_Acronimo&quot;, &quot;Ambiente&quot; as &quot;_ID21_Ambiente&quot;, &quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot; as &quot;_ID21_ChiaveQuery&quot;, isnull(&quot;DescAcronimo&quot;,&apos;&apos;) as &quot;_ID21_Description&quot;, upper(&quot;SSA&quot;) as &quot;_ID14_SSA&quot;, &quot;ServizioNomeNoc&quot; as &quot;_ID13_Servizio&quot;, &quot;ServizioGlobalView&quot; as &quot;_ID12_ServizioGlobalView&quot;</sql:selectClause>
+                        <sql:selectColumns
+                             rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'
+                             rdf:_4='&quot;Servizio&quot;+&quot;SSA&quot;+&quot;Acronimo&quot;'
+                             rdf:_2='&quot;Acronimo&quot;'
+                             rdf:_1='&quot;Acronimo&quot;'
+                             rdf:_5='isnull(&quot;DescAcronimo&quot;,&apos;&apos;)'
+                             rdf:_6='upper(&quot;SSA&quot;)'
+                             rdf:_8='&quot;ServizioGlobalView&quot;'
+                             rdf:_7='&quot;ServizioNomeNoc&quot;'
+                             rdf:_3='&quot;Ambiente&quot;'/>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID21_Acronimo'/>
+                                <rdf:li rdf:resource='_ID21_Ambiente'/>
+                                <rdf:li rdf:resource='_ID21_ChiaveQuery'/>
+                                <rdf:li rdf:resource='_ID21_Description'/>
+                                <rdf:li rdf:resource='_ID14_SSA'/>
+                                <rdf:li rdf:resource='_ID13_Servizio'/>
+                                <rdf:li rdf:resource='_ID12_ServizioGlobalView'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_RunOnce'/>
+                        <sql:whereClause>acronimo is not null&#xA;and Ambiente=&apos;SystemTest&apos;</sql:whereClause>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:defines rdf:resource='_ID21_LivelloAcronimo'/>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID21_LivelloAcronimoKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID21_ChiaveQuery'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+    </ide:HierarchyBinding>
+</rdf:RDF>

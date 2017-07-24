@@ -1,0 +1,1301 @@
+<?xml version='1.0' encoding='WINDOWS-1252'?>
+<rdf:RDF
+    xmlns:core='http://www.ManagedObjects.com/formulacore/'
+    xmlns:iapi='http://www.ManagedObjects.com/formulaiapi/'
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+    xmlns:dt='http://www.ManagedObjects.com/formuladt/'
+    xmlns:gui='http://www.ManagedObjects.com/formulagui/'
+    xmlns:ide='http://www.ManagedObjects.com/formulaide/'
+    xmlns:sql='http://www.ManagedObjects.com/formulasql/'
+    xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'
+    xmlns:bdi='http://www.ManagedObjects.com/formulabdi/'>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/adapterRuntimeInfoMaxAlarms'
+         core:defaultValue='50'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/adapterRuntimeInfoMaxAlarms'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_hasTicket'
+         rdfs:label='hasTicket'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Integer'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Nome_componente'
+         rdfs:label='Nome_componente'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Acronimo'
+         rdfs:label='Acronimo'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_IDExport'
+         rdfs:label='IDExport'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Long'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/alarmColumns'>
+        <core:defaultValue>Description,Servizio,severity,status,Rilevato,Modified,Repeated,Nodo,Message,Nome_componente,Nome_risorsa,aree_impattate,Servizio_infrastrutturale,Area_tecnologica,Tipo_componente,Ticket_Num,msg_catalog,Notes,Detailed_message</core:defaultValue>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmColumns'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_cod_location'
+         rdfs:label='cod_location'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Anomalia'
+         rdfs:label='Anomalia'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_NomeComponenteInfra'
+         rdfs:label='NomeComponenteInfra'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/hierarchyFile'
+         core:defaultValue='AlarmReportHierarchy.xml'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/hierarchyFile'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_mc_ueid'
+         rdfs:label='mc_ueid'
+         ide:isDependentField='false'
+         bdi:onDemandProperty='false'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_In_manutenzione'
+         rdfs:label='In_manutenzione'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Integer'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_mc_owner'
+         rdfs:label='mc_owner'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Severita_precedente'
+         rdfs:label='Severita_precedente'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Livello_architetturale'
+         rdfs:label='Livello_architetturale'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_DescAcronimo'
+         rdfs:label='DescAcronimo'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_affected_element_name'
+         rdfs:label='affected_element_name'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_mc_priority'
+         rdfs:label='mc_priority'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Clienti'
+         rdfs:label='Clienti'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Servizio'
+         rdfs:label='Servizio'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Repeated'
+         rdfs:label='Repeated'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Integer'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/removeElementsNotInQuery'
+         core:defaultValue='true'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeElementsNotInQuery'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Message'
+         rdfs:label='Message'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Server'
+         rdfs:label='Server'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnStartup'
+         core:defaultValue=''>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnStartup'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Tipo_risorsa'
+         rdfs:label='Tipo_risorsa'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_aree_impattate'
+         rdfs:label='aree_impattate'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Detailed_message'
+         rdfs:label='Detailed_message'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_severity'
+         rdfs:label='severity'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_chiave_allarme'
+         ide:isDependentField='true'
+         bdi:onDemandProperty='false'
+         rdfs:label='chiave_allarme'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </ide:dependencySetBy>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Causa'
+         rdfs:label='Causa'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_msg_catalog'
+         rdfs:label='msg_catalog'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Notes'
+         rdfs:label='Notes'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID1_repUser'
+         ide:isDependentField='true'
+         rdfs:label='repUser'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID1_ReportUser'/>
+        </rdfs:domain>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID1_ReportUser'/>
+        </ide:dependencySetBy>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID2_ReportName'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Servizio_infrastrutturale'
+         rdfs:label='Servizio_infrastrutturale'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnShutdown'
+         core:defaultValue=''>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnShutdown'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_NomeElementoTecno'
+         rdfs:label='NomeElementoTecno'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnInit'
+         core:defaultValue=''>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnInit'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID2_repName'
+         ide:isDependentField='true'
+         rdfs:label='repName'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID2_ReportName'/>
+        </ide:dependencySetBy>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID2_ReportName'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Tipo_anomalia'
+         rdfs:label='Tipo_anomalia'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Source'
+         rdfs:label='Source'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_event_handle'
+         rdfs:label='event_handle'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_impatto_servizio'
+         rdfs:label='impatto_servizio'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_CELLA_ORIGINE'
+         rdfs:label='CELLA_ORIGINE'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Ticket_Num'
+         rdfs:label='Ticket_Num'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_NomeComponenteServizio'
+         rdfs:label='NomeComponenteServizio'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbPassword'
+         core:defaultValue='X-TEAV:'>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPassword'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Nodo'
+         rdfs:label='Nodo'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Area_tecnologica'
+         rdfs:label='Area_tecnologica'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_ClasseComponenteInfra'
+         rdfs:label='ClasseComponenteInfra'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Fuori_servizio'
+         rdfs:label='Fuori_servizio'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Integer'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/removeAlarmsNotInQuery'
+         core:defaultValue='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeAlarmsNotInQuery'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbWindowsDomain'>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbWindowsDomain'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:defaultValue>&lt;enter the windows domain (for single sign-on only)&gt;</core:defaultValue>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbHost'>
+        <core:defaultValue>&lt;enter name of host where database resides&gt;</core:defaultValue>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbHost'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbPort'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPort'/>
+        <core:defaultValue>&lt;enter the port on host where database resides&gt;</core:defaultValue>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Nome_risorsa'
+         rdfs:label='Nome_risorsa'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Modified'
+         rdfs:label='Modified'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Timestamp'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnError'
+         core:defaultValue=''>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnError'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Tipo_componente'
+         rdfs:label='Tipo_componente'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbUser'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbUser'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <core:defaultValue>&lt;enter user account for database&gt;</core:defaultValue>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Rilevato'
+         rdfs:label='Rilevato'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Timestamp'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_status'
+         rdfs:label='status'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='_ID3_Ambiente'
+         rdfs:label='Ambiente'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbDatabase'>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbDatabase'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:defaultValue>&lt;enter the name of the database or instance name&gt;</core:defaultValue>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID3_severityN'
+         rdfs:label='severityN'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/Integer'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID3_RetrievedAlarm'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <rdfs:Class rdf:about='_ID0_Report'
+         rdfs:label='Report'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID1_ReportUser'
+         rdfs:label='ReportUser'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'
+         rdfs:label='AlarmReport'
+         rdfs:comment=''>
+        <core:classname>com.mosol.integration.bdi.BDIIntegration</core:classname>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Integration'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID2_ReportName'
+         rdfs:label='ReportName'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Generator'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID3_RetrievedAlarm'
+         rdfs:label='RetrievedAlarm'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Alarm'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <iapi:Integration rdf:about='http://www.ManagedObjects.com/formulaiapi/DefaultIntegration'
+         iapi:dbType='mssql'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </iapi:Integration>
+    <core:Icon rdf:about='icon3'
+         rdfs:label='icon3'
+         core:iconname='computer_workstation'>
+        <rdfs:domain rdf:resource='_ID2_ReportName'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon2'
+         rdfs:label='icon2'
+         core:iconname='computer_workstation'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID1_ReportUser'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon1'
+         rdfs:label='icon1'
+         core:iconname='gen_folder'>
+        <rdfs:domain rdf:resource='_ID0_Report'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon0'
+         rdfs:label='icon0'
+         core:iconname='admin_adapter'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+    </core:Icon>
+    <gui:PropertyPage>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/configAdapterProperties'/>
+        <rdfs:domain rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmColumns'/>
+                        <rdfs:label>Alarm Columns</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Hierarchy File</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/hierarchyFile'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onInitialized'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnInit'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onStarted'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnStartup'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onStopped'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnShutdown'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onError'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnError'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Hostname'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbHost'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Port'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPort'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Database'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbDatabase'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbUser'/>
+                        <rdfs:label>User Name</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Password'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPassword'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Windows Domain</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbWindowsDomain'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeAlarmsNotInQuery'/>
+                        <rdfs:label>Remove Alarms Not In Query</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Remove Elements Not In Query</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeElementsNotInQuery'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/adapterRuntimeInfoMaxAlarms'/>
+                        <rdfs:label>Max Runtime Info Alarms</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+    </gui:PropertyPage>
+    <ide:HierarchyBinding>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding>
+                        <ide:parentBinding>
+                            <ide:HierarchyBinding>
+                                <ide:parentBinding>
+                                    <ide:HierarchyBinding>
+                                        <ide:parentBinding rdf:resource='http://www.ManagedObjects.com/formulaide/NullBinding'/>
+                                        <ide:boundObject>
+                                            <bdi:AdapterDefinition
+                                                 rdfs:label='AlarmReport'>
+                                                <ide:defines rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hlj1wfhd_bxq9y'/>
+                                            </bdi:AdapterDefinition>
+                                        </ide:boundObject>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                    </ide:HierarchyBinding>
+                                </ide:parentBinding>
+                                <ide:boundObject>
+                                    <ide:GroupDefinition
+                                         rdfs:label='Report'
+                                         ide:internalId='0'>
+                                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                        <ide:defines rdf:resource='_ID0_Report'/>
+                                    </ide:GroupDefinition>
+                                </ide:boundObject>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                            </ide:HierarchyBinding>
+                        </ide:parentBinding>
+                        <ide:boundObject>
+                            <ide:GeneratedElementDefinition
+                                 rdfs:label='ReportUser'
+                                 ide:internalId='1'>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:defines rdf:resource='_ID1_ReportUser'/>
+                                <ide:generatorField rdf:resource='_ID1_repUser'/>
+                            </ide:GeneratedElementDefinition>
+                        </ide:boundObject>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <ide:boundObject>
+                    <ide:GeneratedElementDefinition
+                         rdfs:label='ReportName'
+                         ide:internalId='2'>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:defines rdf:resource='_ID2_ReportName'/>
+                        <ide:generatorField rdf:resource='_ID2_repName'/>
+                    </ide:GeneratedElementDefinition>
+                </ide:boundObject>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <ide:boundObject>
+            <ide:AlarmDefinition
+                 rdfs:label='RetrievedAlarm'
+                 ide:internalId='3'>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:defines rdf:resource='_ID3_RetrievedAlarm'/>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID3_RetrievedAlarmKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID3_chiave_allarme'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         iapi:removeAlarmsNotInQuery='true'
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;alarm_report&quot;'
+                         sql:whereClause='1=1'>
+                        <sql:selectColumns>
+                            <rdf:Seq>
+                                <rdf:li>&quot;severity&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Acronimo&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Ambiente&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Anomalia&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Area_tecnologica&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;CELLA_ORIGINE&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Causa&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;ClasseComponenteInfra&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Clienti&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;DescAcronimo&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_long_msg&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Fuori_servizio&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;IDExport&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;In_manutenzione&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Livello_architetturale&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Nodo&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;NomeComponenteInfra&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;NomeComponenteServizio&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;NomeElementoTecno&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Nome_componente&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Nome_risorsa&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_notes&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Rilevato&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Server&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Servizio&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Servizio_infrastrutturale&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Severita_precedente&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Source&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Ticket_Num&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Tipo_anomalia&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Tipo_componente&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Tipo_risorsa&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;affected_element_name&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;aree_impattate&quot;</rdf:li>
+                                <rdf:li>&quot;repName&quot; + &quot;repUser&quot; + &quot;mc_ueid&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;cod_location&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;event_handle&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;hasTicket&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;impatto_servizio&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_date_modification&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_owner&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_priority&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_ueid&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;msg&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;msg_catalog&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;repName&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;repUser&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;repeat_count&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;severity&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;severityN&quot;</rdf:li>
+                                <rdf:li>&quot;dbo&quot;.&quot;alarm_report&quot;.&quot;status&quot;</rdf:li>
+                            </rdf:Seq>
+                        </sql:selectColumns>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmSeverity'/>
+                                <rdf:li rdf:resource='_ID3_Acronimo'/>
+                                <rdf:li rdf:resource='_ID3_Ambiente'/>
+                                <rdf:li rdf:resource='_ID3_Anomalia'/>
+                                <rdf:li rdf:resource='_ID3_Area_tecnologica'/>
+                                <rdf:li rdf:resource='_ID3_CELLA_ORIGINE'/>
+                                <rdf:li rdf:resource='_ID3_Causa'/>
+                                <rdf:li rdf:resource='_ID3_ClasseComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID3_Clienti'/>
+                                <rdf:li rdf:resource='_ID3_DescAcronimo'/>
+                                <rdf:li rdf:resource='_ID3_Detailed_message'/>
+                                <rdf:li rdf:resource='_ID3_Fuori_servizio'/>
+                                <rdf:li rdf:resource='_ID3_IDExport'/>
+                                <rdf:li rdf:resource='_ID3_In_manutenzione'/>
+                                <rdf:li rdf:resource='_ID3_Livello_architetturale'/>
+                                <rdf:li rdf:resource='_ID3_Nodo'/>
+                                <rdf:li rdf:resource='_ID3_NomeComponenteInfra'/>
+                                <rdf:li rdf:resource='_ID3_NomeComponenteServizio'/>
+                                <rdf:li rdf:resource='_ID3_NomeElementoTecno'/>
+                                <rdf:li rdf:resource='_ID3_Nome_componente'/>
+                                <rdf:li rdf:resource='_ID3_Nome_risorsa'/>
+                                <rdf:li rdf:resource='_ID3_Notes'/>
+                                <rdf:li rdf:resource='_ID3_Rilevato'/>
+                                <rdf:li rdf:resource='_ID3_Server'/>
+                                <rdf:li rdf:resource='_ID3_Servizio'/>
+                                <rdf:li rdf:resource='_ID3_Servizio_infrastrutturale'/>
+                                <rdf:li rdf:resource='_ID3_Severita_precedente'/>
+                                <rdf:li rdf:resource='_ID3_Source'/>
+                                <rdf:li rdf:resource='_ID3_Ticket_Num'/>
+                                <rdf:li rdf:resource='_ID3_Tipo_anomalia'/>
+                                <rdf:li rdf:resource='_ID3_Tipo_componente'/>
+                                <rdf:li rdf:resource='_ID3_Tipo_risorsa'/>
+                                <rdf:li rdf:resource='_ID3_affected_element_name'/>
+                                <rdf:li rdf:resource='_ID3_aree_impattate'/>
+                                <rdf:li rdf:resource='_ID3_chiave_allarme'/>
+                                <rdf:li rdf:resource='_ID3_cod_location'/>
+                                <rdf:li rdf:resource='_ID3_event_handle'/>
+                                <rdf:li rdf:resource='_ID3_hasTicket'/>
+                                <rdf:li rdf:resource='_ID3_impatto_servizio'/>
+                                <rdf:li rdf:resource='_ID3_Modified'/>
+                                <rdf:li rdf:resource='_ID3_mc_owner'/>
+                                <rdf:li rdf:resource='_ID3_mc_priority'/>
+                                <rdf:li rdf:resource='_ID3_mc_ueid'/>
+                                <rdf:li rdf:resource='_ID3_Message'/>
+                                <rdf:li rdf:resource='_ID3_msg_catalog'/>
+                                <rdf:li rdf:resource='_ID2_repName'/>
+                                <rdf:li rdf:resource='_ID1_repUser'/>
+                                <rdf:li rdf:resource='_ID3_Repeated'/>
+                                <rdf:li rdf:resource='_ID3_severity'/>
+                                <rdf:li rdf:resource='_ID3_severityN'/>
+                                <rdf:li rdf:resource='_ID3_status'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:querySchedule>
+                            <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_Every_minute'
+                                 dt:timesAreUTC='false'
+                                 dt:hasMacroExpressionSchedule='false'
+                                 dt:scheduleDisabled='false'
+                                 dt:hasRoutineSchedule='true'
+                                 dt:startTime='1379066451769'
+                                 dt:hasOnEventSchedule='false'
+                                 dt:interval='60'
+                                 dt:hasExplicitTimesSchedule='false'
+                                 rdfs:label='Every_minute'
+                                 dt:hasOnStartSchedule='true'
+                                 dt:stopTime='1379066451769'>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                            </dt:GeneralSchedule>
+                        </sql:querySchedule>
+                        <sql:selectClause>&quot;severity&quot; as &quot;alarmSeverity&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Acronimo&quot; as &quot;_ID3_Acronimo&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Ambiente&quot; as &quot;_ID3_Ambiente&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Anomalia&quot; as &quot;_ID3_Anomalia&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Area_tecnologica&quot; as &quot;_ID3_Area_tecnologica&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;CELLA_ORIGINE&quot; as &quot;_ID3_CELLA_ORIGINE&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Causa&quot; as &quot;_ID3_Causa&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;ClasseComponenteInfra&quot; as &quot;_ID3_ClasseComponenteInfra&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Clienti&quot; as &quot;_ID3_Clienti&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;DescAcronimo&quot; as &quot;_ID3_DescAcronimo&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_long_msg&quot; as &quot;_ID3_Detailed_message&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Fuori_servizio&quot; as &quot;_ID3_Fuori_servizio&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;IDExport&quot; as &quot;_ID3_IDExport&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;In_manutenzione&quot; as &quot;_ID3_In_manutenzione&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Livello_architetturale&quot; as &quot;_ID3_Livello_architetturale&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Nodo&quot; as &quot;_ID3_Nodo&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;NomeComponenteInfra&quot; as &quot;_ID3_NomeComponenteInfra&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;NomeComponenteServizio&quot; as &quot;_ID3_NomeComponenteServizio&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;NomeElementoTecno&quot; as &quot;_ID3_NomeElementoTecno&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Nome_componente&quot; as &quot;_ID3_Nome_componente&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Nome_risorsa&quot; as &quot;_ID3_Nome_risorsa&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_notes&quot; as &quot;_ID3_Notes&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Rilevato&quot; as &quot;_ID3_Rilevato&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Server&quot; as &quot;_ID3_Server&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Servizio&quot; as &quot;_ID3_Servizio&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Servizio_infrastrutturale&quot; as &quot;_ID3_Servizio_infrastrutturale&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Severita_precedente&quot; as &quot;_ID3_Severita_precedente&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Source&quot; as &quot;_ID3_Source&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Ticket_Num&quot; as &quot;_ID3_Ticket_Num&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Tipo_anomalia&quot; as &quot;_ID3_Tipo_anomalia&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Tipo_componente&quot; as &quot;_ID3_Tipo_componente&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;Tipo_risorsa&quot; as &quot;_ID3_Tipo_risorsa&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;affected_element_name&quot; as &quot;_ID3_affected_element_name&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;aree_impattate&quot; as &quot;_ID3_aree_impattate&quot;, &quot;repName&quot; + &quot;repUser&quot; + &quot;mc_ueid&quot; as &quot;_ID3_chiave_allarme&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;cod_location&quot; as &quot;_ID3_cod_location&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;event_handle&quot; as &quot;_ID3_event_handle&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;hasTicket&quot; as &quot;_ID3_hasTicket&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;impatto_servizio&quot; as &quot;_ID3_impatto_servizio&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_date_modification&quot; as &quot;_ID3_Modified&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_owner&quot; as &quot;_ID3_mc_owner&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_priority&quot; as &quot;_ID3_mc_priority&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;mc_ueid&quot; as &quot;_ID3_mc_ueid&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;msg&quot; as &quot;_ID3_Message&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;msg_catalog&quot; as &quot;_ID3_msg_catalog&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;repName&quot; as &quot;_ID2_repName&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;repUser&quot; as &quot;_ID1_repUser&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;repeat_count&quot; as &quot;_ID3_Repeated&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;severity&quot; as &quot;_ID3_severity&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;severityN&quot; as &quot;_ID3_severityN&quot;, &quot;dbo&quot;.&quot;alarm_report&quot;.&quot;status&quot; as &quot;_ID3_status&quot;</sql:selectClause>
+                    </sql:QueryDefinition>
+                </bdi:query>
+            </ide:AlarmDefinition>
+        </ide:boundObject>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </ide:HierarchyBinding>
+    <ide:ConditionMap
+         ide:minorMapping='WARNING'
+         ide:infoMapping='INFO'
+         ide:criticalMapping='CRITICAL'
+         ide:majorMapping='MAJOR'
+         ide:okMapping='OK'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain rdf:resource='_ID3_RetrievedAlarm'/>
+    </ide:ConditionMap>
+    <gui:Portal>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmPortal'/>
+        <rdfs:domain rdf:resource='_ID3_RetrievedAlarm'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Page0'>
+                        <rdfs:domain rdf:resource='_ID3_RetrievedAlarm'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Anomalia'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Area_tecnologica'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_CELLA_ORIGINE'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Causa'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_ClasseComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Clienti'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_DescAcronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Fuori_servizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_IDExport'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_In_manutenzione'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Livello_architetturale'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Nodo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_NomeComponenteInfra'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_NomeComponenteServizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_NomeElementoTecno'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Nome_componente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Nome_risorsa'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Rilevato'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Server'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Servizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Servizio_infrastrutturale'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Severita_precedente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Source'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Source0'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Ticket_Num'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Tipo_anomalia'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Tipo_componente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Tipo_risorsa'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_affected_element_name'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_aree_impattate'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_cod_location'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_event_handle'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_impatto_servizio'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Modified'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Detailed_message'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Notes'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_mc_owner'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_mc_priority'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_mc_ueid'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Message'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_msg_catalog'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_Repeated'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_severity'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_severityN'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID3_status'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+    </gui:Portal>
+    <dt:RoutineSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_DEFAULT_SCHEDULE'
+         dt:interval='300'
+         dt:startTime='1070989255934'
+         dt:stopTime='1070989255934'
+         rdfs:label='DEFAULT_SCHEDULE'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:RoutineSchedule>
+</rdf:RDF>

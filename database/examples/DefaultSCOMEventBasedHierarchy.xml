@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+     Please refer to the hierarchy.dtd file in your Formula(tm)
+     installation directory for details on the definition of this file.
+
+     In this file, you can specify alarm fields in order to generate
+     new elements or compare field values.
+
+The fields available for Microsoft System Center Operation Manager (SCOM) are:
+
+     Field Name                 Value
+     ==========     	        =====
+     id             	        alarm ID (internal to Formula)
+     alarmSeverity              Possible values are CRITICAL, MAJOR, MINOR, INFORMATIONAL, and OK
+     Computer	    	        The actual name of the computer as represented in the computer table
+     AlertName                  The name column from the alert table.  This is typical descriptive type of information related to the alert
+     Description	            The description of the alert for the alert table
+     Source		                The source of the alert which comes from the Culprit column of the alert table
+     ResolutionState	        This is the textual representation of the alert.  (New, Closed)
+     alarmStatus	            This is the textual representation of the alert.  (New, Closed)
+     RepeatCount    	        The repeat count column from the alert table
+     ResolvedBy 		        The value of the ResolvedBy column from the alert table
+     AlertLevel 		        The textual value that represents the level of the alert
+     TicketId       			The ticket id of the alert
+     AlertId        			The guid of the alert
+     Priority          			The priority of the alert
+     Category       			The category of the alert
+     ComputerState      		The Health State of the computer
+     NetBIOSComputerName        The name of the computer that raised the alert.
+     NetBIOSDomainName          The domain of the computer that raised the alert.          
+     Owner                      The Owner assoicated to the alert
+     PrincipalName              The principal name of the computer that the alert was created for.
+     RuleID		                The ID of the Rule associated to the alert
+     MonitoringObjectId         The unique ID of the computer related to the alert.
+     CustomField1	            The Custom Field from the alert table.
+     CustomField2	            The Custom Field from the alert table.
+     CustomField3	            The Custom Field from the alert table.
+     CustomField4	            The Custom Field from the alert table.
+     CustomField5	            The Custom Field from the alert table.
+     CustomField6	            The Custom Field from the alert table.
+     CustomField7	            The Custom Field from the alert table.
+     CustomField8	            The Custom Field from the alert table.
+     CustomField9	            The Custom Field from the alert table.
+     CustomField10	            The Custom Field from the alert table.
+     TimeAdded			        The time the alert was added to the SCOM system.
+     TimeRaised			        The time the alert was raised.
+     TimeResolved		        The time the alert was resolved.
+     LastModified		        The time the alert was last modified.
+     LastModifiedBy		        The name of the user that last modified the alert.
+     LastTimeStateWasModified	The last time the alert was modified.
+
+-->
+
+<hierarchy>
+
+    <group name="Alarm Groupings" class="SCOMElementHosts">
+        <group name="Computers" class="SCOMElementWorkstations">
+            <generator field="Computer" class="SCOMElementComputer" affected="yes"/>
+        </group>
+
+        <group name="Source" class="SCOMElementWorkstations">
+            <generator field="Computer" class="SCOMElementComputer" affected="yes"/>
+        </group>
+    </group>
+
+</hierarchy>

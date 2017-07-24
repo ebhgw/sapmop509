@@ -1,0 +1,840 @@
+<?xml version='1.0' encoding='WINDOWS-1252'?>
+<rdf:RDF
+    xmlns:core='http://www.ManagedObjects.com/formulacore/'
+    xmlns:iapi='http://www.ManagedObjects.com/formulaiapi/'
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+    xmlns:dt='http://www.ManagedObjects.com/formuladt/'
+    xmlns:gui='http://www.ManagedObjects.com/formulagui/'
+    xmlns:ide='http://www.ManagedObjects.com/formulaide/'
+    xmlns:sql='http://www.ManagedObjects.com/formulasql/'
+    xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'
+    xmlns:bdi='http://www.ManagedObjects.com/formulabdi/'>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/adapterRuntimeInfoMaxAlarms'
+         core:defaultValue='50'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/adapterRuntimeInfoMaxAlarms'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_AckTicketNum'
+         rdfs:label='AckTicketNum'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnInit'
+         core:defaultValue=''>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnInit'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_AlarmWithTicket'
+         rdfs:label='AlarmWithTicket'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_AlarmWithTicket'
+         rdfs:label='AlarmWithTicket'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnStartup'
+         core:defaultValue=''>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnStartup'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/alarmColumns'
+         core:defaultValue='Description'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmColumns'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_Ambiente'
+         rdfs:label='Ambiente'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbHost'
+         core:defaultValue='PDBCBP001.sede.corp.sanpaoloimi.com'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbHost'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbPort'
+         core:defaultValue='1579'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPort'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/hierarchyFile'
+         core:defaultValue='AlarmsCountDataHierarchy.xml'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/hierarchyFile'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_Ambiente'
+         rdfs:label='Ambiente'>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_Acronimo'
+         ide:isDependentField='false'
+         rdfs:label='Acronimo'
+         bdi:onDemandProperty='false'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnError'
+         core:defaultValue=''>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnError'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_OpenAlarmMinCondition'
+         rdfs:label='OpenAlarmMinCondition'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_OpenTicketNum'
+         rdfs:label='OpenTicketNum'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_property'
+         rdfs:label='property'
+         bdi:onDemandProperty='false'
+         ide:isDependentField='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </ide:dependencySetBy>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_OpenTicketNum'
+         rdfs:label='OpenTicketNum'>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbUser'
+         core:defaultValue='noc00_app'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbUser'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/scriptOnShutdown'
+         core:defaultValue=''>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnShutdown'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbDatabase'
+         core:defaultValue='DATIECM'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbDatabase'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_OpenAlarmMinCondition'
+         rdfs:label='OpenAlarmMinCondition'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </rdfs:domain>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_key'
+         bdi:onDemandProperty='false'
+         rdfs:label='key'
+         ide:isDependentField='false'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='_ID9_AckTicketNum'
+         rdfs:label='AckTicketNum'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID9_ServizioData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/dbPassword'
+         core:defaultValue='X-TEAV:BC73E9A5E1EFEF12E7253C8E86F377A4'>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPassword'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <core:Property rdf:about='_ID7_key'
+         ide:isDependentField='true'
+         rdfs:comment=''
+         bdi:onDemandProperty='false'
+         rdfs:label='key'>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </rdfs:domain>
+        <bdi:computedPropertyFunction rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:dependencySetBy>
+            <rdfs:Class rdf:about='_ID7_AcronimoData'/>
+        </ide:dependencySetBy>
+        <core:semanticType rdf:resource='http://www.ManagedObjects.com/formulacore/None'/>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+    </core:Property>
+    <core:Property rdf:about='http://www.ManagedObjects.com/formulabdi/removeElementsNotInQuery'
+         core:defaultValue='true'>
+        <rdfs:range rdf:resource='http://www.ManagedObjects.com/formulacore/String'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeElementsNotInQuery'/>
+        <rdfs:domain>
+            <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        </rdfs:domain>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Property>
+    <rdfs:Class rdf:about='_ID7_AcronimoData'
+         rdfs:label='AcronimoData'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID6_Acronimi'
+         rdfs:label='Acronimi'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID2_Servizi'
+         rdfs:label='Servizi'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID0_SystemTest'
+         rdfs:label='SystemTest'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID9_ServizioData'
+         rdfs:label='ServizioData'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/DBElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID1_Acronimi'
+         rdfs:label='Acronimi'>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID4_Produzione'
+         rdfs:label='Produzione'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='_ID8_Servizi'
+         rdfs:label='Servizi'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/GroupElement'/>
+    </rdfs:Class>
+    <rdfs:Class rdf:about='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'
+         rdfs:label='AlarmsCountData'
+         rdfs:comment=''>
+        <rdfs:subClassOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/Integration'/>
+        <core:classname>com.mosol.integration.bdi.BDIIntegration</core:classname>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </rdfs:Class>
+    <iapi:Integration rdf:about='http://www.ManagedObjects.com/formulaiapi/DefaultIntegration'
+         iapi:dbType='mssql'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </iapi:Integration>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_Bihourly'
+         dt:hasOnStartSchedule='true'
+         dt:hasRoutineSchedule='true'
+         dt:interval='1800'
+         rdfs:label='Bihourly'
+         dt:hasExplicitTimesSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:hasMacroExpressionSchedule='false'
+         dt:stopTime='1355482849336'
+         dt:timesAreUTC='false'
+         dt:startTime='1355482849336'
+         dt:hasOnEventSchedule='false'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <core:Icon rdf:about='icon9'
+         core:iconname='gen_folder'
+         rdfs:label='icon9'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID8_Servizi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon8'
+         rdfs:label='icon8'
+         core:iconname='Acronimo'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID7_AcronimoData'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon7'
+         core:iconname='gen_folder'
+         rdfs:label='icon7'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID6_Acronimi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon5'
+         core:iconname='gen_folder'
+         rdfs:label='icon5'>
+        <rdfs:domain rdf:resource='_ID4_Produzione'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon3'
+         core:iconname='gen_folder'
+         rdfs:label='icon3'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID2_Servizi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon2'
+         core:iconname='gen_folder'
+         rdfs:label='icon2'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID1_Acronimi'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon1'
+         core:iconname='gen_folder'
+         rdfs:label='icon1'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID0_SystemTest'/>
+    </core:Icon>
+    <core:Icon rdf:about='icon0'
+         rdfs:label='icon0'
+         core:iconname='admin_adapter'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+    </core:Icon>
+    <ide:HierarchyBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:parentBinding>
+            <ide:HierarchyBinding rdf:ID='RDFAnon3'>
+                <ide:boundObject>
+                    <ide:GroupDefinition
+                         rdfs:label='SystemTest'
+                         ide:internalId='0'>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:defines rdf:resource='_ID0_SystemTest'/>
+                    </ide:GroupDefinition>
+                </ide:boundObject>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding rdf:ID='RDFAnon1'>
+                        <ide:boundObject>
+                            <bdi:AdapterDefinition
+                                 rdfs:label='AlarmsCountData'>
+                                <ide:defines rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+                            </bdi:AdapterDefinition>
+                        </ide:boundObject>
+                        <ide:parentBinding rdf:resource='http://www.ManagedObjects.com/formulaide/NullBinding'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <ide:boundObject>
+            <ide:GroupDefinition
+                 rdfs:label='Acronimi'
+                 ide:internalId='1'>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:defines rdf:resource='_ID1_Acronimi'/>
+            </ide:GroupDefinition>
+        </ide:boundObject>
+    </ide:HierarchyBinding>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_Ogni_minuto'
+         dt:hasMacroExpressionSchedule='false'
+         dt:hasExplicitTimesSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:hasOnEventSchedule='false'
+         dt:timesAreUTC='false'
+         dt:interval='60'
+         rdfs:label='Ogni_minuto'
+         dt:hasOnStartSchedule='true'
+         dt:stopTime='1347876058820'
+         dt:hasRoutineSchedule='true'
+         dt:startTime='1347876058820'>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Tuesday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Monday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Thursday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Friday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Saturday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Sunday'/>
+        <dt:explicitDay rdf:resource='http://www.ManagedObjects.com/formuladt/Wednesday'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+    <ide:HierarchyBinding>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:parentBinding>
+                    <ide:HierarchyBinding rdf:ID='RDFAnon2'>
+                        <ide:boundObject>
+                            <ide:GroupDefinition
+                                 ide:internalId='4'
+                                 rdfs:label='Produzione'>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                                <ide:defines rdf:resource='_ID4_Produzione'/>
+                            </ide:GroupDefinition>
+                        </ide:boundObject>
+                        <ide:parentBinding rdf:resource='#RDFAnon1'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </ide:HierarchyBinding>
+                </ide:parentBinding>
+                <ide:boundObject>
+                    <ide:GroupDefinition
+                         ide:internalId='6'
+                         rdfs:label='Acronimi'>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                        <ide:defines rdf:resource='_ID6_Acronimi'/>
+                    </ide:GroupDefinition>
+                </ide:boundObject>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 rdfs:label='AcronimoData'
+                 ide:internalId='7'>
+                <ide:hierarchyXML>&lt;properties&gt; &#xA;&lt;page&gt; &#xA;&lt;property field=&quot;OpenTicketNum&quot; function=&quot;LAST&quot; name=&quot;OpenTicketNum&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;property field=&quot;AckTicketNum&quot; function=&quot;LAST&quot; name=&quot;AckTicketNum&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;property field=&quot;OpenAlarmMinCondition&quot; function=&quot;LAST&quot; name=&quot;OpenAlarmMinCondition&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;property field=&quot;AlarmWithTicket&quot; function=&quot;LAST&quot; name=&quot;AlarmWithTicket&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;/page&gt; &#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID7_AcronimoDataKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID7_key'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;v_acronimi_data&quot;'
+                         sql:whereClause='1=1'>
+                        <sql:selectClause>Acronimo as &quot;elementName&quot;, &quot;AckTicketNum&quot; as &quot;_ID7_AckTicketNum&quot;, &quot;Acronimo&quot; as &quot;_ID7_Acronimo&quot;, &quot;AlarmWithTicket&quot; as &quot;_ID7_AlarmWithTicket&quot;, &quot;Ambiente&quot; as &quot;_ID7_Ambiente&quot;, &quot;SeverityN&quot; as &quot;_ID7_OpenAlarmMinCondition&quot;, &quot;OpenTicketNum&quot; as &quot;_ID7_OpenTicketNum&quot;, &quot;Ambiente&quot; + &apos;_&apos; + &quot;Acronimo&quot; as &quot;_ID7_key&quot;</sql:selectClause>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID7_AckTicketNum'/>
+                                <rdf:li rdf:resource='_ID7_Acronimo'/>
+                                <rdf:li rdf:resource='_ID7_AlarmWithTicket'/>
+                                <rdf:li rdf:resource='_ID7_Ambiente'/>
+                                <rdf:li rdf:resource='_ID7_OpenAlarmMinCondition'/>
+                                <rdf:li rdf:resource='_ID7_OpenTicketNum'/>
+                                <rdf:li rdf:resource='_ID7_key'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:selectColumns>
+                            <rdf:Seq>
+                                <rdf:li>Acronimo</rdf:li>
+                                <rdf:li>&quot;AckTicketNum&quot;</rdf:li>
+                                <rdf:li>&quot;Acronimo&quot;</rdf:li>
+                                <rdf:li>&quot;AlarmWithTicket&quot;</rdf:li>
+                                <rdf:li>&quot;Ambiente&quot;</rdf:li>
+                                <rdf:li>&quot;SeverityN&quot;</rdf:li>
+                                <rdf:li>&quot;OpenTicketNum&quot;</rdf:li>
+                                <rdf:li>&quot;Ambiente&quot; + &apos;_&apos; + &quot;Acronimo&quot;</rdf:li>
+                            </rdf:Seq>
+                        </sql:selectColumns>
+                        <sql:querySchedule>
+                            <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_30_sec'
+                                 rdfs:label='30_sec'
+                                 dt:hasRoutineSchedule='true'
+                                 dt:hasExplicitTimesSchedule='false'
+                                 dt:hasOnStartSchedule='true'
+                                 dt:hasOnEventSchedule='false'
+                                 dt:hasMacroExpressionSchedule='false'
+                                 dt:timesAreUTC='false'
+                                 dt:scheduleDisabled='false'
+                                 dt:interval='30'
+                                 dt:startTime='1460973611430'
+                                 dt:stopTime='1460973611430'>
+                                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                            </dt:GeneralSchedule>
+                        </sql:querySchedule>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:defines rdf:resource='_ID7_AcronimoData'/>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+    </ide:HierarchyBinding>
+    <gui:Portal>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Page0'>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID7_AckTicketNum'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID7_Acronimo'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID7_AlarmWithTicket'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID7_OpenAlarmMinCondition'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID7_OpenTicketNum'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID7_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:domain rdf:resource='_ID7_AcronimoData'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <rdfs:domain rdf:resource='_ID7_AcronimoData'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </gui:Portal>
+    <core:Icon rdf:about='icon10'
+         rdfs:label='icon10'
+         core:iconname='Servizio'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:domain rdf:resource='_ID9_ServizioData'/>
+    </core:Icon>
+    <ide:HierarchyBinding>
+        <ide:parentBinding rdf:resource='#RDFAnon3'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:boundObject>
+            <ide:GroupDefinition
+                 ide:internalId='2'
+                 rdfs:label='Servizi'>
+                <ide:defines rdf:resource='_ID2_Servizi'/>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+            </ide:GroupDefinition>
+        </ide:boundObject>
+    </ide:HierarchyBinding>
+    <gui:Portal>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/ebiPortal'/>
+        <rdfs:domain rdf:resource='_ID9_ServizioData'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PropertyPage
+                         rdfs:label='Page1'>
+                        <rdfs:domain rdf:resource='_ID9_ServizioData'/>
+                        <core:contents>
+                            <rdf:Seq>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID9_AckTicketNum'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID9_AlarmWithTicket'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID9_Ambiente'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID9_OpenAlarmMinCondition'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID9_OpenTicketNum'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                                <rdf:li>
+                                    <gui:PageEntry>
+                                        <gui:entryData rdf:resource='_ID9_key'/>
+                                    </gui:PageEntry>
+                                </rdf:li>
+                            </rdf:Seq>
+                        </core:contents>
+                        <core:loadPolicy rdf:resource='http://www.ManagedObjects.com/formulacore/Static'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </gui:PropertyPage>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+    </gui:Portal>
+    <ide:HierarchyBinding>
+        <ide:boundObject>
+            <ide:DBElementDefinition
+                 ide:internalId='9'
+                 rdfs:label='ServizioData'>
+                <ide:objectKeyField>
+                    <rdf:Description rdf:about='_ID9_ServizioDataKey'
+                         rdf:type='http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq'>
+                        <rdf:_1 rdf:resource='_ID9_property'/>
+                    </rdf:Description>
+                </ide:objectKeyField>
+                <ide:defines rdf:resource='_ID9_ServizioData'/>
+                <bdi:query>
+                    <sql:QueryDefinition
+                         sql:queryScheduled='true'
+                         sql:fromClause='&quot;dbo&quot;.&quot;v_srv_data&quot;'
+                         sql:whereClause='1=1'>
+                        <sql:selectClause>&quot;ServizioNomeNoc&quot; as &quot;elementName&quot;, &quot;AckTicketNum&quot; as &quot;_ID9_AckTicketNum&quot;, &quot;AlarmWithTicket&quot; as &quot;_ID9_AlarmWithTicket&quot;, Ambiente as &quot;_ID9_Ambiente&quot;, &quot;SeverityN&quot; as &quot;_ID9_OpenAlarmMinCondition&quot;, &quot;OpenTicketNum&quot; as &quot;_ID9_OpenTicketNum&quot;, &quot;ServizioNomeNoc&quot; as &quot;_ID9_key&quot;, &quot;Ambiente&quot; + &apos;_&apos; + &quot;ServizioNomeNoc&quot; as &quot;_ID9_property&quot;</sql:selectClause>
+                        <sql:selectProperties>
+                            <rdf:Seq>
+                                <rdf:li rdf:resource='http://www.ManagedObjects.com/formulaiapi/elementName'/>
+                                <rdf:li rdf:resource='_ID9_AckTicketNum'/>
+                                <rdf:li rdf:resource='_ID9_AlarmWithTicket'/>
+                                <rdf:li rdf:resource='_ID9_Ambiente'/>
+                                <rdf:li rdf:resource='_ID9_OpenAlarmMinCondition'/>
+                                <rdf:li rdf:resource='_ID9_OpenTicketNum'/>
+                                <rdf:li rdf:resource='_ID9_key'/>
+                                <rdf:li rdf:resource='_ID9_property'/>
+                            </rdf:Seq>
+                        </sql:selectProperties>
+                        <sql:selectColumns>
+                            <rdf:Seq>
+                                <rdf:li>&quot;ServizioNomeNoc&quot;</rdf:li>
+                                <rdf:li>&quot;AckTicketNum&quot;</rdf:li>
+                                <rdf:li>&quot;AlarmWithTicket&quot;</rdf:li>
+                                <rdf:li>Ambiente</rdf:li>
+                                <rdf:li>&quot;SeverityN&quot;</rdf:li>
+                                <rdf:li>&quot;OpenTicketNum&quot;</rdf:li>
+                                <rdf:li>&quot;ServizioNomeNoc&quot;</rdf:li>
+                                <rdf:li>&quot;Ambiente&quot; + &apos;_&apos; + &quot;ServizioNomeNoc&quot;</rdf:li>
+                            </rdf:Seq>
+                        </sql:selectColumns>
+                        <sql:querySchedule rdf:resource='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_30_sec'/>
+                    </sql:QueryDefinition>
+                </bdi:query>
+                <ide:hierarchyXML>&lt;properties&gt; &#xA;&lt;page&gt; &#xA;&lt;property field=&quot;OpenTicketNum&quot; function=&quot;LAST&quot; name=&quot;OpenTicketNum&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;property field=&quot;AckTicketNum&quot; function=&quot;LAST&quot; name=&quot;AckTicketNum&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;property field=&quot;OpenAlarmMinCondition&quot; function=&quot;LAST&quot; name=&quot;OpenAlarmMinCondition&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;property field=&quot;AlarmWithTicket&quot; function=&quot;LAST&quot; name=&quot;AlarmWithTicket&quot; computeOnGet=&quot;true&quot; /&gt; &#xA;&lt;/page&gt; &#xA;&lt;/properties&gt;</ide:hierarchyXML>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+            </ide:DBElementDefinition>
+        </ide:boundObject>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <ide:parentBinding>
+            <ide:HierarchyBinding>
+                <ide:boundObject>
+                    <ide:GroupDefinition
+                         ide:internalId='8'
+                         rdfs:label='Servizi'>
+                        <ide:defines rdf:resource='_ID8_Servizi'/>
+                        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+                    </ide:GroupDefinition>
+                </ide:boundObject>
+                <ide:parentBinding rdf:resource='#RDFAnon2'/>
+                <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+            </ide:HierarchyBinding>
+        </ide:parentBinding>
+    </ide:HierarchyBinding>
+    <gui:PropertyPage>
+        <rdfs:domain rdf:resource='http://www.ManagedObjects.com/formulabdi/Adapter_hnrfisck_2ekjn'/>
+        <rdfs:subPropertyOf rdf:resource='http://www.ManagedObjects.com/formulaiapi/configAdapterProperties'/>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+        <core:contents>
+            <rdf:Seq>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/alarmColumns'/>
+                        <rdfs:label>Alarm Columns</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Hierarchy File</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/hierarchyFile'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onInitialized'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnInit'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onStarted'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnStartup'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onStopped'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnShutdown'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Script.onError'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/scriptOnError'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Hostname'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbHost'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Port'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPort'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Database'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbDatabase'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbUser'/>
+                        <rdfs:label>User Name</rdfs:label>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry
+                         rdfs:label='Password'>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/dbPassword'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Remove Elements Not In Query</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/removeElementsNotInQuery'/>
+                    </gui:PageEntry>
+                </rdf:li>
+                <rdf:li>
+                    <gui:PageEntry>
+                        <rdfs:label>Max Runtime Info Alarms</rdfs:label>
+                        <gui:entryData rdf:resource='http://www.ManagedObjects.com/formulaiapi/adapterRuntimeInfoMaxAlarms'/>
+                    </gui:PageEntry>
+                </rdf:li>
+            </rdf:Seq>
+        </core:contents>
+    </gui:PropertyPage>
+    <dt:RoutineSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_DEFAULT_SCHEDULE'
+         dt:interval='300'
+         dt:stopTime='1070989255934'
+         rdfs:label='DEFAULT_SCHEDULE'
+         dt:startTime='1070989255934'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:RoutineSchedule>
+    <dt:GeneralSchedule rdf:about='http://www.ManagedObjects.com/formulabdi/ScheduleDefinition_ogni_5_secondi'
+         dt:hasOnEventSchedule='false'
+         dt:timesAreUTC='false'
+         dt:hasMacroExpressionSchedule='false'
+         dt:scheduleDisabled='false'
+         dt:stopTime='1352199612939'
+         dt:hasExplicitTimesSchedule='false'
+         dt:startTime='1352199612939'
+         dt:interval='5'
+         dt:hasRoutineSchedule='true'
+         rdfs:label='ogni_5_secondi'
+         dt:hasOnStartSchedule='true'>
+        <rdfs:isDefinedBy rdf:resource='http://www.ManagedObjects.com/formulabdi/'/>
+    </dt:GeneralSchedule>
+</rdf:RDF>

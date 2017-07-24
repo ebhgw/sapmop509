@@ -1,0 +1,1051 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hierarchy PUBLIC "-//Novell, Inc.//DTD hierarchy 2.0//EN" "database/examples/hierarchy_2.0.dtd">
+
+
+<!--
+ Copyright (c) 2014 NetIQ Corporation.  All Rights Reserved.
+
+ THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND TREATIES.  IT MAY NOT BE USED, COPIED,
+ DISTRIBUTED, DISCLOSED, ADAPTED, PERFORMED, DISPLAYED, COLLECTED, COMPILED, OR LINKED WITHOUT NETIQ'S
+ PRIOR WRITTEN CONSENT. USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE
+ PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+
+ NETIQ PROVIDES THE WORK "AS IS," WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING WITHOUT THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NETIQ,
+ THE AUTHORS OF THE WORK, AND THE OWNERS OF COPYRIGHT IN THE WORK ARE NOT LIABLE FOR ANY CLAIM,
+ DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+ OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+-->
+
+<!--
+  Please refer to the ServiceCenterConfiguration_1.0.dtd file in your Formula(tm)
+  installation directory for details on the definition of this file.
+-->
+
+<servicecenter>
+
+   <!--=====================
+     General properties
+   ======================-->
+
+	<properties>
+
+          <connection>
+              <!-- Connection checking URL. If a Formula ServiceCenter Adapter cannot connect
+                   to this URL, then it is assumed the ServiceCenter Server is down. -->
+              <testURL>http://{adapter.hostname}:{adapter.hostport}/IncidentManagement.wsdl</testURL>
+          </connection>
+
+      </properties>
+
+      <!-- Define properties used for later substitution -->
+      <property name="root.soap.xmlns">
+           <![CDATA[
+                xmlns="http://servicecenter.peregrine.com/PWS"
+				xmlns:cmn="http://servicecenter.peregrine.com/PWS/Common"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+           ]]>
+      </property>
+      <property name="root.soap.envelope">
+           <![CDATA[
+                <?xml version="1.0" encoding="UTF-8"?>
+                <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                                   xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+                                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                <SOAP-ENV:Body>{soap.body}</SOAP-ENV:Body>
+                </SOAP-ENV:Envelope>
+           ]]>
+      </property>
+      <property name="root.soap.endpoint.prefix">http://{adapter.hostname}:{adapter.hostport}</property>
+      <property name="root.soap.namespace">http://servicecenter.peregrine.com/PWS</property>
+
+   <!--==============================================================
+     Configuration for the Incident Management ServiceCenter Module
+   ===============================================================-->
+
+	<module name="Incident" enable="true">
+
+          <!-- Define processing properties -->
+          <properties>
+               <formula>
+                    <fields>
+                         <!-- Formula expects 5 fields for normalization:
+                              status, lastUpdate, key, description, assignedTo -->
+                         <status>Status</status>
+                         <lastUpdate>sysmodtime</lastUpdate>
+                         <key>IncidentID</key>
+                         <description>BriefDescription</description>
+                         <assignedTo>AssigneeName</assignedTo>
+                    </fields>
+                    <severities>
+                         <!-- Map normalized status field values to Formula Alarm Severities -->
+                         <item fromRE="open" toSeverity="INFO"/>
+                         <item fromRE="reopened" toSeverity="MINOR"/>
+                         <item fromRE="resolved" toSeverity="OK"/>
+                         <item fromRE="updated" toSeverity="MINOR"/>
+                         <item fromRE=".*ALERT.*" toSeverity="CRITICAL"/>
+                         <item fromRE=".*" toSeverity="MAJOR"/>
+                    </severities>
+               </formula>
+               <soap>
+                    <endpoint>{root.soap.endpoint.prefix}/IncidentManagement.wsdl</endpoint>
+                    <namespace>{root.soap.namespace}</namespace>
+                    <server>IncidentManagement</server>
+                    <port>IncidentManagement</port>
+                    <username>{adapter.username}</username>
+                    <password>{adapter.password}</password>
+                    <operations>
+
+                         <!-- Polling Operations -->
+                         <pollKeys>
+                              <name>RetrieveIncidentKeysList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveIncidentKeysListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys></keys>
+                                                  <instance>
+                                                       <flag>true</flag>
+                                                       <UpdatedTime>&gt;={formula.poll.from.time}</UpdatedTime>
+                                                       <sysmodtime>&lt;={formula.poll.from.time}</sysmodtime>
+                                                  </instance>
+                                             </model>
+                                        </RetrieveIncidentKeysListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveIncidentKeysListResponse</response>
+                              <instance>
+                                   <container>keys</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <date>
+                                   <initial>1900-01-01T00:00:00</initial>
+                                   <format>yyyy-MM-dd''T''HH:mm:ss''+''hh</format>
+                              </date>
+                         </pollKeys>
+                         <getPollRecords>
+                              <name>RetrieveIncidentList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveIncidentListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  {formula.poll.keys}	
+                                             </model>
+                                        </RetrieveIncidentListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveIncidentListResponse</response>
+                              <instance>
+                                   <container>instance</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <key>
+                                   <container>keys</container>
+                                   <instance>IncidentID</instance>
+                              </key>
+                         </getPollRecords>
+
+                         <!--=========================================
+                                Incident Management Operations
+                           =========================================-->
+
+                         <operation name="Update Incident Contact Info" enable="true">
+                              <menu>Service Center|Incident Update|Contact Name</menu>
+                              <prescript sub="false">
+                                   <![CDATA[
+                                        // @debug on
+                                        // This operation has an example for all of the <prescript> pre-defined functions:
+                                        //    ifNull, ifNullorEmpty, get, set, prompt, sendMessage, onOk, onCancel
+
+                                        // Transform or validate any properties before prompting the user
+
+                                        // Fix up non existing fields to be empty
+										ifNull( "alarm.Contact", "")
+
+                                        // Prompt for the information needed from the user
+                                        // Choose property names that will be substituted into the <body> block below.
+                                        prompt( 'Update Contact - Requested Info', true /* Close prompt dialog on Ok button press */,
+                                        [
+                                             ///// fields:                                                                                      combo box   combo box
+                                             ///// property name,             prompt,          multiline?, password?,   default,                labels      values
+                                             [ 'prop.update.action',    'Enter Update Action',    'true',  'false', 'Updated with Contact Info through Formula Operation', null, null ],
+                                             [ 'prop.contact.name',     'Enter Contact Name',     'false', 'false', '{alarm.Contact}',     null,       null ],
+                                        ] )
+
+			                            // Statements after the prompt() will be executed right away. Place statements to be executed upon
+                                        // user hitting the ok or cancel button in the onOk and onCancel functions.
+                                        formula.log.debug( "Update Contact Info: Sent prompt to Client" )
+
+                                        function onOk()
+                                        {
+                                            // This is the information after the user hit the ok button, but before the soap transaction is sent.
+                                            // Provides an opportunity to do some final transforms or validation on the data before it is sent.
+			                                // if there is no onOK() function and the user hits the ok button : perform the SOAP transaction
+                                            // if there is no return statement : perform the SOAP transaction
+                                            // return true : perform the SOAP transaction
+                                            // return false : do not perform the SOAP transaction
+											
+                                        }
+
+                                        function onCancel()
+                                        {
+                                            // Invoked if the user hits the cancel button. This function may do some cleanup or send
+                                            // a message to the user. If the function can recover and set properties appropriately, 
+                                            // the SOAP transaction will still be performed if 'return true' is the last statement.
+
+                                            // Tell the user the operation has been cancelled
+                                            sendMessage( "Operation has been cancelled." )
+
+                                            // if there is no onCancel() function and the user hits the cancel button: do not perform the SOAP transaction
+                                            // if there is no return statement : do not perform the SOAP transaction
+                                            // return true : perform the SOAP transaction
+                                            // return false : do not perform the SOAP transaction
+                                        }
+                                   ]]>
+                              </prescript>
+                              <name>UpdateIncident</name>
+                              <response>&gt;UpdateIncidentResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <UpdateIncidentRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <IncidentID>{alarm.IncidentID}</IncidentID>
+                                                  </keys>
+                                                  <instance>
+                                                       <!-- The ServiceCenter fields to be updated -->
+                                                       <JournalUpdates>{prop.update.action}</JournalUpdates>
+													   <ContactFirstName>{prop.contact.firstname}</ContactFirstName>
+													   <ContactLastName>{prop.contact.lastname}</ContactLastName>
+                                                       <Contact>{prop.contact.name}</Contact>
+                                                  </instance>
+                                             </model>
+                                        </UpdateIncidentRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                         <operation name="Update Incident Assignee Info" enable="true">
+                              <menu>Service Center|Incident Update|Assignee Info</menu>
+                              <prescript sub="false">
+                                   <![CDATA[
+                                        // Fix up fields
+                                        ifNull( "alarm.AssigneeName", "" )
+                                        ifNullorEmpty( "alarm.PrimaryAssignmentGroup", "DEFAULT" )
+
+                                        // Prompt for the information needed from the user
+                                        prompt( 'Update Assignee - Requested Info', true /* Close prompt dialog on Ok button press */,
+                                        [
+                                             ///// fields:                                                                              combo box   combo box
+                                             ///// property name,          prompt,       multiline?, password?,   default,              labels      values                                             [ 'prop.assignee.name',  'Enter Assignee Name',   'false', 'false', '{assignee.name}',  null,       null ],
+                                             [ 'prop.update.action', 'Enter Update Action', 'true',  'false',  'Updated with Assignee Info through Formula Operation', null, null ],
+                                             [ 'prop.assignee.name', 'Enter Assignee Name', 'false', 'false',  '{alarm.AssigneeName}', null,       null ],
+                                             [ 'prop.assignment',    'Select Assignment',   'false', 'false',  '{alarm.PrimaryAssignmentGroup}',    'DEFAULT|HELPDESK|SOFTWARE|LAN SUPPORT|ONSITE SUPPORT', null ],
+                                        ] )
+                                   ]]>
+                              </prescript>
+                              <name>UpdateIncident</name>
+                              <response>&gt;UpdateIncidentResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <UpdateIncidentRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <IncidentID>{alarm.IncidentID}</IncidentID>
+                                                  </keys>
+                                                  <instance>
+                                                       <!-- The ServiceCenter fields to be updated -->
+                                                       <JournalUpdates>{prop.update.action}</JournalUpdates>
+                                                       <AssigneeName>{prop.assignee.name}</AssigneeName>
+                                                       <PrimaryAssignmentGroup>{prop.assignment}</PrimaryAssignmentGroup>
+                                                  </instance>
+                                             </model>
+                                        </UpdateIncidentRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                         <operation name="Create Incident" enable="true">
+                              <menu>Service Center|Incident Lifecycle|Create</menu>
+                              <prescript sub="false">
+                                   <![CDATA[
+                                        // Fix up fields
+                                        var BriefDescription
+                                        var IncidentDescription
+                                        var ConfigurationItem
+                                        var ProblemType
+                                        var ProductType
+                                        var Category
+                                        var Subcategory
+                                        var SiteCategory
+                                        var Severity
+                                        var UserPriority
+                                        var PrimaryAssignmentGroup
+                                        var Contact
+										var UpdateAction = "Created through Formula Operation"
+										
+										if (isSet ("entryPoint", "element") == true)
+										{ 
+											BriefDescription       = ifNull("element.name", "")
+											IncidentDescription    = ""
+											ConfigurationItem      = ""
+											ProblemType            = ""
+											ProductType            = ""
+											Category               = ""
+											Subcategory            = ""
+											SiteCategory           = ""
+											Severity               = "5"
+											UserPriority           = "5"
+											PrimaryAssignmentGroup = "DEFAULT"
+											Contact                = ""
+										}
+										else
+										{
+											BriefDescription       = ifNull( "alarm.BriefDescription", "" )
+											IncidentDescription    = ifNull( "alarm.IncidentDescription", "" )
+											ConfigurationItem      = ifNull( "alarm.ConfigurationItem", "" )
+											ProblemType            = ifNull( "alarm.ProblemType", "" )
+											ProductType            = ifNull( "alarm.ProductType", "" )
+											Category               = ifNullorEmpty( "alarm.Category", "" )
+											Subcategory            = ifNullorEmpty( "alarm.Subcategory", "" )
+											SiteCategory           = ifNull( "alarm.SiteCategory", "" )
+											Severity               = ifNullorEmpty( "alarm.Severity", "5" )
+											UserPriority           = ifNullorEmpty( "alarm.UserPriority", "5" )
+											PrimaryAssignmentGroup = ifNullorEmpty( "alarm.PrimaryAssignmentGroup", "DEFAULT" )
+											Contact                = ifNull( "alarm.Contact", "" )
+										}
+
+                                        // Prompt for the information needed from the user
+                                        // Choose property names that will be substituted into the <body> block below.
+                                        prompt( 'New Incident - Requested Info', true /* Close prompt dialog on Ok button press */,
+                                        [
+                                             ///// fields:                                                                                   combo box   combo box
+                                             ///// property name,          prompt,         multiline?, password?,     default,               labels      values
+                                             [ 'prop.brief.descr',   'Enter Description',    'false',  'false', BriefDescription, null,       null ],
+                                             [ 'prop.action',        'Enter Action',         'true',   'false', IncidentDescription,            null,       null ],
+                                             [ 'prop.update.action', 'Enter Update Action',  'true',   'false', UpdateAction, null, null ],
+                                             [ 'prop.logical.name',  'Enter Logical name',   'false',  'false', ConfigurationItem,      null,       null ],
+                                             [ 'prop.problem.type',  'Enter Problem Type',   'false',  'false', ProblemType,      null,       null ],
+                                             [ 'prop.product.type',  'Enter Product Type',   'false',  'false', ProductType,      null,       null ],
+                                             [ 'prop.category',      'Enter Category',       'false',  'false', Category,          null,       null ],
+                                             [ 'prop.subcategory',   'Enter Subcategory',    'false',  'false', Subcategory,       null,       null ],
+                                             [ 'prop.site.category', 'Enter Site Category',  'false',  'false', SiteCategory,     null,       null ],
+                                             [ 'prop.severity.code', 'Select Severity Code', 'false',  'false', Severity,     'Severity 1|Severity 2|Severity 3|Severity 4|Severity 5', '1|2|3|4|5' ],
+                                             [ 'prop.user.priority', 'Select User Priority', 'false',  'false', UserPriority,     'Priority 1|Priority 2|Priority 3|Priority 4|Priority 5', '1|2|3|4|5' ],
+                                             [ 'prop.assignment',    'Select Assignment',    'false',  'false', PrimaryAssignmentGroup,        'DEFAULT|HELPDESK|SOFTWARE|LAN SUPPORT|ONSITE SUPPORT', null ],
+                                             [ 'prop.contact.name',  'Enter Contact Name',   'false',  'false', Contact,      null,       null ],
+                                        ] )
+                                   ]]>
+                              </prescript>
+                              <name>CreateIncident</name>
+                              <response>&gt;CreateIncidentResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <CreateIncidentRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <IncidentID></IncidentID>
+                                                  </keys>
+                                                  <instance>
+                                                       <!-- The ServiceCenter fields to be updated -->
+                                                       <BriefDescription>{prop.brief.descr}</BriefDescription>
+                                                       <IncidentDescription>{prop.action}</IncidentDescription>
+                                                       <JournalUpdates>{prop.update.action}</JournalUpdates>
+                                                       <ConfigurationItem>{prop.logical.name}</ConfigurationItem>
+                                                       <ProblemType>{prop.problem.type}</ProblemType>
+                                                       <ProductType>{prop.product.type}</ProductType>
+                                                       <Category>{prop.category}</Category>
+                                                       <Subcategory>{prop.subcategory}</Subcategory>
+                                                       <SiteCategory>{prop.site.category}</SiteCategory>
+                                                       <Severity>{prop.severity.code}</Severity>
+                                                       <UserPriority>{prop.user.priority}</UserPriority>
+                                                       <PrimaryAssignmentGroup>{prop.assignment}</PrimaryAssignmentGroup>
+                                                       <Contact>{prop.contact.name}</Contact>
+                                                  </instance>
+                                             </model>
+                                        </CreateIncidentRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                         <operation name="Resolve Incident Record Prompted" enable="true">
+                              <menu>Service Center|Incident Lifecycle|Resolve Prompted</menu>
+                              <prescript sub="false">
+                                   <![CDATA[
+                                        // Prompt for the information needed from the user
+                                        // Choose property names that will be substituted into the <body> block below.
+                                        prompt( 'Resolve Incident - Requested Info', true, [
+                                             ///// fields:                                                                        combo box   combo box
+                                             ///// property name,     prompt,                multiline?, password?, default,      labels      values
+                                             [ 'prop.fix.type',       'Enter Fix Type',         'false', 'false', 'permanent',    null,       null ],
+                                             [ 'prop.resolution.code','Enter Resolution Code',  'false', 'false', 'User Resolved', null,      null ],
+                                        ] )
+                                   ]]>
+                              </prescript>
+                              <name>ResolveIncident</name>
+                              <response>&gt;ResolveIncidentResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <ResolveIncidentRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <IncidentID>{alarm.IncidentID}</IncidentID>
+                                                  </keys>
+                                                  <instance>
+                                                       <!-- The ServiceCenter fields to be updated -->
+                                                       <ResolutionFixType>{prop.fix.type}</ResolutionFixType>
+                                                       <ClosureCode>{prop.resolution.code}</ClosureCode>
+                                                  </instance>
+                                             </model>
+                                        </ResolveIncidentRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                         <operation name="Resolve Incident Record Unprompted" enable="true">
+                              <menu>Service Center|Incident Lifecycle|Resolve</menu>
+                              <name>ResolveIncident</name>
+                              <response>&gt;ResolveIncidentResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <ResolveIncidentRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <IncidentID>{alarm.IncidentID}</IncidentID>
+                                                  </keys>
+                                                  <instance>
+                                                       <!-- The ServiceCenter fields to be updated -->
+                                                       <ResolutionFixType>permanent</ResolutionFixType>
+                                                       <ClosureCode>User Closure</ClosureCode>
+                                                  </instance>
+                                             </model>
+                                        </ResolveIncidentRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                         <operation name="Close Incident Record" enable="true">
+                              <menu>Service Center|Incident Lifecycle|Close</menu>
+                              <name>CloseIncident</name>
+                              <response>&gt;CloseIncidentResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <CloseIncidentRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <IncidentID>{alarm.IncidentID}</IncidentID>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </CloseIncidentRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                         <operation name="Reopen Incident Record" enable="true">
+                              <menu>Service Center|Incident Lifecycle|Reopen</menu>
+                              <name>ReopenIncident</name>
+                              <response>&gt;ReopenIncidentResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <ReopenIncidentRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <IncidentID>{alarm.IncidentID}</IncidentID>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </ReopenIncidentRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                    </operations>
+                </soap>
+           </properties>
+      </module>
+
+   <!--===========================================================
+     Configuration for the Change Management ServiceCenter Module
+   ============================================================-->
+
+	<module name="Change" enable="true">
+
+          <!-- Define processing properties -->
+          <properties>
+               <formula>
+                    <fields>
+                         <!-- Formula expects 5 fields for normalization:
+                              status, lastUpdate, key, description, assignedTo -->
+                         <status>header.Status</status>
+                         <lastUpdate>sysmodtime</lastUpdate>
+                         <key>header.ChangeNumber</key>
+                         <description>description.structure.Description</description>
+                         <assignedTo>header.Coordinator</assignedTo>
+                    </fields>
+                    <severities>
+                         <!-- Map normalized status field values to Formula Alarm Severities -->
+                         <item fromRE="initial" toSeverity="INFO"/>
+                         <item fromRE=".*" toSeverity="MAJOR"/>
+                    </severities>
+               </formula>
+               <soap>
+                    <endpoint>{root.soap.endpoint.prefix}/ChangeManagement.wsdl</endpoint>
+                    <namespace>{root.soap.namespace}</namespace>
+                    <server>ChangeManagement</server>
+                    <port>ChangeManagement</port>
+                    <username>{adapter.username}</username>
+                    <password>{adapter.password}</password>
+                    <operations>
+
+                         <!-- Polling Operations -->
+                         <pollKeys>
+                              <name>RetrieveChangeKeysList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveChangeKeysListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys></keys>
+                                                  <instance>
+                                                       <sysmodtime>&gt;={formula.poll.from.time}</sysmodtime>
+                                                       <!-- <open>true</open> -->
+                                                  </instance>
+                                             </model>
+                                        </RetrieveChangeKeysListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveChangeKeysListResponse</response>
+                              <instance>
+                                   <container>keys</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <date>
+                                   <initial>1900-01-01T00:00:00</initial>
+                                   <format>yyyy-MM-dd''T''HH:mm:ss''+''hh</format>
+                              </date>
+                         </pollKeys>
+                         <getPollRecords>
+                              <name>RetrieveChangeList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveChangeListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  {formula.poll.keys}	
+                                             </model>
+                                        </RetrieveChangeListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveChangeListResponse</response>
+                              <instance>
+                                   <container>instance</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <key>
+                                   <container>keys</container>
+                                   <instance>ChangeNumber</instance>
+                              </key>
+                         </getPollRecords>
+
+                         <!-- Other Operations -->
+
+                         <operation name="Retract Change Record" enable="true">
+                              <menu>Service Center|Change Lifecycle|Retract</menu>
+                              <name>RetractChange</name>
+                              <response>&gt;RetractChangeResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetractChangeRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <ChangeNumber>{alarm.header.ChangeNumber}</ChangeNumber>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </RetractChangeRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+						 
+                         <operation name="Reopen Change Record" enable="true">
+                              <menu>Service Center|Change Lifecycle|Reopen</menu>
+                              <name>ReopenChange</name>
+                              <response>&gt;ReopenChangeResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <ReopenChangeRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <ChangeNumber>{alarm.header.ChangeNumber}</ChangeNumber>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </ReopenChangeRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+						 
+                         <operation name="MoveToNextPhase Change Record" enable="true">
+                              <menu>Service Center|Change Lifecycle|Move To Next Phase</menu>
+                              <name>MoveToNextPhaseChange</name>
+                              <response>&gt;MoveToNextPhaseChangeResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <MoveToNextPhaseChangeRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <ChangeNumber>{alarm.header.ChangeNumber}</ChangeNumber>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </MoveToNextPhaseChangeRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+						 
+                         <operation name="Close Change Record" enable="true">
+                              <menu>Service Center|Change Lifecycle|Close</menu>
+                              <name>CloseChange</name>
+                              <response>&gt;CloseChangeResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <CloseChangeRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <ChangeNumber>{alarm.header.ChangeNumber}</ChangeNumber>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </CloseChangeRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+						 
+                         <operation name="Approve Change Record" enable="true">
+                              <menu>Service Center|Change Lifecycle|Approve</menu>
+                              <name>ApproveChange</name>
+                              <response>&gt;ApproveChangeResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <ApproveChangeRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <ChangeNumber>{alarm.header.ChangeNumber}</ChangeNumber>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </ApproveChangeRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+						 
+                         <operation name="Deny Change Record" enable="true">
+                              <menu>Service Center|Change Lifecycle|Deny</menu>
+                              <name>DenyChange</name>
+                              <response>&gt;DenyChangeResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <DenyChangeRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <ChangeNumber>{alarm.header.ChangeNumber}</ChangeNumber>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </DenyChangeRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                    </operations>
+                </soap>
+           </properties>
+      </module>
+
+   <!--===========================================================
+     Configuration for the Service Management ServiceCenter Module
+   ============================================================-->
+
+	<module name="Service" enable="true">
+
+          <!-- Define processing properties -->
+          <properties>
+               <formula>
+                    <fields>
+                         <!-- Formula expects 5 fields for normalization:
+                              status, lastUpdate, key, description, assignedTo -->
+                         <status>Status</status>
+                         <lastUpdate>sysmodtime</lastUpdate>
+                         <key>CallID</key>
+                         <description>Description</description>
+                         <assignedTo>AssignmentGroup</assignedTo>
+                    </fields>
+                    <severities>
+                         <!-- Map normalized status field values to Formula Alarm Severities -->
+                         <item fromRE=".*Open.*" toSeverity="INFO"/>
+                         <item fromRE=".*" toSeverity="MAJOR"/>
+                    </severities>
+               </formula>
+               <soap>
+                    <endpoint>{root.soap.endpoint.prefix}/ServiceDesk.wsdl</endpoint>
+                    <namespace>{root.soap.namespace}</namespace>
+                    <server>ServiceDesk</server>
+                    <port>ServiceDesk</port>
+                    <username>{adapter.username}</username>
+                    <password>{adapter.password}</password>
+                    <operations>
+
+                         <!-- Polling Operations -->
+
+                         <pollKeys>
+                              <name>RetrieveInteractionKeysList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveInteractionKeysListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys></keys>
+                                                  <instance>
+                                                       <UpdatedTime>&gt;={formula.poll.from.time}</UpdatedTime>
+                                                       <sysmodtime>&lt;={formula.poll.to.time}</sysmodtime>
+                                                  </instance>
+                                             </model>
+                                        </RetrieveInteractionKeysListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveInteractionKeysListResponse</response>
+                              <instance>
+                                   <container>keys</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <date>
+                                   <initial>1900-01-01T00:00:00</initial>
+                                   <format>yyyy-MM-dd''T''HH:mm:ss''+''hh</format>
+                              </date>
+                         </pollKeys>
+                         <getPollRecords>
+                              <name>RetrieveInteractionList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveInteractionListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  {formula.poll.keys}
+                                             </model>
+                                        </RetrieveInteractionListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveInteractionListResponse</response>
+                              <instance>
+                                   <container>instance</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <key>
+                                   <container>keys</container>
+                                   <instance>CallID</instance>
+                              </key>
+                         </getPollRecords>
+
+                         <!-- Other Operations -->
+
+                         <operation name="Create Interaction Record" enable="true">
+                              <menu>Service Center|Interaction Lifecycle|Create</menu>
+                              <prescript sub="false">
+                                   <![CDATA[
+                                        // Fix up fields
+                                        ifNull( "alarm.ContactName", "" )
+                                        ifNull( "alarm.NotifyBy", "" )
+                                        ifNull( "alarm.Severity", "" )
+                                        ifNull( "alarm.AssignmentGroup", "" )
+                                        ifNull( "alarm.Description", "" )
+                                        ifNullorEmpty( "alarm.Contact", "" )
+                                        ifNullorEmpty( "alarm.Subcategory", "" )
+                                        ifNull( "alarm.SiteCategory", "" )
+                                        ifNullorEmpty( "alarm.ProductType", "" )
+                                        ifNullorEmpty( "alarm.ProblemType", "" )
+
+                                        // Prompt for the information needed from the user
+                                        // Choose property names that will be substituted into the <body> block below.
+                                        prompt( 'Create Change - Requested Info', true /* Close prompt dialog on Ok button press */,
+                                        [
+                                             ///// fields:                                                                                   combo box   combo box
+                                             ///// property name,          prompt,         multiline?, password?,     default,               labels      values
+                                             [ 'prop.brief.descr',   'Enter Description',    'false',  'false', '{alarm.Description}', null,       null ],
+                                             [ 'prop.update.action', 'Enter Update Action',  'true',   'false', 'Created through Formula Operation', null, null ],
+                                             [ 'prop.logical.name',  'Enter Logical name',   'false',  'false', '{alarm.ConfigurationItem}',      null,       null ],
+                                             [ 'prop.problem.type',  'Enter Problem Type',   'false',  'false', '{alarm.ProblemType}',      null,       null ],
+                                             [ 'prop.product.type',  'Enter Product Type',   'false',  'false', '{alarm.ProductType}',      null,       null ],
+                                             [ 'prop.category',      'Enter Category',       'false',  'false', '{alarm.Category}',          null,       null ],
+                                             [ 'prop.subcategory',   'Enter Subcategory',    'false',  'false', '{alarm.Subcategory}',       null,       null ],
+                                             [ 'prop.site.category', 'Enter Site Category',  'false',  'false', '{alarm.SiteCategory}',     null,       null ],
+                                             [ 'prop.severity.code', 'Select Severity Code', 'false',  'false', '{alarm.Severity}',     'Severity 1|Severity 2|Severity 3|Severity 4|Severity 5', '1|2|3|4|5' ],
+                                             [ 'prop.user.priority', 'Select User Priority', 'false',  'false', '{alarm.UserPriority}',     'Priority 1|Priority 2|Priority 3|Priority 4|Priority 5', '1|2|3|4|5' ],
+                                             [ 'prop.assignment',    'Select Assignment',    'false',  'false', '{alarm.PrimaryAssignmentGroup}',        'DEFAULT|HELPDESK|SOFTWARE|LAN SUPPORT|ONSITE SUPPORT', null ],
+                                             [ 'prop.contact.name',  'Enter Contact Name',   'false',  'false', '{alarm.Contact}',      null,       null ],
+                                        ] )
+                                   ]]>
+                              </prescript>
+                              <name>CreateInteraction</name>
+                              <response>&gt;CreateInteractionResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <CreateInteractionRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <CallID></CallID>
+                                                  </keys>
+												  <instance>
+												  <Description>{prop.brief.descr}</Description>
+												  <IncidentDescription>{prop.action}</IncidentDescription>
+												  <JournalUpdates>{prop.update.action}</JournalUpdates>
+												  <ConfigurationItem>{prop.logical.name}</ConfigurationItem>
+												  <ProblemType>{prop.problem.type}</ProblemType>
+												  <ProductType>{prop.product.type}</ProductType>
+												  <Category>{prop.category}</Category>
+												  <Subcategory>{prop.subcategory}</Subcategory>
+												  <SiteCategory>{prop.site.category}</SiteCategory>
+												  <Severity>{prop.severity.code}</Severity>
+												  <UserPriority>{prop.user.priority}</UserPriority>
+												  <PrimaryAssignmentGroup>{prop.assignment}</PrimaryAssignmentGroup>
+												  <Contact>{prop.contact.name}</Contact>
+                                                  </instance>
+                                             </model>
+                                        </CreateInteractionRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                         <operation name="Close Interaction Record" enable="true">
+                              <menu>Service Center|Interaction Lifecycle|Close</menu>
+                              <name>CloseInteraction</name>
+                              <response>&gt;CloseInteractionResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <CloseInteractionRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <CallID>{alarm.CallID}</CallID>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </CloseInteractionRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                    </operations>
+                </soap>
+           </properties>
+
+      </module>
+
+   <!--===========================================================
+     Configuration for the Inventory Management ServiceCenter Module
+   ============================================================-->
+
+	<module name="Inventory" enable="true">
+
+          <!-- Define processing properties -->
+          <properties>
+               <formula>
+                    <fields>
+                         <status>Status</status>
+                         <lastUpdate>sysmodtime</lastUpdate>
+                         <key>ConfigurationItem</key>
+                         <description>ConfigurationItem</description>
+                         <assignedTo>AssignmentGroup</assignedTo>
+                    </fields>
+                    <severities>
+                         <!-- Map normalized status field values to Formula Alarm Severities -->
+                         <item fromRE="Available" toSeverity="OK"/>
+                         <item fromRE="Installed" toSeverity="INFO"/>
+                         <item fromRE="Replaced" toSeverity="INFO"/>
+                         <item fromRE="Reserved" toSeverity="MINOR"/>
+                         <item fromRE="Retired" toSeverity="IGNORE"/>
+                         <item fromRE="RMA" toSeverity="INFO"/>
+                         <item fromRE="Transfer" toSeverity="INFO"/>
+                         <item fromRE="Warehouse" toSeverity="INFO"/>
+                         <item fromRE=".*" toSeverity="MAJOR"/>
+                    </severities>
+               </formula>
+               <soap>
+                    <endpoint>{root.soap.endpoint.prefix}/ConfigurationManagement.wsdl</endpoint>
+                    <namespace>{root.soap.namespace}</namespace>
+                    <server>ConfigurationManagement</server>
+                    <port>ConfigurationManagement</port>
+                    <username>{adapter.username}</username>
+                    <password>{adapter.password}</password>
+                    <operations>
+
+                         <!-- Polling Operations -->
+
+                         <pollKeys>
+                              <name>RetrieveDeviceKeysList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveDeviceKeysListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys></keys>
+                                                  <instance>
+                                                       <sysmodtime>&gt;={formula.poll.from.time}</sysmodtime>
+                                                  </instance>
+                                             </model>
+                                        </RetrieveDeviceKeysListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveDeviceKeysListResponse</response>
+                              <instance>
+                                   <container>keys</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <date>
+                                   <initial>1900-01-01T00:00:00</initial>
+                                   <format>yyyy-MM-dd''T''HH:mm:ss''+''hh</format>
+                              </date>
+                         </pollKeys>
+                         <getPollRecords>
+                              <name>RetrieveDeviceList</name>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <RetrieveDeviceListRequest {root.soap.xmlns}>
+                                             <model>
+                                                  {formula.poll.keys}
+                                             </model>
+                                        </RetrieveDeviceListRequest>
+                                   ]]>
+                              </body>
+                              <response>&gt;RetrieveDeviceListResponse</response>
+                              <instance>
+                                   <container>instance</container>
+                                   <typeattribute>type</typeattribute>
+                              </instance>
+                              <key>
+                                   <container>keys</container>
+                                   <instance>ConfigurationItem</instance>
+                              </key>
+                         </getPollRecords>
+
+                         <!-- Other Operations -->
+						 
+                         <operation name="Delete Device Record" enable="true">
+                              <menu>Service Center|Device Lifecycle|Delete</menu>
+                              <name>DeleteDevice</name>
+                              <response>&gt;DeleteDeviceResponse</response>
+                              <envelope>{root.soap.envelope}</envelope>
+                              <body>
+                                   <![CDATA[
+                                        <DeleteDeviceRequest {root.soap.xmlns}>
+                                             <model>
+                                                  <keys>
+                                                       <ConfigurationItem>{alarm.ConfigurationItem}</ConfigurationItem>
+                                                  </keys>
+                                                  <instance>
+                                                  </instance>
+                                             </model>
+                                        </DeleteDeviceRequest>
+                                   ]]>
+                              </body>
+                              <message>
+                                   <container>messages</container>
+                                   <entry>cmn:message</entry>
+                              </message>
+                         </operation>
+
+                    </operations>
+                </soap>
+           </properties>
+      </module>
+
+</servicecenter>
